@@ -1,0 +1,94 @@
+# Directories #
+/build/
+/bin/
+/target/
+ 
+# OS Files #
+.DS_Store
+ 
+*.class
+ 
+# Package Files #
+##*.jar
+*.war
+*.ear
+*.db
+ 
+######################
+# Windows
+######################
+ 
+# Windows image file caches
+Thumbs.db 
+ 
+# Folder config file
+Desktop.ini
+ 
+######################
+# OSX
+######################
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+ 
+ 
+######################
+# Eclipse
+######################
+.classpath
+.settings
+.project
+
+# eclipse others
+*.pydevproject
+.metadata
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+/src/main/resources/rebel.xml
+
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+#*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+
+######################
+# Idea Ide
+######################
+##.idea/
+/.idea/assetWizardSettings.xml
+/.idea/gradle.xml
+/.idea/caches
+# Uncomment next line if keeping position of elements in Navigation Editor is not relevant for you
+# /.idea/navEditor.xml
+
+######################
+# Git Related Files
+######################
+##.gitignore
+
+######################
+# Custom Project Specific
+######################
+##.vscode/
+appcodegen.properties
+ozpasentegrelog-error.log
+ozpasentegrelog-debug.log
