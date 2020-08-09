@@ -72,6 +72,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 
 	private Set<Class<?>> getClassSet(String prefix) {
 		Reflections reflections = new Reflections(prefix);
+		//Reflections reflections = new Reflections(new String[]{prefix});
 		Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Entity.class, false);
 		typesAnnotatedWith.addAll(reflections.getTypesAnnotatedWith(FiTable.class, false));
 		typesAnnotatedWith.addAll(reflections.getTypesAnnotatedWith(Table.class, false));
