@@ -107,11 +107,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		// Combobox Listener Ayarları
 
-		codeGenMainView.getCmbDbToCode().activateComboItemOnAction();
-		codeGenMainView.getCmbDbRead().activateComboItemOnAction();
-		codeGenMainView.getCmbTableColGenerate().activateComboItemOnAction();
-		codeGenMainView.getCmbExcelIslemler().activateComboItemOnAction();
-		codeGenMainView.getCmbQueryGenerator().activateComboItemOnAction();
+		codeGenMainView.getCmbDbToCode().activateSetNullAfterAction();
+		codeGenMainView.getCmbDbRead().activateSetNullAfterAction();
+		codeGenMainView.getCmbTableColGenerate().activateSetNullAfterAction();
+		codeGenMainView.getCmbExcelIslemler().activateSetNullAfterAction();
+		codeGenMainView.getCmbQueryGenerator().activateSetNullAfterAction();
 
 		// -------- combobox sonu
 

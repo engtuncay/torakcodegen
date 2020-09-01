@@ -83,15 +83,8 @@
             <artifactId>javassist</artifactId>
             <version>3.25.0-GA</version>
         </dependency>
-        &lt;!&ndash; https://mvnrepository.com/artifact/org.reflections/reflections &ndash;&gt;
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
-        </dependency>-->
+        -->
 
     </dependencies>
-
-
 
 </project>
