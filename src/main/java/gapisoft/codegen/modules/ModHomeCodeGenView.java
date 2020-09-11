@@ -40,14 +40,14 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		//FxMpConfig.debugMode = true;
 
-		rootMigPane = new FxMigPane(FxMpHelper.bui().lcStandardWithInset0Gap55().lcNoGrid().finalLc());
+		rootMigPane = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().lcNoGrid().genLc());
 
-		FxMigPane header = new FxMigPane(FxMpHelper.bui().lcStandardWithInset0Gap55().finalLc());
-		FxMigPane menu = new FxMigPane(FxMpHelper.bui().lcStandardWithInset3().finalLc());
-		FxMigPane content = new FxMigPane(FxMpHelper.bui().lcStandardWithInset3().finalLc());
+		FxMigPane header = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().genLc());
+		FxMigPane menu = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
+		FxMigPane content = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
 
 		rootMigPane.add(header, "growx,pushx,wrap");
-		rootMigPane.add(menu,  FxMpHelper.bcc("grow,push").ccWidth("100px").finalCc());
+		rootMigPane.add(menu,  FxMigHelper.bcc("grow,push").ccWidth("100px").genCc());
 		rootMigPane.add(content, "grow,push,span");
 
 		//menu.add(new Label("a"), "span");
