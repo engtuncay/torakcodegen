@@ -16,7 +16,7 @@ import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.core.FiPropertyFile;
-import ozpasyazilim.utils.returntypes.FdrResult;
+import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiTableCol;
 import ozpasyazilim.utils.table.ListFiTableColBuilder;
 
@@ -290,13 +290,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (form != null) {
 
-			FdrResult<List> fdrResult = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectListByCandIds(form);
+			Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectListByCandIds(form);
 
-			if (fdrResult.getValue().size() > 0) {
+			if (fdr.getValue().size() > 0) {
 
 				//Loghelper.getInstance(getClass()).debug("Size:"+fiDbResult.getResValue().size());
 
-				FiExcel.saveSablonExcelByClass(this, fdrResult.getValue(), getSelectedClass(), "ozpasentegre");
+				FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getSelectedClass(), "ozpasentegre");
 
 			} else {
 				System.out.println("Db den Veri Okunamadı");
@@ -314,11 +314,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (idNo != null) {
 
-			FdrResult<List> fdrResult = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectListById(idNo);
+			Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectListById(idNo);
 
-			if (fdrResult.getValue().size() > 0) {
+			if (fdr.getValue().size() > 0) {
 
-				FiExcel.saveSablonExcelByClass(this, fdrResult.getValue(), getSelectedClass(), "ozpasentegre");
+				FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getSelectedClass(), "ozpasentegre");
 
 			} else {
 				System.out.println("Db den Veri Okunamadı");
@@ -462,11 +462,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 				if (idNo != null) {
 
-					FdrResult<Optional<Object>> fdrResult = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityById(idNo);
+					Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityById(idNo);
 
-					if (fdrResult.getValue().isPresent()) {
+					if (fdr.getValue().isPresent()) {
 						//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-						String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getSelectedClass(), fdrResult.getValue());
+						String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getSelectedClass(), fdr.getValue());
 						appendTextNewLine(result);
 					} else {
 						System.out.println("Db den Veri Okunamadı");
@@ -517,11 +517,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 				if (candIdValue != null) {
 
-					FdrResult<Optional<Object>> fdrResult = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityByStringCandId1(candIdValue);
+					Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityByStringCandId1(candIdValue);
 
-					if (fdrResult.getValue().isPresent()) {
+					if (fdr.getValue().isPresent()) {
 						//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-						String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getSelectedClass(), fdrResult.getValue());
+						String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getSelectedClass(), fdr.getValue());
 						appendTextNewLine(result);
 					} else {
 						System.out.println("Db den Veri Okunamadı");
@@ -730,11 +730,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			if (idNo != null) {
 
-				FdrResult<Optional<Object>> fdrResult = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityById(idNo);
+				Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityById(idNo);
 
-				if (fdrResult.getValue().isPresent()) {
+				if (fdr.getValue().isPresent()) {
 					//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-					String result = FiQueryGenerator.codeEntityFieldsInitMethod(getAndSetupActiveServerJdbi(), getSelectedClass(), fdrResult.getValue());
+					String result = FiQueryGenerator.codeEntityFieldsInitMethod(getAndSetupActiveServerJdbi(), getSelectedClass(), fdr.getValue());
 					appendTextNewLine(result);
 				} else {
 					System.out.println("Db den Veri Okunamadı");
@@ -760,15 +760,15 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (checkServer() && checkClassChoose()) {
 
-			FdrResult<List<String>> fdrResult = FiQueryGenerator.getAlterAddFieldQueries(getSelectedClass(), getAndSetupActiveServerJdbi());
+			Fdr<List<String>> fdr = FiQueryGenerator.getAlterAddFieldQueries(getSelectedClass(), getAndSetupActiveServerJdbi());
 
-			FxDialogShow.showDbResult(fdrResult);
+			FxDialogShow.showDbResult(fdr);
 
 			String sqltum = "";
-			if (fdrResult.getBoResultNotNull()) {
-				if (!FiCollection.isEmpty(fdrResult.getValue())) {
+			if (fdr.getBoResultNotNull()) {
+				if (!FiCollection.isEmpty(fdr.getValue())) {
 					appendTextNewLine("");
-					for (String s : fdrResult.getValue()) {
+					for (String s : fdr.getValue()) {
 						appendTextNewLine(s);
 						sqltum += s + "\n";
 					}
@@ -778,13 +778,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			if (isEnableDbOperation() && getAndSetupActiveServerJdbi() != null && !FiString.isEmpty(sqltum)) {
 
-				FdrResult fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
+				Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
 
-				if (fdrResult.getBoResultNotNull()) {
-					fdrResult.setMessage("Değişiklikler başarıyla uygulandı.");
+				if (fdr.getBoResultNotNull()) {
+					fdr.setMessage("Değişiklikler başarıyla uygulandı.");
 				}
 
-				FxDialogShow.showDbResult(fdrResult);
+				FxDialogShow.showDbResult(fdr);
 
 			}
 
@@ -931,13 +931,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			if (isEnableDbOperation() && getAndSetupActiveServerJdbi() != null) {
 
-				FdrResult fdrResult = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqlCreate, null);
+				Fdr fdr = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqlCreate, null);
 
-				if (fdrResult.getBoResultNotNull()) {
-					fdrResult.setMessage("Veritabanı Oluşturuldu.");
+				if (fdr.getBoResultNotNull()) {
+					fdr.setMessage("Veritabanı Oluşturuldu.");
 				}
 
-				FxDialogShow.showDbResult(fdrResult);
+				FxDialogShow.showDbResult(fdr);
 
 //			if (lnRowsAffected > 0) {
 //				FxDialogShow.showPopInfo("Veritabanı oluşturuldu.");
