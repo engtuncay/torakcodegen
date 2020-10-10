@@ -517,7 +517,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 				if (candIdValue != null) {
 
-					Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityByStringCandId1(candIdValue);
+					Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityOptByStringCandId1(candIdValue);
 
 					if (fdr.getValue().isPresent()) {
 						//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
