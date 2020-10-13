@@ -1,4 +1,4 @@
-package oraksoft.model;
+package oraksoft.codegen.model;
 
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.fidborm.FiCodeHelper;

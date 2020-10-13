@@ -18,8 +18,8 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	private FxComboBoxSimple cmbTypeScriptOperations;
 	private FxComboBoxSimple cmbExcelIslemler;
 	private String txDosyaYolu;
-	private FxButton btnClassSec;
-	private FxButton btnServerConfig;
+
+
 	private FxTextArea fxTextArea;
 
 	// Kaldırılacak
@@ -30,6 +30,11 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	//private FxButton btnCodeEntityFieldFillerMethodFromDb;
 	private FxButton btnCodeGenFiTableColFromExcel;
 	private FxButton btnCodeEntityFieldFillerMethodWithEnumFields;
+
+	private FxButton btnServerConfig;
+	private FxButton btnServer2;
+	private FxButton btnClassSec;
+	private FxButton btnClassSec2;
 
 	@Override
 	public Pane getRootPane() {
@@ -50,22 +55,13 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		rootMigPane.add(menu,  FxMigHelper.bcc("grow,push").ccWidth("100px").genCc());
 		rootMigPane.add(content, "grow,push,span");
 
-		//menu.add(new Label("a"), "span");
-		//content.add(new Label("b"), "span");
-
 		chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
 		chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
 		btnServerConfig = new FxButton("Server Seç");
 
 		btnClassSec = new FxButton("Class Seç");
-
-		//btnCodeGen = new FxButton("Create Table Sorgusu");
-		btnCodeTypescript = new FxButton("Typescript Entity");
-		btnCodeEntityFieldFillerMethod = new FxButton("FiTableCol List With Field,Header By Class");
-		btnCodeTableCol = new FxButton("Tablo Sütunları Listesi Tanımı");
-
-		btnCodeGenFiTableColFromExcel = new FxButton("Excelden FiTableCol oluştur");
-		btnCodeEntityFieldFillerMethodWithEnumFields = new FxButton("FiTableCol List With Enum Fields By Class");
+		btnServer2 = new FxButton("Server(2)");
+		btnClassSec2 = new FxButton("Class(2) Seç");
 
 		cmbDbToCode = new FxComboBoxSimple("Db To Code");
 		cmbTableColGenerate = new FxComboBoxSimple("FiTableCol Generations");
@@ -80,6 +76,9 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		menu.add(btnClassSec, "span");
 
 		menu.add(new FxLabel("-----"), "span");
+		menu.add(btnServer2,"span");
+		menu.add(btnClassSec2,"span");
+		menu.add(new FxLabel("-----"), "span");
 		menu.add(cmbDbToCode, "span");
 		menu.add(cmbTableColGenerate, "span");
 		menu.add(cmbDbRead, "span");
@@ -88,13 +87,6 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		menu.add(cmbExcelIslemler, "span");
 
 		menu.add(new FxLabel("-----"), "span");
-		//menu.add(btnCodeGen, "span");
-		menu.add(btnCodeEntityFieldFillerMethod, "span");
-		menu.add(btnCodeEntityFieldFillerMethodWithEnumFields, "wrap");
-		menu.add(btnCodeTableCol, "span");
-		menu.add(btnCodeTypescript, "span");
-		menu.add(btnCodeGenFiTableColFromExcel, "wrap");
-
 
 		fxTextArea = new FxTextArea();
 		content.add(fxTextArea, "span,grow,push");
@@ -152,4 +144,9 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	public FxComboBoxSimple getCmbExcelIslemler() {
 		return cmbExcelIslemler;
 	}
+
+	public FxButton getBtnServer2() {return btnServer2;}
+
+	public FxButton getBtnClassSec2() {return btnClassSec2;}
+
 }

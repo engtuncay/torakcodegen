@@ -1,6 +1,6 @@
 package gapisoft.codegen.modules;
 
-import oraksoft.model.ModelTableColGenerate;
+import oraksoft.codegen.model.ModelTableColGenerate;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import gapisoft.codegen.entity.EntityClazz;
@@ -29,16 +29,16 @@ import java.util.*;
 public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont {
 
 	ModHomeCodeGenView codeGenMainView;
-	Jdbi activeServerJdbi;
+	Jdbi jdbi1;
 	Class selectedClass;
+
+	Jdbi jdbi2;
+	Class selectedClass2;
 
 	String propPath = "appcodegen.properties";
 
+	// Gerekli degil aslında
 	private ServerConfig serverConfig;
-
-//	private enum enumComboItem {
-//		ExcelToFiTableColWithFieldName, ExcelToFiTableCol, AlanListesi, AlanListesiByIdWithValue, AlanListByCandIdWithValue, TableToEntity, TableToFillEntity, DbKayitSablonById, DbKayitSablonByCandIds, AlterNewFields, SqlQueryToFiTableCol, SqlQueryToFiTableColGenerator, ExcelToEntity, ClassToFiTableColGenerator, ExcelToFiTableColViaMethods, QueryAlterAdd, CreateQuery;
-//	}
 
 	@Override
 	public void initCont() {
@@ -46,7 +46,36 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView = new ModHomeCodeGenView();
 		codeGenMainView.initGui();
 
+		codeGenMainView.getBtnClassSec().setOnAction(event -> actBtnClassSec());
+		codeGenMainView.getBtnServerConfig().setOnAction(event -> actBtnServerConfig());
+
+		codeGenMainView.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
+		codeGenMainView.getBtnServer2().setOnAction(event -> actBtnServerConfig2());
+
+		setupCombos();
+
+		// combobox lara eklenecek
+		//btnCodeGenFiTableColFromExcel = new FxButton("Excelden FiTableCol oluştur");
+		//btnCodeEntityFieldFillerMethodWithEnumFields = new FxButton("FiTableCol List With Enum Fields By Class");
+		//btnCodeTypescript = new FxButton("Typescript Entity");
+		//btnCodeEntityFieldFillerMethod = new FxButton("FiTableCol List With Field,Header By Class");
+		//btnCodeTableCol = new FxButton("Tablo Sütunları Listesi Tanımı");
+
+		//codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
+		//codeGenMainView.getBtnCodeTypescript().setOnAction(event -> actBtnTypescriptEntity());
+		//codeGenMainView.getBtnCodeEntityFieldFillerMethod().setOnAction(event -> actBtnFiTableColListWithFieldHeader());
+//		codeGenMainView.getBtnCodeEntityFieldFillerMethodWithEnumFields().setOnAction(event -> actBtnFiTableColListWithEnumFields());
+//		codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
+
+
+	}
+
+	public void setupCombos() {
+
 		//codeGenMainView.getBtnCreateQuery().setOnAction(event -> actQueryCreate());
+
+
+		// ***** Db To Code Combos
 
 		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Tablodan Entity Oluştur", this::actTableToEntity));
 
@@ -54,11 +83,12 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Veritabanına eklenecek alanların Alter Sorguları", this::actAlterNewFields));
 
-		// **** Table Col Generate Combobox
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiTableCol List oluştur.(Alan isimli)",() -> {
+		// **** Table Col Generate Combos
+
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiTableCol List oluştur.(Alan isimli)", () -> {
 			appendTextNewLine(ModelTableColGenerate.actExcelToFiTableColWithFieldName());
-		} ));
+		}));
 
 		//this::actExcelToFiTableColWithFieldName
 
@@ -83,27 +113,34 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Alan Listesi By Id With Value", this::actAlanListesiByIdWithValue));
 		//actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction( "Alan Listesi By Cand Id With Value",this::actAlanListesiByCandIdWithValue));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Alan Listesi By Cand Id With Value", this::actAlanListesiByCandIdWithValue));
 		//actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
 
-		// **** Db Read Combobox
 
-		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction( "Kayıt Şablon By Id",this::actDbKayitSablonById));
+		// **** Db Read Combos
+
+		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
-		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction( "Kayıt Şablon By Cand Ids",this::actDbKayitSablonByCandIds));
+		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
 		//actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
 
-		// **** Db To Code Combobox
 
-		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur",this::actExcelToEntity));
+		// **** Excel Islemler Combos
+
+		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur", this::actExcelToEntity));
 		// enumComboItem.ExcelToEntity
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query",this::actQueryCreate));
+
+		// ****** Query Generator Combos
+
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query", this::actQueryCreate));
 		//actQueryCreate();//CreateQuery
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction( "Alter Table Field(Add)",this::actAlterNewFields));
-		//actAlterNewFields();//QueryAlterAdd
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Alter Table Field(Add)", this::actAlterNewFields));
+
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Clone Table Data", this::actCloneTableData));
+
 
 		// Combobox Listener Ayarları
 
@@ -113,23 +150,10 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getCmbExcelIslemler().activateSetNullAfterAction();
 		codeGenMainView.getCmbQueryGenerator().activateSetNullAfterAction();
 
-		// -------- combobox sonu
+	}
 
-		//codeGenMainView.getBtnCodeTableCol().setOnAction(event -> actBtnCreateQuery());
 
-		codeGenMainView.getBtnClassSec().setOnAction(event -> actBtnClassSec());
-
-		codeGenMainView.getBtnServerConfig().setOnAction(event -> actBtnServerConfig());
-
-		codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
-
-		codeGenMainView.getBtnCodeTypescript().setOnAction(event -> actBtnTypescriptEntity());
-
-		codeGenMainView.getBtnCodeEntityFieldFillerMethod().setOnAction(event -> actBtnFiTableColListWithFieldHeader());
-
-		codeGenMainView.getBtnCodeEntityFieldFillerMethodWithEnumFields().setOnAction(event -> actBtnFiTableColListWithEnumFields());
-
-		codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
+	private void actCloneTableData() {
 
 
 	}
@@ -345,11 +369,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private Boolean checkServer() {
 
-		if (getActiveServerJdbi() == null) {
+		if (getJdbi1() == null) {
 			actBtnServerConfig();
 		}
 
-		return getActiveServerJdbi() != null;
+		return getJdbi1() != null;
 
 	}
 
@@ -556,6 +580,19 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
+	private void actBtnClassSec2() {
+
+		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+
+		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+
+		if (selectedEntity != null) {
+			setSelectedClass2(selectedEntity.getClazz());
+			getCodeGenMainView().getBtnClassSec2().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+		}
+
+	}
+
 //	private void actCmbDbToCodeChanged(ComboItem comboItem) {
 //		if (comboItem == null || comboItem.getValue() == null) return;
 //
@@ -676,6 +713,26 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 				FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
 			} else {
 				FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
+			}
+
+		} else {
+			FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
+		}
+	}
+
+	private void actBtnServerConfig2() {
+
+		ServerConfig serverConfig = actSelectServer();
+
+		if (serverConfig != null) {
+
+			Fdr<Jdbi> fdrConnection = createJdbi(serverConfig);
+			if (fdrConnection.getValue() != null) {
+				setJdbi2(fdrConnection.getValue());
+				getCodeGenMainView().getBtnServer2().setText("Server2:" + serverConfig.getServer() + " / " + serverConfig.getServerDb());
+				FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
+			} else {
+				FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getMessage());
 			}
 
 		} else {
@@ -823,7 +880,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private Jdbi getAndSetupActiveServerJdbi() {
 
-		if (activeServerJdbi == null) {
+		if (jdbi1 == null) {
 
 			if (getServerConfig() == null) {
 				actSelectServer();
@@ -834,7 +891,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 //			}
 		}
 
-		return activeServerJdbi;
+		return jdbi1;
 	}
 
 	private ServerConfig actSelectServer() {
@@ -875,9 +932,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		} else {
 
 			FxSimpleCont<ServerConfig> fxSimpleCont = new FxSimpleCont<>(true);
-
 			FxTableView2 fxTableView2 = new FxTableView2();
-
 			fxSimpleCont.getModView().add(fxTableView2, "grow,push");
 
 			List<FiTableCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
@@ -906,16 +961,30 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			return null;
 		}
 
-		try {
-			Jdbi jdbi = FiJdbiFactory.createJdbi(getServerConfig().getServer(), getServerConfig().getServerDb()
-					, getServerConfig().getServerUser(), getServerConfig().getServerKey());
-			setActiveServerJdbi(jdbi);
-			return jdbi;
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		return createJdbi(getServerConfig()).getValue();
+	}
+
+	private Fdr<Jdbi> createJdbi(ServerConfig serverConfig) {
+
+		Fdr<Jdbi> fdr = new Fdr<>();
+
+		if (serverConfig == null) {
+			fdr.setMessage("Server Ayarları tanımlanmamış.");
+			return fdr;
 		}
 
-		return null;
+		try {
+			Jdbi jdbi = FiJdbiFactory.createJdbi(serverConfig.getServer(), serverConfig.getServerDb()
+					, serverConfig.getServerUser(), serverConfig.getServerKey());
+			setJdbi1(jdbi);
+			fdr.setValue(jdbi);
+			return fdr;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fdr.setMessage("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
+			return fdr;
+		}
+
 	}
 
 	private void actQueryCreate() {
@@ -1002,8 +1071,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		this.propPath = propPath;
 	}
 
-	public void setActiveServerJdbi(Jdbi activeServerJdbi) {
-		this.activeServerJdbi = activeServerJdbi;
+	public void setJdbi1(Jdbi jdbi1) {
+		this.jdbi1 = jdbi1;
 	}
 
 	public void setCodeGenMainView(ModHomeCodeGenView codeGenMainView) {
@@ -1026,7 +1095,23 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		this.selectedClass = selectedClass;
 	}
 
-	public Jdbi getActiveServerJdbi() {
-		return activeServerJdbi;
+	public Jdbi getJdbi1() {
+		return jdbi1;
+	}
+
+	public Class getSelectedClass2() {
+		return selectedClass2;
+	}
+
+	public void setSelectedClass2(Class selectedClass2) {
+		this.selectedClass2 = selectedClass2;
+	}
+
+	public Jdbi getJdbi2() {
+		return jdbi2;
+	}
+
+	public void setJdbi2(Jdbi jdbi2) {
+		this.jdbi2 = jdbi2;
 	}
 }
