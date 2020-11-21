@@ -5,9 +5,7 @@ import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import gapisoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
-import ozpasyazilim.utils.core.FiCollection;
-import ozpasyazilim.utils.core.FiExcel;
-import ozpasyazilim.utils.core.FiString;
+import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItem;
@@ -15,7 +13,6 @@ import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
-import ozpasyazilim.utils.core.FiPropertyFile;
 import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiTableCol;
 import ozpasyazilim.utils.table.ListFiTableColBuilder;
@@ -35,6 +32,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	Jdbi jdbi2;
 	Class selectedClass2;
 
+	File selectedFile;
+
 	String propPath = "appcodegen.properties";
 
 	// Gerekli degil aslında
@@ -52,6 +51,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
 		codeGenMainView.getBtnServer2().setOnAction(event -> actBtnServerConfig2());
 
+		codeGenMainView.getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
+
 		setupCombos();
 
 		// combobox lara eklenecek
@@ -67,6 +68,18 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 //		codeGenMainView.getBtnCodeEntityFieldFillerMethodWithEnumFields().setOnAction(event -> actBtnFiTableColListWithEnumFields());
 //		codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
 
+
+	}
+
+	private void actBtnDosyaSec() {
+
+		File fileSelected = FiFile.selectFileDialogSwing("Dosya Seçiniz", null);
+
+		setSelectedFile(fileSelected);
+
+		if(fileSelected!=null){
+			getModView().getBtnDosyaSec().setText("Dosya:"+fileSelected.getName());
+		}
 
 	}
 
@@ -141,6 +154,9 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Clone Table Data", this::actCloneTableData));
 
+		// Xml Combo
+
+		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItem.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));
 
 		// Combobox Listener Ayarları
 
@@ -149,6 +165,37 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getCmbTableColGenerate().activateSetNullAfterAction();
 		codeGenMainView.getCmbExcelIslemler().activateSetNullAfterAction();
 		codeGenMainView.getCmbQueryGenerator().activateSetNullAfterAction();
+		codeGenMainView.getCmbXmlAraclar().activateSetNullAfterAction();
+
+	}
+
+	private void actXmlToFiFieldList() {
+
+		Loghelper.get(getClass()).debug("Xml To Field List");
+
+		//List<String> listHeader = new ArrayList<>();
+		List<String> listFields = new ArrayList<>();
+
+		String tagname = "";
+
+		FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Okunacak Xml Elemanı");
+
+		if (fxSimpleDialog2.isClosedWithOk()) {
+			tagname = fxSimpleDialog2.getTxValue();
+		}
+
+		if(FiString.isEmpty(tagname)){
+		    FxDialogShow.showPopWarn("Lütfen bir xml elemanı seçiniz !!!");
+		    return;
+		}
+
+		List<String> xmlHeaderList = FiXmlParser.bui().parseXmlTagsElement(getSelectedFile(), tagname);
+
+		//FiConsole.debugListObjectsToString(listHeader,getClass());
+
+		String code = FiCodeHelper.codeFiTableColsFromHeaderAndFieldName2(xmlHeaderList, "Xml", listFields);
+
+		appendTextNewLine(code);
 
 	}
 
@@ -265,7 +312,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
 
-			appendTextNewLine(FiCodeHelper.codeFiTableColsFromHeaderAndFieldNameWithMethodsForExcel(listHeader, "Excel", listFields, fieldPrefix));
+			appendTextNewLine(FiCodeHelper.codeFiTableColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
 
 		}
 
@@ -1113,5 +1160,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	public void setJdbi2(Jdbi jdbi2) {
 		this.jdbi2 = jdbi2;
+	}
+
+	public File getSelectedFile() {
+		return selectedFile;
+	}
+
+	public void setSelectedFile(File selectedFile) {
+		this.selectedFile = selectedFile;
 	}
 }

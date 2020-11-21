@@ -17,6 +17,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	private FxComboBoxSimple cmbQueryGenerator;
 	private FxComboBoxSimple cmbTypeScriptOperations;
 	private FxComboBoxSimple cmbExcelIslemler;
+	private FxComboBoxSimple cmbXmlAraclar;
 	private String txDosyaYolu;
 
 
@@ -35,6 +36,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	private FxButton btnServer2;
 	private FxButton btnClassSec;
 	private FxButton btnClassSec2;
+	private FxButton btnDosyaSec;
 
 	@Override
 	public Pane getRootPane() {
@@ -63,17 +65,21 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		btnServer2 = new FxButton("Server(2)");
 		btnClassSec2 = new FxButton("Class(2) Seç");
 
+		btnDosyaSec = new FxButton("Dosya Seç");
+
 		cmbDbToCode = new FxComboBoxSimple("Db To Code");
 		cmbTableColGenerate = new FxComboBoxSimple("FiTableCol Generations");
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
 		cmbQueryGenerator = new FxComboBoxSimple("Query Generate");
 		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript Operations");
 		cmbExcelIslemler = new FxComboBoxSimple("Excel İşlemler");
+		cmbXmlAraclar = new FxComboBoxSimple("Xml Araçlar");
 
 		menu.add(chkDosyayaYazdir, "span");
 		menu.add(chkVeritabandaOlustur, "span");
 		menu.add(btnServerConfig, "span");
 		menu.add(btnClassSec, "span");
+		menu.add(btnDosyaSec, "span");
 
 		menu.add(new FxLabel("-----"), "span");
 		menu.add(btnServer2,"span");
@@ -85,6 +91,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		menu.add(cmbQueryGenerator, "span");
 		menu.add(cmbTypeScriptOperations, "span");
 		menu.add(cmbExcelIslemler, "span");
+		menu.add(cmbXmlAraclar, "span");
 
 		menu.add(new FxLabel("-----"), "span");
 
@@ -149,4 +156,11 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 	public FxButton getBtnClassSec2() {return btnClassSec2;}
 
+	public FxButton getBtnDosyaSec() {
+		return btnDosyaSec;
+	}
+
+	public FxComboBoxSimple getCmbXmlAraclar() {
+		return cmbXmlAraclar;
+	}
 }
