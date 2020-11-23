@@ -295,7 +295,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actExcelToFiTableColViaMethods() {
 
-		File fileExcel = new FiFileHelper().actFileChooserForExcelXlsxFromDesktop();
+		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
 
@@ -324,7 +324,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actExcelToEntity() {
 
-		File fileExcel = new FiFileHelper().actFileChooserForExcelXlsxFromDesktop();
+		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
 
@@ -789,7 +789,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnCodeGenFiTableColFromExcel() {
 
-		File fileExcel = new FiFileHelper().actFileChooserForExcelXlsxFromDesktop();
+		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
 

@@ -2,7 +2,7 @@ package oraksoft.codegen.model;
 
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.fidborm.FiCodeHelper;
-import ozpasyazilim.utils.gui.fxcomponents.FiFileHelper;
+import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 
 import java.io.File;
 import java.util.List;
@@ -11,7 +11,7 @@ public class ModelTableColGenerate {
 
 	public static String actExcelToFiTableColWithFieldName() {
 
-		File fileExcel = new FiFileHelper().actFileChooserForExcelXlsxFromDesktop();
+		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
 
