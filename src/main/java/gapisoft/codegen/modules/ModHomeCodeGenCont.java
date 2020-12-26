@@ -1,5 +1,6 @@
 package gapisoft.codegen.modules;
 
+import oraksoft.codegen.model.ModalXml;
 import oraksoft.codegen.model.ModelTableColGenerate;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
@@ -77,8 +78,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		setSelectedFile(fileSelected);
 
-		if(fileSelected!=null){
-			getModView().getBtnDosyaSec().setText("Dosya:"+fileSelected.getName());
+		if (fileSelected != null) {
+			getModView().getBtnDosyaSec().setText("Dosya:" + fileSelected.getName());
 		}
 
 	}
@@ -169,34 +170,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
+	/**
+	 * Xml To Field List
+	 */
 	private void actXmlToFiFieldList() {
-
-		Loghelper.get(getClass()).debug("Xml To Field List");
-
-		//List<String> listHeader = new ArrayList<>();
-		List<String> listFields = new ArrayList<>();
-
-		String tagname = "";
-
-		FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Okunacak Xml Elemanı");
-
-		if (fxSimpleDialog2.isClosedWithOk()) {
-			tagname = fxSimpleDialog2.getTxValue();
-		}
-
-		if(FiString.isEmpty(tagname)){
-		    FxDialogShow.showPopWarn("Lütfen bir xml elemanı seçiniz !!!");
-		    return;
-		}
-
-		List<String> xmlHeaderList = FiXmlParser.bui().parseXmlTagsElement(getSelectedFile(), tagname);
-
-		//FiConsole.debugListObjectsToString(listHeader,getClass());
-
-		String code = FiCodeHelper.codeFiTableColsFromHeaderAndFieldName2(xmlHeaderList, "Xml", listFields);
-
+//		Loghelper.get(getClass()).debug("Xml To Field List");
+		String code = ModalXml.actXmlToFiFieldList(getSelectedFile());
 		appendTextNewLine(code);
-
 	}
 
 
