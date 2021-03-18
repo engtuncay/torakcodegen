@@ -422,7 +422,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actSqlQueryToFiTableColGenerate() {
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextAreaString);
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextAreaString);
 		fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
 		fxSimpleDialog.openAsDialogSync();
 
@@ -450,7 +450,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actSqlQueryToFiTableCol() {
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextAreaString);
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextAreaString);
 		fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
 		fxSimpleDialog.openAsDialogSync();
 
@@ -502,7 +502,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (getSelectedClass() != null) {
 
-			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextFieldInteger, "Id Değerini Giriniz");
+			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextFieldInteger, "Id Değerini Giriniz");
 			fxSimpleDialog.openAsDialogSync();
 
 			if (fxSimpleDialog.isClosedWithOk()) {
@@ -557,7 +557,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (getSelectedClass() != null) {
 
-			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextFieldString, "Id Değerini Giriniz");
+			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextField, "Id Değerini Giriniz");
 			fxSimpleDialog.openAsDialogSync();
 
 			if (fxSimpleDialog.isClosedWithOk()) {
@@ -655,7 +655,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			return;
 		}
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextFieldString, "Tablo Adını Giriniz:");
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextField, "Tablo Adını Giriniz:");
 		fxSimpleDialog.openAsDialogSync();
 
 		if (fxSimpleDialog.isClosedWithOk()) {
@@ -685,7 +685,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (selectedEntity != null) {
 
-			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextFieldString, "Enum Sınıfının Adını Giriniz :");
+			FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextField, "Enum Sınıfının Adını Giriniz :");
 			fxSimpleDialog.openAsDialogSync();
 
 			String fieldEnumClass = "EntegreField";
@@ -880,7 +880,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	private Integer actDialogIdSelection() {
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.TextFieldInteger, "Id Değerini Giriniz");
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextFieldInteger, "Id Değerini Giriniz");
 		fxSimpleDialog.openAsDialogSync();
 
 		if (fxSimpleDialog.isClosedWithOk()) {
@@ -893,7 +893,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private Object actDialogCandIdEntityForm() {
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialog.SimpleDialogType.FormByCandId);
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.FormByCandId);
 		fxSimpleDialog.setEntityClass(getSelectedClass());
 		fxSimpleDialog.openAsDialogSync();
 
