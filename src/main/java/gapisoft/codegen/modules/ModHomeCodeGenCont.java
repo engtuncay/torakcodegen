@@ -15,7 +15,7 @@ import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.returntypes.Fdr;
-import ozpasyazilim.utils.table.FiTableCol;
+import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.ListFiTableColBuilder;
 
 import java.io.File;
@@ -962,7 +962,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			FxTableView2 fxTableView2 = new FxTableView2();
 			fxSimpleCont.getModView().add(fxTableView2, "grow,push");
 
-			List<FiTableCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
+			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
 			fxTableView2.addAllFiTableColsAuto(listCols);
 			fxTableView2.setItemsAsFilteredList(listServer);
 			fxTableView2.activateExtensionFxTableSelectAndClose(fxSimpleCont);

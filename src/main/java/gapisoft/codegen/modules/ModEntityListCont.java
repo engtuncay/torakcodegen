@@ -5,7 +5,7 @@ import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
-import ozpasyazilim.utils.table.FiTableCol;
+import ozpasyazilim.utils.table.FiCol;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,7 +26,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 			setupEntityClasses();
 		}
 
-		List<FiTableCol> listCols = getTableCols();
+		List<FiCol> listCols = getTableCols();
 
 		getFxTableView().setEnableLocalFilterEditor(true);
 		getFxTableView().addAllFiTableColsAuto(listCols);
@@ -61,12 +61,12 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		listClassDefault = listClazz;
 	}
 
-	private List<FiTableCol> getTableCols() {
+	private List<FiCol> getTableCols() {
 
-		List<FiTableCol> listCol = new ArrayList<>();
+		List<FiCol> listCol = new ArrayList<>();
 
-		listCol.add(FiTableCol.build("Sınıf İsmi", "simpleName"));
-		listCol.add(FiTableCol.build("Tam İsmi", "fullName"));
+		listCol.add(FiCol.build("Sınıf İsmi", "simpleName"));
+		listCol.add(FiCol.build("Tam İsmi", "fullName"));
 
 		return listCol;
 	}
