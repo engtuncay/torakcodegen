@@ -7,11 +7,11 @@ import ozpasyazilim.utils.fidbanno.FiTable;
 public class DprUser {
 
 	@FiId
-	private Integer userLnId;
-	private String userTxAlias;
-	private String userTxPassmd;
-	private String userTxFullName;
-	private Integer userLnMuhaId;
+	private Integer usrLnId;
+	private String usrTxAlias;
+	private String usrTxPassmd;
+	private String usrTxFullName;
+	private Integer usrLnMuhaId;
 
 	// Getter and Setter
 
