@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Entity List Class : ModEntityListCont
+ *
  */
 public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont {
 
@@ -97,11 +97,14 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Veritabanına eklenecek alanların Alter Sorguları", this::actAlterNewFields));
 
-
 		// **** Table Col Generate Combos
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiTableCol List oluştur.(Alan isimli)", () -> {
-			appendTextNewLine(ModelTableColGenerate.actExcelToFiTableColWithFieldName());
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
+			appendTextNewLine(ModelTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
+		}));
+
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)", () -> {
+			appendTextNewLine(ModelTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
 		}));
 
 		//this::actExcelToFiTableColWithFieldName
@@ -459,7 +462,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			List<String> queryFields = FiQueryGenerator.getQueryFieldsAsString(sqlQuery);
 
-			String result = FiCodeHelper.codeFiTableColsFromHeaderAndFieldName(queryFields, "", queryFields);
+			String result = FiCodeHelper.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
 			appendTextNewLine(result);
 
 		} else {
