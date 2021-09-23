@@ -38,6 +38,8 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	private FxButton btnClassSec2;
 	private FxButton btnDosyaSec;
 
+	private FxMenuButton csharpIslemler;
+
 	@Override
 	public Pane getRootPane() {
 		return getRootMigPane();
@@ -75,6 +77,8 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		cmbExcelIslemler = new FxComboBoxSimple("Excel İşlemler");
 		cmbXmlAraclar = new FxComboBoxSimple("Xml Araçlar");
 
+		csharpIslemler = new FxMenuButton("Csharp İşlemler");
+
 		menu.add(chkDosyayaYazdir, "span");
 		menu.add(chkVeritabandaOlustur, "span");
 		menu.add(btnServerConfig, "span");
@@ -92,6 +96,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 		menu.add(cmbTypeScriptOperations, "span");
 		menu.add(cmbExcelIslemler, "span");
 		menu.add(cmbXmlAraclar, "span");
+		menu.add(csharpIslemler, "span");
 
 		menu.add(new FxLabel("-----"), "span");
 
@@ -162,5 +167,9 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 	public FxComboBoxSimple getCmbXmlAraclar() {
 		return cmbXmlAraclar;
+	}
+
+	public FxMenuButton getCsharpIslemler() {
+		return csharpIslemler;
 	}
 }

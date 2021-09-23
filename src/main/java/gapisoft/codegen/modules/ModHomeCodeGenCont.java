@@ -1,7 +1,9 @@
 package gapisoft.codegen.modules;
 
 import oraksoft.codegen.model.ModalXml;
+import oraksoft.codegen.model.ModelCsharp;
 import oraksoft.codegen.model.ModelTableColGenerate;
+import ozpasyazilim.mikro.dao.AppEntMikro;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import gapisoft.codegen.entity.EntityClazz;
@@ -162,6 +164,12 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItem.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));
 
+		FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
+//		AppEntMikro.secureNode(cshEntitySinifOlusturma, EntegreModules.bui().topluSorMerAta().getTxModuleCode());
+		codeGenMainView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+
+		cshEntitySinifOlusturma.setOnAction(event -> new ModelCsharp().actCsharpSinifOlusturma(this));
+
 		// Combobox Listener Ayarları
 
 		codeGenMainView.getCmbDbToCode().activateSetNullAfterAction();
@@ -172,6 +180,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getCmbXmlAraclar().activateSetNullAfterAction();
 
 	}
+
+
 
 	/**
 	 * Xml To Field List
@@ -397,7 +407,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 //		codeGenMainView.getCmbDbRead().clearSelectionFi();
 //	}
 
-	private Boolean checkServer() {
+	public Boolean checkServer() {
 
 		if (getJdbi1() == null) {
 			actBtnServerConfig();
@@ -407,7 +417,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
-	private Boolean checkClassChoose() {
+	public Boolean checkClassChoose() {
 
 		if (getSelectedClass() == null) {
 			actBtnClassSec();
@@ -882,7 +892,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
-	private Integer actDialogIdSelection() {
+	public Integer actDialogIdSelection() {
 		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextFieldInteger, "Id Değerini Giriniz");
 		fxSimpleDialog.openAsDialogSync();
 
@@ -908,7 +918,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		return null;
 	}
 
-	private Jdbi getAndSetupActiveServerJdbi() {
+	public Jdbi getAndSetupActiveServerJdbi() {
 
 		if (jdbi1 == null) {
 
@@ -1058,7 +1068,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		return getCodeGenMainView().getChkVeritabandaOlustur().isSelected();
 	}
 
-	private void appendTextNewLine(String txValue) {
+	public void appendTextNewLine(String txValue) {
 		getCodeGenMainView().getFxTextArea().appendTextLnAsyn(txValue);
 	}
 

@@ -75,6 +75,7 @@
     <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.11" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:5.0.14.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.0.14.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.github.javadev:underscore:1.69" level="project" />
     <orderEntry type="module" module-name="ozpasmikro" />
     <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre8" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jtds:jtds:1.3.0" level="project" />

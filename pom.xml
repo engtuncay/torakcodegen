@@ -41,7 +41,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass></mainClass>
+                            <mainClass>gapisoft.codegen.main.AppCodeGen</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
