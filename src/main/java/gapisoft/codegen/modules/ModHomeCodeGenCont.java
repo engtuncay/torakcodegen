@@ -3,7 +3,6 @@ package gapisoft.codegen.modules;
 import oraksoft.codegen.model.ModalXml;
 import oraksoft.codegen.model.ModelCsharp;
 import oraksoft.codegen.model.ModelTableColGenerate;
-import ozpasyazilim.mikro.dao.AppEntMikro;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import gapisoft.codegen.entity.EntityClazz;
@@ -862,7 +861,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			FxDialogShow.showDbResult(fdr);
 
 			String sqltum = "";
-			if (fdr.getBoResultNotNull()) {
+			if (fdr.getBoResultInit()) {
 				if (!FiCollection.isEmpty(fdr.getValue())) {
 					appendTextNewLine("");
 					for (String s : fdr.getValue()) {
@@ -877,7 +876,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 				Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
 
-				if (fdr.getBoResultNotNull()) {
+				if (fdr.getBoResultInit()) {
 					fdr.setMessage("Değişiklikler başarıyla uygulandı.");
 				}
 
@@ -1042,7 +1041,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 				Fdr fdr = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqlCreate, null);
 
-				if (fdr.getBoResultNotNull()) {
+				if (fdr.getBoResultInit()) {
 					fdr.setMessage("Veritabanı Oluşturuldu.");
 				}
 
