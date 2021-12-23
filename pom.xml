@@ -54,7 +54,7 @@
 
         <dependency>
             <groupId>ozpasyazilim</groupId>
-            <artifactId>ozpasutils_java</artifactId>
+            <artifactId>tunc-utils-java</artifactId>
             <version>0.1</version>
         </dependency>
 
