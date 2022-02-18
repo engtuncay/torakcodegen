@@ -1,6 +1,6 @@
-package gapisoft.codegen.main;
+package oraksoft.codegen.main;
 
-import gapisoft.codegen.modules.ModHomeCodeGenCont;
+import oraksoft.codegen.modules.ModHomeCodeGenCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

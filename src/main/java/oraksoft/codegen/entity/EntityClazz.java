@@ -1,4 +1,4 @@
-package gapisoft.codegen.entity;
+package oraksoft.codegen.entity;
 
 public class EntityClazz {
 

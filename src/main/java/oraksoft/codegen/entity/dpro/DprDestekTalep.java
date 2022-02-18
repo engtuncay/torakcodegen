@@ -1,4 +1,4 @@
-package gapisoft.codegen.entity.dpro;
+package oraksoft.codegen.entity.dpro;
 
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fidbanno.FiId;

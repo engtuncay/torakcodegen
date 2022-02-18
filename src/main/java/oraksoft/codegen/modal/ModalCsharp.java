@@ -1,20 +1,15 @@
-package oraksoft.codegen.model;
+package oraksoft.codegen.modal;
 
-import gapisoft.codegen.modules.ModHomeCodeGenCont;
+import oraksoft.codegen.modules.ModHomeCodeGenCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fidborm.FiQueryGenerator;
-import ozpasyazilim.utils.fidborm.RepoJdbiCustom;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
 import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialogType;
-import ozpasyazilim.utils.log.Loghelper;
-import ozpasyazilim.utils.returntypes.Fdr;
 
-import java.util.Optional;
-
-public class ModelCsharp {
+public class ModalCsharp {
 
 	public void actCsharpSinifOlusturma(ModHomeCodeGenCont modHome) {
 

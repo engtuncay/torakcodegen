@@ -1,11 +1,10 @@
-package oraksoft.codegen.model;
+package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.core.FiXmlParser;
 import ozpasyazilim.utils.fidborm.FiCodeHelper;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
-import ozpasyazilim.utils.log.Loghelper;
 
 import java.io.File;
 import java.util.ArrayList;

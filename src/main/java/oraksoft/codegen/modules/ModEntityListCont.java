@@ -1,6 +1,6 @@
-package gapisoft.codegen.modules;
+package oraksoft.codegen.modules;
 
-import gapisoft.codegen.entity.EntityClazz;
+import oraksoft.codegen.entity.EntityClazz;
 import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;

@@ -1,4 +1,4 @@
-package gapisoft.codegen.modules;
+package oraksoft.codegen.modules;
 
 import javafx.scene.layout.Pane;
 import ozpasyazilim.utils.gui.fxcomponents.*;

@@ -41,7 +41,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>gapisoft.codegen.main.AppCodeGen</mainClass>
+                            <mainClass>oraksoft.codegen.main.AppCodeGen</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,14 +1,11 @@
-package gapisoft.codegen.modules;
+package oraksoft.codegen.modules;
 
-import oraksoft.codegen.model.ModalXml;
-import oraksoft.codegen.model.ModelCsharp;
-import oraksoft.codegen.model.ModelTableColGenerate;
+import oraksoft.codegen.modal.*;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
-import gapisoft.codegen.entity.EntityClazz;
+import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
-import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItem;
 import ozpasyazilim.utils.gui.fxcomponents.*;
@@ -101,11 +98,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		// **** Table Col Generate Combos
 
 		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
-			appendTextNewLine(ModelTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
+			appendTextNewLine(ModalTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
 		}));
 
 		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)", () -> {
-			appendTextNewLine(ModelTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
+			appendTextNewLine(ModalTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
 		}));
 
 		//this::actExcelToFiTableColWithFieldName
@@ -146,13 +143,16 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		// **** Excel Islemler Combos
 
-		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur", this::actExcelToEntity));
-		// enumComboItem.ExcelToEntity
+		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur",() ->actionResult(ModalExcel.actExcelToEntity())));
 
+		// enumComboItem.ExcelToEntity
 
 		// ****** Query Generator Combos
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query", this::actQueryCreate));
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query",() -> {
+			ModalSql modalSql = new ModalSql(getJdbi1(),isEnableDbOperation());
+			actionResult(modalSql.createQuery(getSelectedClass()));
+		}));
 		//actQueryCreate();//CreateQuery
 
 		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Alter Table Field(Add)", this::actAlterNewFields));
@@ -167,7 +167,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 //		AppEntMikro.secureNode(cshEntitySinifOlusturma, EntegreModules.bui().topluSorMerAta().getTxModuleCode());
 		codeGenMainView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
-		cshEntitySinifOlusturma.setOnAction(event -> new ModelCsharp().actCsharpSinifOlusturma(this));
+		cshEntitySinifOlusturma.setOnAction(event -> new ModalCsharp().actCsharpSinifOlusturma(this));
 
 		// Combobox Listener Ayarları
 
@@ -313,38 +313,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 
 	// **** İşlemler
-
-	private void actExcelToEntity() {
-
-		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
-
-		if (fileExcel != null) {
-
-			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
-			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
-
-			//FiConsole.debugListObjectsToString(listHeader,getClass());
-
-			String className = "EntityName";
-			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buildTextFieldDialog("Lütfen sınıf ismini yazınız");
-
-			if (fxSimpleDialog.isClosedWithOk()) {
-				className = fxSimpleDialog.getTxValue();
-			}
-
-			String fieldPrefix = "";
-
-			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
-
-			if (fxSimpleDialog2.isClosedWithOk()) {
-				fieldPrefix = fxSimpleDialog2.getTxValue();
-			}
-
-			appendTextNewLine(FiCodeHelper.codeEntityClass(listHeader, listFields, className, fieldPrefix));
-
-		}
-
-	}
 
 	private void actDbKayitSablonByCandIds() {
 		Object form = actDialogCandIdEntityForm();
@@ -607,9 +575,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	private void actBtnClassSec() {
-
-		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
-
+		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
 		if (selectedEntity != null) {
@@ -621,7 +587,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnClassSec2() {
 
-		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
 
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -676,7 +642,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			FiQueryGenerator fiQueryGenerator = new FiQueryGenerator();
 
 			System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-			String entityCode = FiQueryGenerator.codeEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+			String entityCode = FiQueryGenerator.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
 			if (!FiString.isEmpty(entityCode)) {
 				getCodeGenMainView().getFxTextArea().appendText(entityCode);
@@ -691,7 +657,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnFiTableColListWithEnumFields() {
 
-		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
 
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -723,7 +689,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnFiTableColListWithFieldHeader() {
 
-		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
 
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -779,39 +745,9 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		}
 	}
 
-	private void actBtnCodeGenFiTableColFromExcel() {
 
-		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
 
-		if (fileExcel != null) {
 
-			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
-
-			//FiConsole.debugListObjectsToString(listHeader,getClass());
-
-			appendTextNewLine(FiQueryGenerator.codeFiTableColsFromHeader(listHeader, "Excel"));
-
-		}
-
-	}
-
-//	private void actExcelToFiTableColWithFieldName() {
-//
-//		File fileExcel = new FiFileHelper().actFileChooserForExcelXlsxFromDesktop();
-//
-//		if (fileExcel != null) {
-//
-//			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
-//			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
-//
-//
-//			//FiConsole.debugListObjectsToString(listHeader,getClass());
-//
-//			appendTextNewLine(FiCodeHelper.codeFiTableColsFromHeaderAndFieldName(listHeader, "Excel", listFields));
-//
-//		}
-//
-//	}
 
 	/**
 	 * Örnek bir kayıda göre not null kontrollü , alanları set eden kodları ortaya çıkarır.
@@ -820,25 +756,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		if (checkServer() && checkClassChoose()) {
 
-			Integer idNo = actDialogIdSelection();
-
-			Loghelper.get(getClass()).debug("Id:" + idNo);
-
-			if (idNo != null) {
-
-				Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getSelectedClass()).jdSelectEntityById(idNo);
-
-				if (fdr.getValue().isPresent()) {
-					//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-					String result = FiQueryGenerator.codeEntityFieldsInitMethod(getAndSetupActiveServerJdbi(), getSelectedClass(), fdr.getValue());
-					appendTextNewLine(result);
-				} else {
-					System.out.println("Db den Veri Okunamadı");
-				}
-
-			} else {
-				FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
-			}
+			entityFillerMethodFromDb();
 
 
 		} else {
@@ -850,6 +768,10 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		//if (selectedEntity != null) {
 		//}
 
+	}
+
+	private void entityFillerMethodFromDb() {
+		appendTextNewLine(ModalSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(),getSelectedClass()));
 	}
 
 	private void actAlterNewFields() {
@@ -879,12 +801,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 				if (fdr.getBoResultInit()) {
 					fdr.setMessage("Değişiklikler başarıyla uygulandı.");
 				}
-
 				FxDialogShow.showDbResult(fdr);
-
 			}
-
-
 		} else {
 			FxDialogShow.showPopError("Server veya Sınıfı seçiminizi kontrol ediniz.");
 		}
@@ -918,18 +836,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	public Jdbi getAndSetupActiveServerJdbi() {
-
 		if (jdbi1 == null) {
-
 			if (getServerConfig() == null) {
 				actSelectServer();
 			}
-
-//			if(getServerConfig()!=null){
-//				setupActiveServerJdbi();
-//			}
 		}
-
 		return jdbi1;
 	}
 
@@ -1026,43 +937,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
-	private void actQueryCreate() {
-
-		if (checkServer() && checkClassChoose()) {
-
-			String sqlCreate = null;
-
-			if (getSelectedClass() != null) {
-				sqlCreate = FiQueryGenerator.createQuery20(getSelectedClass());
-				getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
-			}
-
-			if (isEnableDbOperation() && getAndSetupActiveServerJdbi() != null) {
-
-				Fdr fdr = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqlCreate, null);
-
-				if (fdr.getBoResultInit()) {
-					fdr.setMessage("Veritabanı Oluşturuldu.");
-				}
-
-				FxDialogShow.showDbResult(fdr);
-
-//			if (lnRowsAffected > 0) {
-//				FxDialogShow.showPopInfo("Veritabanı oluşturuldu.");
-//			} else {
-//				FxDialogShow.showPopError("Hata oluştu.");
-//			}
-
-
-			} else {
-				FxDialogShow.showPopError("Server veya Sınıfı seçiminizi kontrol ediniz.");
-			}
-
-		}
-
-
-	}
-
 	private boolean isEnableDbOperation() {
 		return getCodeGenMainView().getChkVeritabandaOlustur().isSelected();
 	}
@@ -1071,27 +945,10 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		getCodeGenMainView().getFxTextArea().appendTextLnAsyn(txValue);
 	}
 
-	private void actBtnTypescriptEntity() {
-
-		ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
-
-		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
-
-		if (selectedEntity != null) {
-			getCodeGenMainView().getFxTextArea().appendTextLnAsyn(
-					FiTypescriptHelper.tsEntity(selectedEntity.getClazz()));
-		}
-
+	public void actionResult(String txResult) {
+		getCodeGenMainView().getFxTextArea().appendTextLnAsyn(txResult);
 	}
 
-	private ModEntityListCont showDialogSelectEntityClass() {
-
-		ModEntityListCont modEntityListCont = new ModEntityListCont();
-		modEntityListCont.initCont();
-		FxDialogShow.build().nodeModalByIFxMod(null, modEntityListCont, null, null, null);
-		return modEntityListCont;
-
-	}
 
 	@Override
 	public ModHomeCodeGenView getModView() {
