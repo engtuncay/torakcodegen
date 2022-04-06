@@ -5,6 +5,8 @@ public class EntityClazz {
 	String simpleName;
 	String fullName;
 	Class<?> clazz;
+	String tableName;
+	Boolean boInsertSelectClass;
 
 	public EntityClazz() {
 	}
@@ -37,5 +39,21 @@ public class EntityClazz {
 
 	public void setClazz(Class<?> clazz) {
 		this.clazz = clazz;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public Boolean getBoInsertSelectClass() {
+		return boInsertSelectClass;
+	}
+
+	public void setBoInsertSelectClass(Boolean boInsertSelectClass) {
+		this.boInsertSelectClass = boInsertSelectClass;
 	}
 }

@@ -15,7 +15,6 @@ public class AppCodeGen extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		ModHomeCodeGenCont modHomeCodeGenCont = new ModHomeCodeGenCont();
 		modHomeCodeGenCont.initCont();
 
@@ -25,7 +24,6 @@ public class AppCodeGen extends Application {
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
-
 
 	}
 }

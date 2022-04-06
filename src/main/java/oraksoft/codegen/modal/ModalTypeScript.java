@@ -8,7 +8,7 @@ import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 public class ModalTypeScript {
 
 	public static String actBtnTypescriptEntity() {
-		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalCodeGenDialog.showDialogSelectEntityClass();
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 		if (selectedEntity != null) {
 			return FiTypescriptHelper.tsEntity(selectedEntity.getClazz());

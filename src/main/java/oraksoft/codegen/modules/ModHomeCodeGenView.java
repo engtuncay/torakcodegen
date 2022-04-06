@@ -11,7 +11,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 	private FxCheckBox chkDosyayaYazdir;
 	private FxCheckBox chkVeritabandaOlustur;
-	private FxComboBoxSimple cmbDbToCode;
+
 	private FxComboBoxSimple cmbTableColGenerate;
 	private FxComboBoxSimple cmbDbRead;
 	private FxComboBoxSimple cmbQueryGenerator;
@@ -32,13 +32,16 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	private FxButton btnCodeGenFiTableColFromExcel;
 	private FxButton btnCodeEntityFieldFillerMethodWithEnumFields;
 
-	private FxButton btnServerConfig;
+	private FxButton btnServer1;
 	private FxButton btnServer2;
 	private FxButton btnClassSec;
 	private FxButton btnClassSec2;
 	private FxButton btnDosyaSec;
 
 	private FxMenuButton csharpIslemler;
+	private FxMigPane migHeader;
+	private FxMigPane migMenu;
+	private FxMigPane migContent;
 
 	@Override
 	public Pane getRootPane() {
@@ -51,17 +54,17 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		rootMigPane = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().lcNoGrid().genLc());
 
-		FxMigPane header = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().genLc());
-		FxMigPane menu = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
-		FxMigPane content = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
+		migHeader = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().genLc());
+		migMenu = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
+		migContent = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
 
-		rootMigPane.add(header, "growx,pushx,wrap");
-		rootMigPane.add(menu,  FxMigHelper.bcc("grow,push").ccWidth("100px").genCc());
-		rootMigPane.add(content, "grow,push,span");
+		rootMigPane.add(migHeader, "growx,pushx,wrap");
+		rootMigPane.add(migMenu,  FxMigHelper.bcc("grow,push").ccWidth("100px").genCc());
+		rootMigPane.add(migContent, "grow,push,span");
 
 		chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
 		chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
-		btnServerConfig = new FxButton("Server Seç");
+		btnServer1 = new FxButton("Server Seç");
 
 		btnClassSec = new FxButton("Class Seç");
 		btnServer2 = new FxButton("Server(2)");
@@ -69,7 +72,6 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		btnDosyaSec = new FxButton("Dosya Seç");
 
-		cmbDbToCode = new FxComboBoxSimple("Db To Code");
 		cmbTableColGenerate = new FxComboBoxSimple("FiTableCol Generations");
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
 		cmbQueryGenerator = new FxComboBoxSimple("Query Generate");
@@ -79,29 +81,28 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		csharpIslemler = new FxMenuButton("Csharp İşlemler");
 
-		menu.add(chkDosyayaYazdir, "span");
-		menu.add(chkVeritabandaOlustur, "span");
-		menu.add(btnServerConfig, "span");
-		menu.add(btnClassSec, "span");
-		menu.add(btnDosyaSec, "span");
+		migMenu.add(chkDosyayaYazdir, "span");
+		migMenu.add(chkVeritabandaOlustur, "span");
+		migMenu.add(btnServer1, "span");
+		migMenu.add(btnClassSec, "span");
+		migMenu.add(btnDosyaSec, "span");
 
-		menu.add(new FxLabel("-----"), "span");
-		menu.add(btnServer2,"span");
-		menu.add(btnClassSec2,"span");
-		menu.add(new FxLabel("-----"), "span");
-		menu.add(cmbDbToCode, "span");
-		menu.add(cmbTableColGenerate, "span");
-		menu.add(cmbDbRead, "span");
-		menu.add(cmbQueryGenerator, "span");
-		menu.add(cmbTypeScriptOperations, "span");
-		menu.add(cmbExcelIslemler, "span");
-		menu.add(cmbXmlAraclar, "span");
-		menu.add(csharpIslemler, "span");
+		migMenu.add(new FxLabel("-----"), "span");
+		migMenu.add(btnServer2,"span");
+		migMenu.add(btnClassSec2,"span");
+		migMenu.add(new FxLabel("-----"), "span");
+		migMenu.add(cmbTableColGenerate, "span");
+		migMenu.add(cmbDbRead, "span");
+		migMenu.add(cmbQueryGenerator, "span");
+		migMenu.add(cmbTypeScriptOperations, "span");
+		migMenu.add(cmbExcelIslemler, "span");
+		migMenu.add(cmbXmlAraclar, "span");
+		migMenu.add(csharpIslemler, "span");
 
-		menu.add(new FxLabel("-----"), "span");
+		migMenu.add(new FxLabel("-----"), "span");
 
 		fxTextArea = new FxTextArea();
-		content.add(fxTextArea, "span,grow,push");
+		migContent.add(fxTextArea, "span,grow,push");
 
 	}
 
@@ -129,7 +130,7 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 	public FxButton getBtnClassSec() {return btnClassSec;}
 
-	public FxButton getBtnServerConfig() {return btnServerConfig;}
+	public FxButton getBtnServer1() {return btnServer1;}
 
 	//public FxButton getBtnCodeEntityFieldFillerMethodFromDb() {return btnCodeEntityFieldFillerMethodFromDb;}
 
@@ -137,10 +138,6 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 	public FxButton getBtnCodeEntityFieldFillerMethodWithEnumFields() {
 		return btnCodeEntityFieldFillerMethodWithEnumFields;
-	}
-
-	public FxComboBoxSimple getCmbDbToCode() {
-		return cmbDbToCode;
 	}
 
 	public FxComboBoxSimple getCmbTableColGenerate() {
@@ -172,4 +169,11 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 	public FxMenuButton getCsharpIslemler() {
 		return csharpIslemler;
 	}
+
+	public FxMigPane getMigHeader() {return migHeader;}
+
+	public FxMigPane getMigMenu() {return migMenu;}
+
+	public FxMigPane getMigContent() {return migContent;}
+
 }

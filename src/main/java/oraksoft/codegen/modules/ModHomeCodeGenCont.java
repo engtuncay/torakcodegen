@@ -6,6 +6,8 @@ import ozpasyazilim.utils.configmisc.ServerConfig;
 import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
+import ozpasyazilim.utils.datatypes.FiListMapStr;
+import ozpasyazilim.utils.datatypes.FiMapString;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItem;
 import ozpasyazilim.utils.gui.fxcomponents.*;
@@ -25,18 +27,14 @@ import java.util.*;
 public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont {
 
 	ModHomeCodeGenView codeGenMainView;
-	Jdbi jdbi1;
 	Class selectedClass;
-
-	Jdbi jdbi2;
 	Class selectedClass2;
 
 	File selectedFile;
-
 	String propPath = "appcodegen.properties";
 
-	// Gerekli degil aslında
-	private ServerConfig serverConfig;
+	private ModalSql modalSql;
+	private ModalHome modalHome;
 
 	@Override
 	public void initCont() {
@@ -45,12 +43,22 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.initGui();
 
 		codeGenMainView.getBtnClassSec().setOnAction(event -> actBtnClassSec());
-		codeGenMainView.getBtnServerConfig().setOnAction(event -> actBtnServerConfig());
+		codeGenMainView.getBtnServer1().setOnAction(event -> actBtnSelectServer1());
 
 		codeGenMainView.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
-		codeGenMainView.getBtnServer2().setOnAction(event -> actBtnServerConfig2());
+		codeGenMainView.getBtnServer2().setOnAction(event -> actBtnSelectServer2());
 
 		codeGenMainView.getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
+
+		// modal ayarlar
+		getModalHome().setFxTextArea(getModView().getFxTextArea());
+		getModalHome().setModalSql(getModalSql());
+		getModalSql().setModalHome(getModalHome());
+
+		getModView().getChkVeritabandaOlustur().setOnChangeAction(aBoolean -> {
+			getModalSql().setEnableDbOperation(aBoolean);
+			//System.out.println("isEnabDbOper:"+ aBoolean);
+		});
 
 		setupCombos();
 
@@ -73,7 +81,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	private void actBtnDosyaSec() {
 
 		File fileSelected = FiFile.selectFileDialogSwing("Dosya Seçiniz", null);
-
 		setSelectedFile(fileSelected);
 
 		if (fileSelected != null) {
@@ -86,14 +93,20 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		//codeGenMainView.getBtnCreateQuery().setOnAction(event -> actQueryCreate());
 
-
 		// ***** Db To Code Combos
+		FxMenuButton mbDbToCode = new FxMenuButton("Db To Code");
 
-		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Tablodan Entity Oluştur", this::actTableToEntity));
+		FxMenuItem tabloToEntity = new FxMenuItem("Tablodan Entity Oluştur");
+		tabloToEntity.setOnAction(event -> actTableToEntity());
+		mbDbToCode.addItem(tabloToEntity);
 
-		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Veritabanından Entity Alanlarını Doldurma Metodu", this::actEntityFillerMethodFromDb));
+		FxMenuItem vtEntityDoldur = new FxMenuItem("Veritabanından Entity Alanlarını Doldurma Metodu");
+		vtEntityDoldur.setOnAction(event -> actEntityFillerMethodFromDb());
+		mbDbToCode.addItem(vtEntityDoldur);
 
-		codeGenMainView.getCmbDbToCode().addComboItem(ComboItem.buildWitAction("Veritabanına eklenecek alanların Alter Sorguları", this::actAlterNewFields));
+		FxMenuItem vtAlter = new FxMenuItem("Veritabanına eklenecek alanların Alter Sorguları");
+		vtAlter.setOnAction(event -> actAlterNewFields());
+		mbDbToCode.addItem(vtAlter);
 
 		// **** Table Col Generate Combos
 
@@ -143,17 +156,14 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		// **** Excel Islemler Combos
 
-		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur",() ->actionResult(ModalExcel.actExcelToEntity())));
+		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(ModalExcel.actExcelToEntity())));
 
 		// enumComboItem.ExcelToEntity
 
 		// ****** Query Generator Combos
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query",() -> {
-			ModalSql modalSql = new ModalSql(getJdbi1(),isEnableDbOperation());
-			actionResult(modalSql.createQuery(getSelectedClass()));
-		}));
-		//actQueryCreate();//CreateQuery
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query", () ->
+				actionResult(getModalSql().createQuery(getSelectedClass()))));
 
 		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Alter Table Field(Add)", this::actAlterNewFields));
 
@@ -164,22 +174,72 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItem.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));
 
 		FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-//		AppEntMikro.secureNode(cshEntitySinifOlusturma, EntegreModules.bui().topluSorMerAta().getTxModuleCode());
 		codeGenMainView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
-
 		cshEntitySinifOlusturma.setOnAction(event -> new ModalCsharp().actCsharpSinifOlusturma(this));
 
 		// Combobox Listener Ayarları
 
-		codeGenMainView.getCmbDbToCode().activateSetNullAfterAction();
 		codeGenMainView.getCmbDbRead().activateSetNullAfterAction();
 		codeGenMainView.getCmbTableColGenerate().activateSetNullAfterAction();
 		codeGenMainView.getCmbExcelIslemler().activateSetNullAfterAction();
 		codeGenMainView.getCmbQueryGenerator().activateSetNullAfterAction();
 		codeGenMainView.getCmbXmlAraclar().activateSetNullAfterAction();
 
-	}
+		// Sql İşlemler
+		FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
 
+
+		FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
+		miTransferTarih.setOnAction(event -> {
+			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buildTextFieldDialog("Tarih Giriniz (yyyymmdd)");
+			//fxSimpleDialog.openAsDialogSync();
+			if (fxSimpleDialog.isClosedWithOk()) {
+				getModalSql().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
+				appendTextNewLine("Tarih Alanı Değeri Atandı:"+ fxSimpleDialog.getTxValue());
+			}
+		});
+		mbSqlTransfer.addItem(miTransferTarih);
+
+		FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
+		miTransferTarihExcel.setOnAction(event -> {
+			//Loghelper.get(getClass()).info("excel tarih start");
+			FiListMapStr fiListMapStr = ModalExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+			if(fiListMapStr!=null){
+				fiListMapStr.clearRowsKeyIfEmpty("txDateField");
+				appendTextNewLine("Tarih Alanları Okundu.");
+			}
+			getModalSql().setListMapDateField(fiListMapStr);
+			FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
+		});
+		mbSqlTransfer.addItem(miTransferTarihExcel);
+
+		FxMenuItem miTabloKopyalama = new FxMenuItem("Tablo Kopyalama (Kaynak:Db1->Hedef:Db2)");
+		miTabloKopyalama.setOnAction(event -> actionResult(getModalSql().sqlTableCopySrv1ToSrv2(false)));
+		mbSqlTransfer.addItem(miTabloKopyalama);
+
+		FxMenuItem miTabloKopyalamaTarihli = new FxMenuItem("Tablo Kopyalama Tarihli (Kaynak:Db1->Hedef:Db2)");
+		miTabloKopyalamaTarihli.setOnAction(event -> actionResult(getModalSql().sqlTableCopySrv1ToSrv2(true)));
+		mbSqlTransfer.addItem(miTabloKopyalamaTarihli);
+
+		FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
+		miTransferSqlExcelOto.setOnAction(event -> {
+			//Loghelper.get(getClass()).info("excel tarih start");
+			FiListMapStr fiListMapStr = ModalExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+			if(fiListMapStr!=null){
+				//fiListMapStr.clearRowsKeyIfEmpty("txDateField");
+				appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
+			}
+			// FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
+			getModalSql().setListMapDateField(fiListMapStr);
+			getModalSql().sqlTableCopySrv1ToSrv2Auto();
+		});
+		mbSqlTransfer.addItem(miTransferSqlExcelOto);
+
+		// Menu Layout
+		getCodeGenMainView().getMigMenu().addSpan(mbDbToCode);
+		getCodeGenMainView().getMigMenu().addSpan(mbSqlTransfer);
+
+	}
 
 
 	/**
@@ -376,11 +436,11 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	public Boolean checkServer() {
 
-		if (getJdbi1() == null) {
-			actBtnServerConfig();
+		if (getModalSql().getJdbi1() == null) {
+			actBtnSelectServer1();
 		}
 
-		return getJdbi1() != null;
+		return getModalSql().getJdbi1() != null;
 
 	}
 
@@ -575,7 +635,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	private void actBtnClassSec() {
-		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalCodeGenDialog.showDialogSelectEntityClass();
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
 		if (selectedEntity != null) {
@@ -586,9 +646,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	private void actBtnClassSec2() {
-
-		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
-
+		ModEntityListCont modEntityListCont = ModalCodeGenDialog.showDialogSelectEntityClass();
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
 		if (selectedEntity != null) {
@@ -597,29 +655,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		}
 
 	}
-
-//	private void actCmbDbToCodeChanged(ComboItem comboItem) {
-//		if (comboItem == null || comboItem.getValue() == null) return;
-//
-//		if (comboItem.getValue().equals(enumComboItem.TableToEntity.toString())) {
-//			Loghelper.get(getClass()).info("Table To Entity");
-//			//System.out.println("m");
-//			actTableToEntity(); //TableToEntity
-//		}
-//
-//		if (comboItem.getValue().equals(enumComboItem.TableToFillEntity.toString())) {
-//			//Loghelper.getInstance(getClass()).info("Table To Entity");
-//			//System.out.println("m");
-//			actEntityFillerMethodFromDb(); // TableToFillEntity
-//		}
-//
-//		if (comboItem.getValue().equals(enumComboItem.AlterNewFields.toString())) {
-//			actAlterNewFields(); //AlterNewFields
-//		}
-//
-//		getCodeGenMainView().getCmbDbToCode().clearSelectionFi();
-//
-//	}
 
 	private void actTableToEntity() {
 
@@ -657,7 +692,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnFiTableColListWithEnumFields() {
 
-		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalCodeGenDialog.showDialogSelectEntityClass();
 
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -689,7 +724,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private void actBtnFiTableColListWithFieldHeader() {
 
-		ModEntityListCont modEntityListCont = ModalDialog.showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = ModalCodeGenDialog.showDialogSelectEntityClass();
 
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -709,32 +744,38 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	}
 
-	private void actBtnServerConfig() {
+	private void actBtnSelectServer1() {
 
-		if (actSelectServer() != null) {
+		ServerConfig serverConfig1 = actServerSelect();
 
-			if (setupActiveServerJdbi() != null) {
-				getCodeGenMainView().getBtnServerConfig().setText("Server:" + getServerConfig().getServer() + " / " + getServerConfig().getServerDb());
+		if (serverConfig1 != null) {
+
+			Fdr<Jdbi> jdbiFdr = createJdbi(serverConfig1);
+			if (jdbiFdr.isTrueBoResult()) {
+				getModalSql().setServerConfig1(serverConfig1);
+				getModalSql().setJdbi1(jdbiFdr.getValue());
+
+				String txMessage = String.format("Server: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
+				getCodeGenMainView().getBtnServer1().setText(txMessage);
 				FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
 			} else {
 				FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
 			}
-
 		} else {
 			FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
 		}
 	}
 
-	private void actBtnServerConfig2() {
+	private void actBtnSelectServer2() {
+		ServerConfig serverConfig2 = actServerSelect();
 
-		ServerConfig serverConfig = actSelectServer();
+		if (serverConfig2 != null) {
 
-		if (serverConfig != null) {
-
-			Fdr<Jdbi> fdrConnection = createJdbi(serverConfig);
+			Fdr<Jdbi> fdrConnection = createJdbi(serverConfig2);
 			if (fdrConnection.getValue() != null) {
-				setJdbi2(fdrConnection.getValue());
-				getCodeGenMainView().getBtnServer2().setText("Server2:" + serverConfig.getServer() + " / " + serverConfig.getServerDb());
+				getModalSql().setServerConfig2(serverConfig2);
+				getModalSql().setJdbi2(fdrConnection.getValue());
+				getCodeGenMainView().getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
 				FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
 			} else {
 				FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getMessage());
@@ -744,10 +785,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
 		}
 	}
-
-
-
-
 
 	/**
 	 * Örnek bir kayıda göre not null kontrollü , alanları set eden kodları ortaya çıkarır.
@@ -771,7 +808,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	private void entityFillerMethodFromDb() {
-		appendTextNewLine(ModalSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(),getSelectedClass()));
+		appendTextNewLine(ModalSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getSelectedClass()));
 	}
 
 	private void actAlterNewFields() {
@@ -836,18 +873,18 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 	}
 
 	public Jdbi getAndSetupActiveServerJdbi() {
-		if (jdbi1 == null) {
-			if (getServerConfig() == null) {
-				actSelectServer();
+		if (getModalSql().getJdbi1() == null) {
+			if (getModalSql().getServerConfig1() == null) {
+				actServerSelect();
 			}
 		}
-		return jdbi1;
+		return getModalSql().getJdbi1();
 	}
 
-	private ServerConfig actSelectServer() {
+	private ServerConfig actServerSelect() {
 
 		Properties properties = FiPropertyFile.readProperties(getPropPath());
-		ServerConfig entityDefault = null;
+		ServerConfig selectedServer = null;
 
 		List<ServerConfig> listServer = new ArrayList<>();
 
@@ -883,7 +920,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			FxSimpleCont<ServerConfig> fxSimpleCont = new FxSimpleCont<>(true);
 			FxTableView2 fxTableView2 = new FxTableView2();
-			fxSimpleCont.getModView().add(fxTableView2, "grow,push");
+			fxSimpleCont.getModView().addGrowPushSpan(fxTableView2, "");
 
 			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
 			fxTableView2.addAllFiTableColsAuto(listCols);
@@ -892,26 +929,15 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			fxSimpleCont.openAsDialogSync(null, null);
 
-			entityDefault = fxSimpleCont.getEntitySelected();
-			setServerConfig(entityDefault);
+			selectedServer = fxSimpleCont.getEntitySelected();
 
-			if (entityDefault != null) {
-				FxDialogShow.showPopInfo(entityDefault.getServer() + " server seçildi.");
+			if (selectedServer != null) {
+				FxDialogShow.showPopInfo(selectedServer.getServer() + " server seçildi.");
 			}
-			//FiConsole.debug(entityDefault);
+			//FiConsole.debug(selectedServer);
 		}
 
-		return entityDefault;
-	}
-
-	private Jdbi setupActiveServerJdbi() {
-
-		if (getServerConfig() == null) {
-			FxDialogShow.showPopWarn("Lütfen Server seçimi yapınız.");
-			return null;
-		}
-
-		return createJdbi(getServerConfig()).getValue();
+		return selectedServer;
 	}
 
 	private Fdr<Jdbi> createJdbi(ServerConfig serverConfig) {
@@ -926,12 +952,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		try {
 			Jdbi jdbi = FiJdbiFactory.createJdbi(serverConfig.getServer(), serverConfig.getServerDb()
 					, serverConfig.getServerUser(), serverConfig.getServerKey());
-			setJdbi1(jdbi);
 			fdr.setValue(jdbi);
+			fdr.setBoResult(true);
 			return fdr;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fdr.setMessage("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
+			fdr.setBoResult(false);
 			return fdr;
 		}
 
@@ -967,20 +994,12 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		this.propPath = propPath;
 	}
 
-	public void setJdbi1(Jdbi jdbi1) {
-		this.jdbi1 = jdbi1;
-	}
+//	public void setJdbi1(Jdbi jdbi1) {
+//		this.jdbi1 = jdbi1;
+//	}
 
 	public void setCodeGenMainView(ModHomeCodeGenView codeGenMainView) {
 		this.codeGenMainView = codeGenMainView;
-	}
-
-	public ServerConfig getServerConfig() {
-		return serverConfig;
-	}
-
-	public void setServerConfig(ServerConfig serverConfig) {
-		this.serverConfig = serverConfig;
 	}
 
 	public Class getSelectedClass() {
@@ -991,9 +1010,9 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		this.selectedClass = selectedClass;
 	}
 
-	public Jdbi getJdbi1() {
-		return jdbi1;
-	}
+//	public Jdbi getJdbi1() {
+//		return jdbi1;
+//	}
 
 	public Class getSelectedClass2() {
 		return selectedClass2;
@@ -1003,13 +1022,13 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		this.selectedClass2 = selectedClass2;
 	}
 
-	public Jdbi getJdbi2() {
-		return jdbi2;
-	}
+//	public Jdbi getJdbi2() {
+//		return jdbi2;
+//	}
 
-	public void setJdbi2(Jdbi jdbi2) {
-		this.jdbi2 = jdbi2;
-	}
+//	public void setJdbi2(Jdbi jdbi2) {
+//		this.jdbi2 = jdbi2;
+//	}
 
 	public File getSelectedFile() {
 		return selectedFile;
@@ -1017,5 +1036,27 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
+	}
+
+	public ModalSql getModalSql() {
+		if (modalSql == null) {
+			modalSql = new ModalSql();
+		}
+		return modalSql;
+	}
+
+	public void setModalSql(ModalSql modalSql) {
+		this.modalSql = modalSql;
+	}
+
+	public ModalHome getModalHome() {
+		if (modalHome == null) {
+			modalHome = new ModalHome();
+		}
+		return modalHome;
+	}
+
+	public void setModalHome(ModalHome modalHome) {
+		this.modalHome = modalHome;
 	}
 }

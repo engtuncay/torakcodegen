@@ -1,12 +1,17 @@
 package oraksoft.codegen.modal;
 
+import ozpasyazilim.utils.core.FiConsole;
 import ozpasyazilim.utils.core.FiExcel;
+import ozpasyazilim.utils.datatypes.FiListMapStr;
 import ozpasyazilim.utils.fidborm.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.FiQueryGenerator;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
+import ozpasyazilim.utils.log.Loghelper;
+import ozpasyazilim.utils.table.FiColList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModalExcel {
@@ -51,6 +56,18 @@ public class ModalExcel {
 			return FiQueryGenerator.codeFiTableColsFromHeader(listHeader, "Excel");
 		}
 		return "";
+	}
+
+	public static FiListMapStr actExceldenTarihAlanlariniOkuForSqlTransfer() {
+		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
+
+		if (fileExcel != null) {
+			Loghelper.get(ModalExcel.class).debug("Excel Dosyası Seçildi");
+			FiColList fiCols = FiColList.build().buildAdd("txDateField", "Tarih Alanı").buildAdd("txTable", "Tablo İsmi");
+			FiListMapStr fiListMapStr = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
+			return fiListMapStr;
+		}
+		return null;
 	}
 }
 
