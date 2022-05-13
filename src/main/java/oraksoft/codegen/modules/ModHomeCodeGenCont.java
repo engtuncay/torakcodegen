@@ -25,7 +25,6 @@ import java.util.*;
  *
  */
 public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont {
-
 	ModHomeCodeGenView codeGenMainView;
 	Class selectedClass;
 	Class selectedClass2;
