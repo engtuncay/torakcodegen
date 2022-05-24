@@ -19,7 +19,7 @@ public class ModalXml {
 
 		String tagname = "";
 
-		FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Okunacak Xml Elemanı");
+		FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buiTextFieldDialog("Okunacak Xml Elemanı");
 
 		if (fxSimpleDialog2.isClosedWithOk()) {
 			tagname = fxSimpleDialog2.getTxValue();

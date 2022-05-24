@@ -1,6 +1,5 @@
 package oraksoft.codegen.modal;
 
-import ozpasyazilim.utils.core.FiConsole;
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.datatypes.FiListMapStr;
 import ozpasyazilim.utils.fidborm.FiCodeHelper;
@@ -11,7 +10,6 @@ import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.table.FiColList;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModalExcel {
@@ -28,7 +26,7 @@ public class ModalExcel {
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
 
 			String className = "EntityName";
-			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buildTextFieldDialog("Lütfen sınıf ismini yazınız");
+			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Lütfen sınıf ismini yazınız");
 
 			if (fxSimpleDialog.isClosedWithOk()) {
 				className = fxSimpleDialog.getTxValue();
@@ -36,7 +34,7 @@ public class ModalExcel {
 
 			String fieldPrefix = "";
 
-			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
+			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buiTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
 
 			if (fxSimpleDialog2.isClosedWithOk()) {
 				fieldPrefix = fxSimpleDialog2.getTxValue();

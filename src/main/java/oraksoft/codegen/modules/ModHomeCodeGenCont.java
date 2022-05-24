@@ -7,7 +7,6 @@ import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiListMapStr;
-import ozpasyazilim.utils.datatypes.FiMapString;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItem;
 import ozpasyazilim.utils.gui.fxcomponents.*;
@@ -190,7 +189,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
 		miTransferTarih.setOnAction(event -> {
-			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buildTextFieldDialog("Tarih Giriniz (yyyymmdd)");
+			FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Tarih Giriniz (yyyymmdd)");
 			//fxSimpleDialog.openAsDialogSync();
 			if (fxSimpleDialog.isClosedWithOk()) {
 				getModalSql().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
@@ -352,7 +351,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			String fieldPrefix = "";
 
-			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buildTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
+			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buiTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
 
 			if (fxSimpleDialog2.isClosedWithOk()) {
 				fieldPrefix = fxSimpleDialog2.getTxValue();
@@ -859,7 +858,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 	private Object actDialogCandIdEntityForm() {
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.FormByCandId);
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.FormAutoByCandIdFields);
 		fxSimpleDialog.setEntityClass(getSelectedClass());
 		fxSimpleDialog.openAsDialogSync();
 
