@@ -4,8 +4,8 @@ import javafx.util.Pair;
 import oraksoft.codegen.entity.EntityClazz;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
-import ozpasyazilim.utils.datatypes.FiListMapStr;
-import ozpasyazilim.utils.datatypes.FiMapString;
+import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.datatypes.FiKeyString;
 import ozpasyazilim.utils.entitysql.SqlTable;
 import ozpasyazilim.utils.repoSql.RepoSqlTable;
 import org.jdbi.v3.core.Jdbi;
@@ -14,7 +14,7 @@ import ozpasyazilim.mikro.dbrepo.repoMikro2.RepoJdbiGeneric;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiBoolean;
 import ozpasyazilim.utils.core.FiString;
-import ozpasyazilim.utils.datatypes.FiMapMulti;
+import ozpasyazilim.utils.datatypes.FiKeyList;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
@@ -33,7 +33,7 @@ public class ModalSql {
 	String txSqlTransferDate;
 	private ServerConfig serverConfig1;
 	private ServerConfig serverConfig2;
-	FiListMapStr listMapDateField;
+	FiListKeyString listMapDateField;
 	ModalHome modalHome;
 
 	public ModalSql() {
@@ -189,10 +189,10 @@ public class ModalSql {
 
 		StringBuilder sbSql = new StringBuilder();
 		sbSql.append("\n -- start sql copy\n\n");
-		for (FiMapString fiMapString : getListMapDateField()) {
-			String txTable = fiMapString.getTos(FiColsEntegre.bui().txTable());
+		for (FiKeyString fiKeyString : getListMapDateField()) {
+			String txTable = fiKeyString.getTos(FiColsEntegre.bui().txTable());
 			if(FiString.isEmpty(txTable))continue;
-			if(!FiString.isEmpty(fiMapString.getTos(FiColsEntegre.bui().txDateField()))){
+			if(!FiString.isEmpty(fiKeyString.getTos(FiColsEntegre.bui().txDateField()))){
 				sbSql.append(getSqlInsertSelectWithColsWhereDate(txTable));
 			}else {
 				sbSql.append(getSqlInsertSelectWithCols(txTable));
@@ -223,7 +223,7 @@ public class ModalSql {
 	private String getSqlInsertSelectWithColsWhereDate(String selectedTable) {
 
 //		Pair<String, EntityClazz> pairFieldDate = getFieldNameOfDateSepFieldByClass(selectedTable);
-		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.bui().txTable().toString(), selectedTable).or(new FiMapString()).get(FiColsEntegre.bui().txDateField().toString());
+		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.bui().txTable().toString(), selectedTable).or(new FiKeyString()).get(FiColsEntegre.bui().txDateField().toString());
 		//String txFieldDate = "";  // pairFieldDate.getKey();
 		if(FiString.isEmpty(txFieldDate)){ //|| pairFieldDate.getKey()==null
 			FxDialogShow.showPopWarn(selectedTable + " tablosu için ayırıcı tarih alanı bulunamadı.");
@@ -253,7 +253,7 @@ public class ModalSql {
 	 */
 	private Pair<String,EntityClazz> getFieldNameOfDateSepFieldByClass(String selectedTable) {
 
-		FiMapMulti<String, EntityClazz> entityClassMap = getDbClassMap();
+		FiKeyList<String, EntityClazz> entityClassMap = getDbClassMap();
 
 		if (entityClassMap.containsKey(selectedTable)) {
 			List<EntityClazz> entityClazzes = entityClassMap.get(selectedTable);
@@ -274,7 +274,7 @@ public class ModalSql {
 
 	private EntityClazz getEntityClassByTableName(String selectedTable) {
 
-		FiMapMulti<String, EntityClazz> entityClassMap = getDbClassMap();
+		FiKeyList<String, EntityClazz> entityClassMap = getDbClassMap();
 
 		if (entityClassMap.containsKey(selectedTable)) {
 			List<EntityClazz> entityClazzes = entityClassMap.get(selectedTable);
@@ -292,7 +292,7 @@ public class ModalSql {
 		return null;
 	}
 
-	public FiMapMulti<String,EntityClazz> getDbClassMap() {
+	public FiKeyList<String,EntityClazz> getDbClassMap() {
 
 		Set<Class<?>> allClasses = new HashSet<>();
 
@@ -308,7 +308,7 @@ public class ModalSql {
 			allClasses.addAll(getClassSet(prefix));
 		}
 
-		FiMapMulti<String, EntityClazz> fiMapMulti = new FiMapMulti<>();
+		FiKeyList<String, EntityClazz> fiKeyList = new FiKeyList<>();
 
 		allClasses.forEach(aClass -> {
 			String tableName = FiQueryGenerator.getTableName(aClass);
@@ -316,10 +316,10 @@ public class ModalSql {
 			EntityClazz entityClazz = new EntityClazz(aClass.getSimpleName(), aClass.getName(), aClass);
 			entityClazz.setTableName(tableName);
 			entityClazz.setBoInsertSelectClass(boInsertSelectClass);
-			fiMapMulti.add(tableName,entityClazz);
+			fiKeyList.add(tableName,entityClazz);
 		});
 
-		return fiMapMulti;
+		return fiKeyList;
 	}
 
 	private Set<Class<?>> getClassSet(String prefix) {
@@ -402,11 +402,11 @@ public class ModalSql {
 		this.jdbi2 = jdbi2;
 	}
 
-	public FiListMapStr getListMapDateField() {
+	public FiListKeyString getListMapDateField() {
 		return listMapDateField;
 	}
 
-	public void setListMapDateField(FiListMapStr listMapDateField) {
+	public void setListMapDateField(FiListKeyString listMapDateField) {
 		this.listMapDateField = listMapDateField;
 	}
 
