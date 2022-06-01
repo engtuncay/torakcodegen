@@ -2,7 +2,7 @@ package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
-import ozpasyazilim.utils.fidborm.FiCodeHelper;
+import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.FiQueryGenerator;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;

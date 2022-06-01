@@ -1,7 +1,7 @@
 package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.core.FiExcel;
-import ozpasyazilim.utils.fidborm.FiCodeHelper;
+import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 
 import java.io.File;

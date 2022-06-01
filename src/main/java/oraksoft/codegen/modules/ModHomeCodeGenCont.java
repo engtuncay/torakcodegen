@@ -7,6 +7,7 @@ import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItem;
 import ozpasyazilim.utils.gui.fxcomponents.*;
