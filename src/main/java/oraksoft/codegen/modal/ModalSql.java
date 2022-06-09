@@ -14,7 +14,7 @@ import ozpasyazilim.mikro.dbrepo.repoMikro2.RepoJdbiGeneric;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiBoolean;
 import ozpasyazilim.utils.core.FiString;
-import ozpasyazilim.utils.datatypes.FiKeyList;
+import ozpasyazilim.utils.datatypes.FiMapList;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
@@ -253,7 +253,7 @@ public class ModalSql {
 	 */
 	private Pair<String,EntityClazz> getFieldNameOfDateSepFieldByClass(String selectedTable) {
 
-		FiKeyList<String, EntityClazz> entityClassMap = getDbClassMap();
+		FiMapList<String, EntityClazz> entityClassMap = getDbClassMap();
 
 		if (entityClassMap.containsKey(selectedTable)) {
 			List<EntityClazz> entityClazzes = entityClassMap.get(selectedTable);
@@ -274,7 +274,7 @@ public class ModalSql {
 
 	private EntityClazz getEntityClassByTableName(String selectedTable) {
 
-		FiKeyList<String, EntityClazz> entityClassMap = getDbClassMap();
+		FiMapList<String, EntityClazz> entityClassMap = getDbClassMap();
 
 		if (entityClassMap.containsKey(selectedTable)) {
 			List<EntityClazz> entityClazzes = entityClassMap.get(selectedTable);
@@ -292,7 +292,7 @@ public class ModalSql {
 		return null;
 	}
 
-	public FiKeyList<String,EntityClazz> getDbClassMap() {
+	public FiMapList<String,EntityClazz> getDbClassMap() {
 
 		Set<Class<?>> allClasses = new HashSet<>();
 
@@ -308,7 +308,7 @@ public class ModalSql {
 			allClasses.addAll(getClassSet(prefix));
 		}
 
-		FiKeyList<String, EntityClazz> fiKeyList = new FiKeyList<>();
+		FiMapList<String, EntityClazz> fiMapList = new FiMapList<>();
 
 		allClasses.forEach(aClass -> {
 			String tableName = FiQueryGenerator.getTableName(aClass);
@@ -316,10 +316,10 @@ public class ModalSql {
 			EntityClazz entityClazz = new EntityClazz(aClass.getSimpleName(), aClass.getName(), aClass);
 			entityClazz.setTableName(tableName);
 			entityClazz.setBoInsertSelectClass(boInsertSelectClass);
-			fiKeyList.add(tableName,entityClazz);
+			fiMapList.add(tableName,entityClazz);
 		});
 
-		return fiKeyList;
+		return fiMapList;
 	}
 
 	private Set<Class<?>> getClassSet(String prefix) {
