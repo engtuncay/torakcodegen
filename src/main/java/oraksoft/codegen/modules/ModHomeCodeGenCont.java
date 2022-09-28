@@ -168,6 +168,9 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Clone Table Data", this::actCloneTableData));
 
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Unique1 Fields", () ->
+				actionResult(getModalSql().queryUnique1Fields(getSelectedClass()))));
+
 		// Xml Combo
 
 		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItem.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));

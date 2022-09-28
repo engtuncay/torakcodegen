@@ -417,4 +417,22 @@ public class ModalSql {
 	public void setModalHome(ModalHome modalHome) {
 		this.modalHome = modalHome;
 	}
+
+	public String queryUnique1Fields(Class selectedClass) {
+
+		if (!checkSelClass(selectedClass)) return "";
+
+		String sqlCreate = FiQueryGenerator.uniqueQuery(selectedClass);
+		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
+
+		if (FiBoolean.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
+			if (fdr.isTrueBoResult()) {
+				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
+			}
+			FxDialogShow.showDbResult(fdr);
+		}
+
+		return sqlCreate;
+	}
 }
