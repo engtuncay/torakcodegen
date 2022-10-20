@@ -892,16 +892,18 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		for (int i = 0; i < 20; i++) {
 
-			String server = properties.getProperty("server-" + i, "");
+			String name = properties.getProperty("server-" + i + "-name", "");
+			String db = properties.getProperty("server-" + i + "-db", "");
+			String defNo = properties.getProperty("server-" + i + "-def-no", "");
 
-			if (FiString.isEmpty(server)) {
+			// Server-user-pass bilgiler
+			String server = properties.getProperty("server-def-" + defNo, "");
+			String user = properties.getProperty("server-def-" + defNo + "-user", "");
+			String pass = properties.getProperty("server-def-" + defNo + "-key", "");
+
+			if (FiString.isEmpty(defNo) | FiString.isEmpty(server)) {
 				continue;
 			}
-
-			String db = properties.getProperty("server-" + i + "-db", "");
-			String user = properties.getProperty("server-" + i + "-user", "");
-			String pass = properties.getProperty("server-" + i + "-key", "");
-			String name = properties.getProperty("server-" + i + "-name", "");
 
 			ServerConfig serverConfig = new ServerConfig();
 			serverConfig.setServer(server);
