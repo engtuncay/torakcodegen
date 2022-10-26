@@ -30,7 +30,7 @@ public class ModalCodeGenDialog {
 	public static ModEntityListCont showDialogSelectEntityClass() {
 		ModEntityListCont modEntityListCont = new ModEntityListCont();
 		modEntityListCont.initCont();
-		FxDialogShow.build().nodeModalByIFxMod(null, modEntityListCont, null, null, null);
+		FxDialogShow.build().nodeModalByIFxSimpleCont(null, modEntityListCont, null, null, null);
 		return modEntityListCont;
 	}
 
