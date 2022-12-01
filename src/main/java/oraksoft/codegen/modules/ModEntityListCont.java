@@ -29,7 +29,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		List<FiCol> listCols = getTableCols();
 
 		getFxTableView().setEnableLocalFilterEditor(true);
-		getFxTableView().addAllFiTableColsAuto(listCols);
+		getFxTableView().addAllFiColsAuto(listCols);
 		getFxTableView().setItemsAsFilteredList(listClassDefault);
 		getFxTableView().activateExtensionFxTableSelectAndClose(this);
 

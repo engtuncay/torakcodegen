@@ -927,7 +927,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			fxSimpleCont.getModView().addGrowPushSpan(fxTableView2, "");
 
 			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
-			fxTableView2.addAllFiTableColsAuto(listCols);
+			fxTableView2.addAllFiColsAuto(listCols);
 			fxTableView2.setItemsAsFilteredList(listServer);
 			fxTableView2.activateExtensionFxTableSelectAndClose(fxSimpleCont);
 
