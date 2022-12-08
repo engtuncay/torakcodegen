@@ -924,7 +924,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 			FxSimpleCont<ServerConfig> fxSimpleCont = new FxSimpleCont<>(true);
 			FxTableView2 fxTableView2 = new FxTableView2();
-			fxSimpleCont.getModView().addGrowPushSpan(fxTableView2, "");
+			fxSimpleCont.getModView().addGrowPushSpan(fxTableView2);
 
 			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
 			fxTableView2.addAllFiColsAuto(listCols);

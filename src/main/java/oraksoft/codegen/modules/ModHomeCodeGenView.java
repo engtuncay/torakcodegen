@@ -52,14 +52,14 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		//FxMpConfig.debugMode = true;
 
-		rootMigPane = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().lcNoGrid().genLc());
+		rootMigPane = new FxMigPane(FxMigHp.bui().lgcStInset0Gap55().lgcNoGrid().genLayConst());
 
-		migHeader = new FxMigPane(FxMigHelper.bui().lcStInset0Gap55().genLc());
-		migMenu = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
-		migContent = new FxMigPane(FxMigHelper.bui().lcStInset3().genLc());
+		migHeader = new FxMigPane(FxMigHp.bui().lgcStInset0Gap55().genLayConst());
+		migMenu = new FxMigPane(FxMigHp.bui().lgcStInset3().genLayConst());
+		migContent = new FxMigPane(FxMigHp.bui().lgcStInset3().genLayConst());
 
 		rootMigPane.add(migHeader, "growx,pushx,wrap");
-		rootMigPane.add(migMenu,  FxMigHelper.bcc("grow,push").ccWidth("100px").genCc());
+		rootMigPane.add(migMenu,  FxMigHp.bcc("grow,push").ccWidth("100px").genCc());
 		rootMigPane.add(migContent, "grow,push,span");
 
 		chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
