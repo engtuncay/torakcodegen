@@ -23,6 +23,5 @@ public class AppCodeGen extends Application {
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
-
 	}
 }

@@ -16,6 +16,7 @@ import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiCol;
+import ozpasyazilim.utils.table.FiColList;
 import ozpasyazilim.utils.table.ListFiTableColBuilder;
 
 import java.io.File;
@@ -197,7 +198,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			//fxSimpleDialog.openAsDialogSync();
 			if (fxSimpleDialog.isClosedWithOk()) {
 				getModalSql().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
-				appendTextNewLine("Tarih Alanı Değeri Atandı:"+ fxSimpleDialog.getTxValue());
+				appendTextNewLine("Tarih Alanı Değeri Atandı:" + fxSimpleDialog.getTxValue());
 			}
 		});
 		mbSqlTransfer.addItem(miTransferTarih);
@@ -206,12 +207,12 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		miTransferTarihExcel.setOnAction(event -> {
 			//Loghelper.get(getClass()).info("excel tarih start");
 			FiListKeyString fiListKeyString = ModalExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-			if(fiListKeyString !=null){
+			if (fiListKeyString != null) {
 				fiListKeyString.clearRowsKeyIfEmpty("txDateField");
 				appendTextNewLine("Tarih Alanları Okundu.");
 			}
 			getModalSql().setListMapDateField(fiListKeyString);
-			FiConsole.debugListMap(fiListKeyString,ModalExcel.class,true);
+			FiConsole.debugListMap(fiListKeyString, ModalExcel.class, true);
 		});
 		mbSqlTransfer.addItem(miTransferTarihExcel);
 
@@ -227,7 +228,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		miTransferSqlExcelOto.setOnAction(event -> {
 			//Loghelper.get(getClass()).info("excel tarih start");
 			FiListKeyString fiListKeyString = ModalExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-			if(fiListKeyString !=null){
+			if (fiListKeyString != null) {
 				//fiListMapStr.clearRowsKeyIfEmpty("txDateField");
 				appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
 			}
@@ -764,7 +765,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 				FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
 			}
 		} else {
-			FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
+			//FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
 		}
 	}
 
@@ -784,7 +785,7 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 			}
 
 		} else {
-			FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
+			//FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
 		}
 	}
 
@@ -922,18 +923,24 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		} else {
 
-			FxSimpleCont<ServerConfig> fxSimpleCont = new FxSimpleCont<>(true);
+			FxSimpleContGen<ServerConfig> fxSimpleContGen = new FxSimpleContGen<>(true);
 			FxTableView2 fxTableView2 = new FxTableView2();
-			fxSimpleCont.getModView().addGrowPushSpan(fxTableView2);
 
-			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
-			fxTableView2.addAllFiColsAuto(listCols);
+			fxSimpleContGen.getModView().addGrowPushSpan(fxTableView2);
+
+//			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
+
+			FiColList fiCols = new FiColList();
+			fiCols.add(FiCol.build("İsim", "name"));
+			fiCols.add(FiCol.build("Sunucu", "server"));
+
+			fxTableView2.setEnableLocalFilterEditor(true);
+			fxTableView2.addAllFiColsAuto(fiCols);
 			fxTableView2.setItemsAsFilteredList(listServer);
-			fxTableView2.activateExtensionFxTableSelectAndClose(fxSimpleCont);
+			fxTableView2.activateExtensionFxTableSelectAndClose(fxSimpleContGen);
+			fxSimpleContGen.openAsDialogSync(null, null);
 
-			fxSimpleCont.openAsDialogSync(null, null);
-
-			selectedServer = fxSimpleCont.getEntitySelected();
+			selectedServer = fxSimpleContGen.getEntitySelected();
 
 			if (selectedServer != null) {
 				FxDialogShow.showPopInfo(selectedServer.getServer() + " server seçildi.");
