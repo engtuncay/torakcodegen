@@ -44,7 +44,7 @@ public class ModalCodeGenDialog {
 		}
 
 		List<SqlTable> sqlTableList = new ModalSql().getSqlTableList(jdbi);
-		fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.bui().sqlTableName());
+		fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
 		fxTableWindowCont.setTableContent(sqlTableList);
 		fxTableWindowCont.openAsModalMain(null);
 
@@ -65,13 +65,13 @@ public class ModalCodeGenDialog {
 		}
 
 		fxTableWindowCont.getFxTableView().addFiColSelection();
-		fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.bui().sqlTableName());
+		fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
 
 		List<SqlTable> sqlTableList;
 
 		if (FiBoolean.isTrue(boShowCount)) {
 			sqlTableList = new ModalSql().getSqlTableListWithCount(jdbi);
-			fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.bui().sqlBoCount());
+			fxTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlBoCount());
 		} else {
 			sqlTableList = new ModalSql().getSqlTableList(jdbi);
 		}

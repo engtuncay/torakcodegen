@@ -190,9 +190,9 @@ public class ModalSql {
 		StringBuilder sbSql = new StringBuilder();
 		sbSql.append("\n -- start sql copy\n\n");
 		for (FiKeyString fiKeyString : getListMapDateField()) {
-			String txTable = fiKeyString.getTos(FiColsEntegre.bui().txTable());
+			String txTable = fiKeyString.getTos(FiColsEntegre.txTable());
 			if(FiString.isEmpty(txTable))continue;
-			if(!FiString.isEmpty(fiKeyString.getTos(FiColsEntegre.bui().txDateField()))){
+			if(!FiString.isEmpty(fiKeyString.getTos(FiColsEntegre.txDateField()))){
 				sbSql.append(getSqlInsertSelectWithColsWhereDate(txTable));
 			}else {
 				sbSql.append(getSqlInsertSelectWithCols(txTable));
@@ -223,7 +223,7 @@ public class ModalSql {
 	private String getSqlInsertSelectWithColsWhereDate(String selectedTable) {
 
 //		Pair<String, EntityClazz> pairFieldDate = getFieldNameOfDateSepFieldByClass(selectedTable);
-		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.bui().txTable().toString(), selectedTable).or(new FiKeyString()).get(FiColsEntegre.bui().txDateField().toString());
+		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.txTable().toString(), selectedTable).or(new FiKeyString()).get(FiColsEntegre.txDateField().toString());
 		//String txFieldDate = "";  // pairFieldDate.getKey();
 		if(FiString.isEmpty(txFieldDate)){ //|| pairFieldDate.getKey()==null
 			FxDialogShow.showPopWarn(selectedTable + " tablosu için ayırıcı tarih alanı bulunamadı.");
