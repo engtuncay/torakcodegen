@@ -17,7 +17,7 @@ import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.FiColList;
-import ozpasyazilim.utils.table.ListFiTableColBuilder;
+
 
 import java.io.File;
 import java.util.*;
