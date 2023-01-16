@@ -52,11 +52,11 @@ public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCo
 
 		//FxMpConfig.debugMode = true;
 
-		rootMigPane = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcgPrep());
+		rootMigPane = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcg());
 
-		migHeader = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().getLcgPrep());
-		migMenu = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcgPrep());
-		migContent = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcgPrep());
+		migHeader = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().getLcg());
+		migMenu = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcg());
+		migContent = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcg());
 
 		rootMigPane.add(migHeader, "growx,pushx,wrap");
 		rootMigPane.add(migMenu,  FxMigHp.bcc("grow,push").ccWidth("100px").genCc());
