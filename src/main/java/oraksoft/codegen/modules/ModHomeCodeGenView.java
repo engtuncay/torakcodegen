@@ -3,9 +3,8 @@ package oraksoft.codegen.modules;
 import javafx.scene.layout.Pane;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.mvc.IFxSimpleView;
-import ozpasyazilim.utils.mvc.IFxTempView;
 
-public class ModHomeCodeGenView implements IFxSimpleView , IFxTempView<ModHomeCodeGenCont> {
+public class ModHomeCodeGenView implements IFxSimpleView {
 
 	private FxMigPane rootMigPane;
 
