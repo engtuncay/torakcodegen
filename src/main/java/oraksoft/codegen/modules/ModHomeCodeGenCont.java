@@ -9,7 +9,7 @@ import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.*;
-import ozpasyazilim.utils.gui.components.ComboItem;
+import ozpasyazilim.utils.gui.components.ComboItemText;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
@@ -110,71 +110,71 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		// **** Table Col Generate Combos
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
 			appendTextNewLine(ModalTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
 		}));
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)", () -> {
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)", () -> {
 			appendTextNewLine(ModalTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
 		}));
 
 		//this::actExcelToFiTableColWithFieldName
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Excelden FiTableCol List oluştur.(Metodlarla)", this::actExcelToFiTableColViaMethods));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiTableCol List oluştur.(Metodlarla)", this::actExcelToFiTableColViaMethods));
 
 //		codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 //				, "Excelden FiTableCol List oluştur.(Auto Field Name)");
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Sınftan FiTableCol Generate Method oluştur.", this::actClassToFiTableColGenerate));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sınftan FiTableCol Generate Method oluştur.", this::actClassToFiTableColGenerate));
 
 		//actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Sql Sorgusundan FiTableCol List oluştur.", this::actSqlQueryToFiTableCol));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol List oluştur.", this::actSqlQueryToFiTableCol));
 		//actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur.", this::actSqlQueryToFiTableColGenerate));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur.", this::actSqlQueryToFiTableColGenerate));
 		// actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Alan Listesi", this::actAlanListesi));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
 		//actAlanListesi();//AlanListesi
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Alan Listesi By Id With Value", this::actAlanListesiByIdWithValue));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Alan Listesi By Id With Value", this::actAlanListesiByIdWithValue));
 		//actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItem.buildWitAction("Alan Listesi By Cand Id With Value", this::actAlanListesiByCandIdWithValue));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value", this::actAlanListesiByCandIdWithValue));
 		//actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
 
 
 		// **** Db Read Combos
 
-		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
+		codeGenMainView.getCmbDbRead().addComboItem(ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
-		codeGenMainView.getCmbDbRead().addComboItem(ComboItem.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
+		codeGenMainView.getCmbDbRead().addComboItem(ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
 		//actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
 
 
 		// **** Excel Islemler Combos
 
-		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItem.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(ModalExcel.actExcelToEntity())));
+		codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItemText.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(ModalExcel.actExcelToEntity())));
 
 		// enumComboItem.ExcelToEntity
 
 		// ****** Query Generator Combos
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Create Query", () ->
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItemText.buildWitAction("Create Query", () ->
 				actionResult(getModalSql().createQuery(getSelectedClass()))));
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Alter Table Field(Add)", this::actAlterNewFields));
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItemText.buildWitAction("Alter Table Field(Add)", this::actAlterNewFields));
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Clone Table Data", this::actCloneTableData));
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItemText.buildWitAction("Clone Table Data", this::actCloneTableData));
 
-		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItem.buildWitAction("Unique1 Fields", () ->
+		codeGenMainView.getCmbQueryGenerator().addComboItem(ComboItemText.buildWitAction("Unique1 Fields", () ->
 				actionResult(getModalSql().queryUnique1Fields(getSelectedClass()))));
 
 		// Xml Combo
 
-		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItem.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));
+		codeGenMainView.getCmbXmlAraclar().addComboItem(ComboItemText.buildWitAction("Xml to Field List", this::actXmlToFiFieldList));
 
 		FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
 		codeGenMainView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
