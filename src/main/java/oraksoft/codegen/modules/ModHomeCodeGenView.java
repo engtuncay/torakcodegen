@@ -54,11 +54,15 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 		rootMigPane = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcg());
 
 		migHeader = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().getLcg());
-		migMenu = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcg());
+		migMenu = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().lcgNoGrid().getLcg());
 		migContent = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcg());
 
-		rootMigPane.add(migHeader, "growx,pushx,wrap");
-		rootMigPane.add(migMenu,  FxMigHp.bcc("grow,push").ccWidth("100px").genCc());
+//		rootMigPane.add(migHeader, "growx,pushx,wrap");
+//		rootMigPane.add(migMenu,  FxMigHp.bcc("grow,push").ccWidth("100px").genCc());
+//		rootMigPane.add(migContent, "grow,push,span");
+
+		//rootMigPane.add(migHeader, "growx,pushx,wrap");
+		rootMigPane.add(migMenu, "growx,pushx,wrap");
 		rootMigPane.add(migContent, "grow,push,span");
 
 		chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
@@ -72,6 +76,7 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 		btnDosyaSec = new FxButton("Dosya Seç");
 
 		cmbTableColGenerate = new FxComboBoxSimple("FiTableCol Generations");
+		cmbTableColGenerate.setMaxWidth(200d);
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
 		cmbQueryGenerator = new FxComboBoxSimple("Query Generate");
 		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript Operations");
@@ -80,25 +85,25 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 
 		csharpIslemler = new FxMenuButton("Csharp İşlemler");
 
-		migMenu.add(chkDosyayaYazdir, "span");
-		migMenu.add(chkVeritabandaOlustur, "span");
-		migMenu.add(btnServer1, "span");
-		migMenu.add(btnClassSec, "span");
-		migMenu.add(btnDosyaSec, "span");
+		migMenu.add(chkDosyayaYazdir, "");
+		migMenu.add(chkVeritabandaOlustur, "wrap");
+		migMenu.add(btnServer1, "");
+		migMenu.add(btnClassSec, "");
+		migMenu.add(btnDosyaSec, "");
 
-		migMenu.add(new FxLabel("-----"), "span");
-		migMenu.add(btnServer2,"span");
-		migMenu.add(btnClassSec2,"span");
-		migMenu.add(new FxLabel("-----"), "span");
-		migMenu.add(cmbTableColGenerate, "span");
-		migMenu.add(cmbDbRead, "span");
-		migMenu.add(cmbQueryGenerator, "span");
-		migMenu.add(cmbTypeScriptOperations, "span");
-		migMenu.add(cmbExcelIslemler, "span");
-		migMenu.add(cmbXmlAraclar, "span");
-		migMenu.add(csharpIslemler, "span");
+		//migMenu.add(new FxLabel("-----"), "span");
+		migMenu.add(btnServer2,"");
+		migMenu.add(btnClassSec2,"wrap");
+		//migMenu.add(new FxLabel("-----"), "span");
+		migMenu.add(cmbTableColGenerate, "");
+		migMenu.add(cmbDbRead, "");
+		migMenu.add(cmbQueryGenerator, "");
+		migMenu.add(cmbTypeScriptOperations, "");
+		migMenu.add(cmbExcelIslemler, "wrap");
+		migMenu.add(cmbXmlAraclar, "");
+		migMenu.add(csharpIslemler, "wrap");
 
-		migMenu.add(new FxLabel("-----"), "span");
+		//migMenu.add(new FxLabel("-----"), "span");
 
 		fxTextArea = new FxTextArea();
 		migContent.add(fxTextArea, "span,grow,push");

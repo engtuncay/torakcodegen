@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- *
+ * Code Gen Home
  */
 public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont {
 	ModHomeCodeGenView codeGenMainView;
@@ -72,9 +72,8 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 		//codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
 		//codeGenMainView.getBtnCodeTypescript().setOnAction(event -> actBtnTypescriptEntity());
 		//codeGenMainView.getBtnCodeEntityFieldFillerMethod().setOnAction(event -> actBtnFiTableColListWithFieldHeader());
-//		codeGenMainView.getBtnCodeEntityFieldFillerMethodWithEnumFields().setOnAction(event -> actBtnFiTableColListWithEnumFields());
-//		codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
-
+		//codeGenMainView.getBtnCodeEntityFieldFillerMethodWithEnumFields().setOnAction(event -> actBtnFiTableColListWithEnumFields());
+		//codeGenMainView.getBtnCodeGenFiTableColFromExcel().setOnAction(event -> actBtnCodeGenFiTableColFromExcel());
 
 	}
 
@@ -120,16 +119,23 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 
 		//this::actExcelToFiTableColWithFieldName
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiTableCol List oluştur.(Metodlarla)", this::actExcelToFiTableColViaMethods));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol Üreten Metodları oluştur(1)R1:Header R2:FieldName",()-> MolFiColGenerate.actExcelToFiColsMethodWay1(this)));
 
-//		codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
-//				, "Excelden FiTableCol List oluştur.(Auto Field Name)");
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur",()-> MolFiColGenerate.actExcelToFiTableColViaMethods(this)));
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sınftan FiTableCol Generate Method oluştur.", this::actClassToFiTableColGenerate));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (3)",()-> MolFiColGenerate.actExcelToFiColsMethodWay1(this)));
+
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)",()-> MolFiColGenerate.actExcelToFiColsListByFiColsMikro(this)));
+
+// codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
+// , "Excelden FiTableCol List oluştur.(Auto Field Name)");
+
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur.", this::actClassToFiTableColGenerate));
 
 		//actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
-		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol List oluştur.", this::actSqlQueryToFiTableCol));
+		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur.", this::actSqlQueryToFiTableCol));
+
 		//actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
 		codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur.", this::actSqlQueryToFiTableColGenerate));
@@ -347,33 +353,6 @@ public class ModHomeCodeGenCont extends AbsFxSimpleCont implements IFxSimpleCont
 //		codeGenMainView.getCmbTableColGenerate().clearSelectionFi();
 //
 //	}
-
-	private void actExcelToFiTableColViaMethods() {
-
-		File fileExcel = new FiFileGui().actFileChooserForExcelXlsxFromDesktop();
-
-		if (fileExcel != null) {
-
-			String fieldPrefix = "";
-
-			FxSimpleDialog fxSimpleDialog2 = FxSimpleDialog.buiTextFieldDialog("Lütfen ön ek yazınız.(Eklenecekse)");
-
-			if (fxSimpleDialog2.isClosedWithOk()) {
-				fieldPrefix = fxSimpleDialog2.getTxValue();
-			}
-
-			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
-			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
-
-			//FiConsole.debugListObjectsToString(listHeader,getClass());
-
-			appendTextNewLine(FiCodeHelper.codeFiTableColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
-
-		}
-
-
-	}
-
 
 	// **** İşlemler
 
