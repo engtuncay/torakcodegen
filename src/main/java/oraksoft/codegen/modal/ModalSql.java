@@ -159,7 +159,7 @@ public class ModalSql {
 			return "";
 		}
 		String txMessage = String.format("Lütfen Kopyalanacak Tabloları Seçiniz.\nServer: %s Db: %s", getServerConfig1().getServer(), getServerConfig1().getServerDb());
-		List<EntSqlTable> entSqlTables = ModalSharedDialogs.showDialogSelectTableMulti(getJdbi1(), txMessage,true,true);
+		List<EntSqlTable> entSqlTables = ModalSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
 
 		if(entSqlTables ==null) entSqlTables = new ArrayList<>();
 

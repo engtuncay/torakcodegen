@@ -56,7 +56,7 @@ public class ModalSharedDialogs {
 		return null;
 	}
 
-	public static List<EntSqlTable> showDialogSelectTableMulti(Jdbi jdbi, String txMessage, Boolean boShowCount, Boolean boMulti) {
+	public static List<EntSqlTable> showDialogSelectTable(Jdbi jdbi, String txMessage, Boolean boShowCount, Boolean boMulti) {
 
 		FxSimpleTableWindowCont<EntSqlTable> fxSimpleTableWindowCont = new FxSimpleTableWindowCont();
 		fxSimpleTableWindowCont.initCont();

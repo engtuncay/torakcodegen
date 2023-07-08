@@ -240,9 +240,13 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         // Db Export
         FxMenuButton mbDbExport = new FxMenuButton("Db Export");
 
-        FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (1)"
-                , (event) -> ModalDbExport.actTableExport1(this)
-                , mbDbExport);
+        FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
+                , (event) -> ModalDbExport.actTableExport1(this,true));
+        mbDbExport.addItem(miDbExportForExportTable1);
+
+        FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
+                , (event) -> ModalDbExport.actTableExport1(this,false));
+        mbDbExport.addItem(miDbExportForExportTable2);
 
         // Menu Layout
         getCodeGenMainView().getMigMenu().addSpan(mbDbToCode);
@@ -771,9 +775,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     public Jdbi getAndSetupActiveServerJdbi() {
         if (getModalSqlInit().getJdbi1() == null) {
-            if (getModalSqlInit().getServerConfig1() == null) {
-                actServerSelect();
-            }
+            actBtnSelectServer1();
         }
         return getModalSqlInit().getJdbi1();
     }
