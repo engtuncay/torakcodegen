@@ -6,8 +6,25 @@ import ozpasyazilim.utils.mvc.IFxSimpleView;
 
 public class ModHomeCodeGenView implements IFxSimpleView {
 
-	private FxMigPane rootMigPane;
+	// Layout Components
+	private FxMigPane migRoot;
 
+	private FxMigPane migHeader;
+	private FxMigPane migMenu;
+	private FxMigPane migContent;
+
+
+
+	// Other Components
+
+	private FxTextArea txaMainOutput;
+	private FxButton btnServer1;
+	private FxButton btnServer2;
+	private FxButton btnClassSec;
+	private FxButton btnClassSec2;
+	private FxButton btnDosyaSec;
+
+	private FxMenuButton csharpIslemler;
 	private FxCheckBox chkDosyayaYazdir;
 	private FxCheckBox chkVeritabandaOlustur;
 
@@ -19,52 +36,25 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 	private FxComboBoxSimple cmbXmlAraclar;
 	private String txDosyaYolu;
 
-
-	private FxTextArea fxTextArea;
-
-	// Kaldırılacak
-	//private FxButton btnCodeGen;
-	private FxButton btnCodeTypescript;
-	private FxButton btnCodeEntityFieldFillerMethod;
-	private FxButton btnCodeTableCol;
-	//private FxButton btnCodeEntityFieldFillerMethodFromDb;
-	private FxButton btnCodeGenFiTableColFromExcel;
-	private FxButton btnCodeEntityFieldFillerMethodWithEnumFields;
-
-	private FxButton btnServer1;
-	private FxButton btnServer2;
-	private FxButton btnClassSec;
-	private FxButton btnClassSec2;
-	private FxButton btnDosyaSec;
-
-	private FxMenuButton csharpIslemler;
-	private FxMigPane migHeader;
-	private FxMigPane migMenu;
-	private FxMigPane migContent;
-
 	@Override
 	public Pane getRootPane() {
-		return getRootMigPane();
+		return getMigRoot();
 	}
 
 	public void initGui() {
-
 		//FxMpConfig.debugMode = true;
-
-		rootMigPane = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcg());
-
+		// Root Container
+		migRoot = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcg());
+		// Layout Containers
 		migHeader = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().getLcg());
 		migMenu = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().lcgNoGrid().getLcg());
 		migContent = new FxMigPane(FxMigHp.bui().lcgInset3Gap33().getLcg());
 
-//		rootMigPane.add(migHeader, "growx,pushx,wrap");
-//		rootMigPane.add(migMenu,  FxMigHp.bcc("grow,push").ccWidth("100px").genCc());
-//		rootMigPane.add(migContent, "grow,push,span");
-
 		//rootMigPane.add(migHeader, "growx,pushx,wrap");
-		rootMigPane.add(migMenu, "growx,pushx,wrap");
-		rootMigPane.add(migContent, "grow,push,span");
+		migRoot.add(migMenu, "growx,pushx,wrap");
+		migRoot.add(migContent, "grow,push,span");
 
+		// Other components
 		chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
 		chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
 		btnServer1 = new FxButton("Server Seç");
@@ -105,44 +95,28 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 
 		//migMenu.add(new FxLabel("-----"), "span");
 
-		fxTextArea = new FxTextArea();
-		migContent.add(fxTextArea, "span,grow,push");
+		txaMainOutput = new FxTextArea();
+		migContent.add(txaMainOutput, "span,grow,push");
 
 	}
 
-	public FxMigPane getRootMigPane() {
-		return rootMigPane;
+	public FxMigPane getMigRoot() {
+		return migRoot;
 	}
 
-	public FxTextArea getFxTextArea() {
-		return fxTextArea;
+	public FxTextArea getTxaMainOutput() {
+		return txaMainOutput;
 	}
-
-	public FxButton getBtnCodeTypescript() {return btnCodeTypescript;}
-
-	public FxButton getBtnCodeEntityFieldFillerMethod() {return btnCodeEntityFieldFillerMethod;}
-
-	public FxButton getBtnCodeTableCol() {return btnCodeTableCol;}
 
 	public String getTxDosyaYolu() {return txDosyaYolu;}
 
 	public void setTxDosyaYolu(String txDosyaYolu) {this.txDosyaYolu = txDosyaYolu;}
-
-	public FxCheckBox getChkDosyayaYazdir() {return chkDosyayaYazdir;}
 
 	public FxCheckBox getChkVeritabandaOlustur() {return chkVeritabandaOlustur;}
 
 	public FxButton getBtnClassSec() {return btnClassSec;}
 
 	public FxButton getBtnServer1() {return btnServer1;}
-
-	//public FxButton getBtnCodeEntityFieldFillerMethodFromDb() {return btnCodeEntityFieldFillerMethodFromDb;}
-
-	public FxButton getBtnCodeGenFiTableColFromExcel() {return btnCodeGenFiTableColFromExcel;}
-
-	public FxButton getBtnCodeEntityFieldFillerMethodWithEnumFields() {
-		return btnCodeEntityFieldFillerMethodWithEnumFields;
-	}
 
 	public FxComboBoxSimple getCmbTableColGenerate() {
 		return cmbTableColGenerate;
@@ -151,8 +125,6 @@ public class ModHomeCodeGenView implements IFxSimpleView {
 	public FxComboBoxSimple getCmbDbRead() {return cmbDbRead;}
 
 	public FxComboBoxSimple getCmbQueryGenerator() {return cmbQueryGenerator;}
-
-	public FxComboBoxSimple getCmbTypeScriptOperations() {return cmbTypeScriptOperations;}
 
 	public FxComboBoxSimple getCmbExcelIslemler() {
 		return cmbExcelIslemler;

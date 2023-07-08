@@ -1,17 +1,17 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.ModHomeCodeGenCont;
+import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fidborm.FiQueryGenerator;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
-import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
-import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialogType;
+import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
+import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
 
 public class ModalCsharp {
 
-	public void actCsharpSinifOlusturma(ModHomeCodeGenCont modHome) {
+	public void actCsharpSinifOlusturma(ModHomeCodeGenerator modHome) {
 
 		Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 
@@ -23,7 +23,7 @@ public class ModalCsharp {
 			return;
 		}
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogType.TextField, "Tablo Adını Giriniz:");
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextField, "Tablo Adını Giriniz:");
 		fxSimpleDialog.openAsDialogSync();
 
 		if (fxSimpleDialog.isClosedWithOk()) {
@@ -35,9 +35,9 @@ public class ModalCsharp {
 			String entityCode = FiQueryGenerator.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
 
 			if (!FiString.isEmpty(entityCode)) {
-				modHome.getCodeGenMainView().getFxTextArea().appendText(entityCode);
+				modHome.getCodeGenMainView().getTxaMainOutput().appendText(entityCode);
 			} else {
-				modHome.getCodeGenMainView().getFxTextArea().appendText("N/A");
+				modHome.getCodeGenMainView().getTxaMainOutput().appendText("N/A");
 			}
 
 		}

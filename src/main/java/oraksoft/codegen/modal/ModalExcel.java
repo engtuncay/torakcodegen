@@ -5,7 +5,7 @@ import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.FiQueryGenerator;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
-import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
+import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.log.Loghelper;
 import ozpasyazilim.utils.table.FiColList;
 

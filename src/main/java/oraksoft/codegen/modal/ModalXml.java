@@ -4,7 +4,7 @@ import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.core.FiXmlParser;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
-import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
+import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 
 import java.io.File;
 import java.util.ArrayList;

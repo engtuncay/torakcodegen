@@ -6,7 +6,7 @@ import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.datatypes.FiKeyString;
-import ozpasyazilim.utils.entitysql.SqlTable;
+import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.repoSql.RepoSqlTable;
 import org.jdbi.v3.core.Jdbi;
 import org.reflections.Reflections;
@@ -56,35 +56,35 @@ public class ModalSql {
 			return textVtBaglantisiYapilmamis();
 		}
 
-		RepoJdbiGeneric<SqlTable> repoJdbiCustom = new RepoJdbiGeneric<>(jdbi, SqlTable.class);
+		RepoJdbiGeneric<EntSqlTable> repoJdbiCustom = new RepoJdbiGeneric<>(jdbi, EntSqlTable.class);
 
-		Fdr<List<SqlTable>> listFdr = repoJdbiCustom.jdSelectAll();
+		Fdr<List<EntSqlTable>> listFdr = repoJdbiCustom.jdSelectAll();
 		StringBuilder sb = new StringBuilder();
 
 		if (listFdr.isTrueBoResult()) {
-			for (SqlTable sqlTable : listFdr.getValue()) {
-				sb.append(sqlTable.getTABLE_NAME() + "\n");
+			for (EntSqlTable entSqlTable : listFdr.getValue()) {
+				sb.append(entSqlTable.getTABLE_NAME() + "\n");
 			}
 		}
 
 		return sb.toString();
 	}
 
-	public List<SqlTable> getSqlTableList(Jdbi jdbi) {
+	public List<EntSqlTable> getSqlTableList(Jdbi jdbi) {
 		if(!checkJdbi(jdbi))return new ArrayList<>();
 		RepoSqlTable repoJdbiCustom = new RepoSqlTable(jdbi);
-		Fdr<List<SqlTable>> listFdr = repoJdbiCustom.selectTables();
+		Fdr<List<EntSqlTable>> listFdr = repoJdbiCustom.selectTables();
 		return listFdr.getValue();
 	}
 
-	public List<SqlTable> getSqlTableListWithCount(Jdbi jdbi) {
+	public List<EntSqlTable> getSqlTableListWithCount(Jdbi jdbi) {
 		if(!checkJdbi(jdbi))return new ArrayList<>();
 		RepoSqlTable repoJdbiCustom = new RepoSqlTable(jdbi);
-		Fdr<List<SqlTable>> listFdr = repoJdbiCustom.selectTablesWithCount();
+		Fdr<List<EntSqlTable>> listFdr = repoJdbiCustom.selectTablesWithCount();
 		return listFdr.getValue();
 	}
 
-	public Integer getSqlTableCount(Jdbi jdbi, SqlTable sqlTable) {
+	public Integer getSqlTableCount(Jdbi jdbi, EntSqlTable entSqlTable) {
 		if(!checkJdbi(jdbi))return -1;
 
 //		new RepoSqlTable(jdbi).selectTableCount()
@@ -102,7 +102,7 @@ public class ModalSql {
 
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
-		Integer idNo = ModalCodeGenDialog.actDialogIdSelection();
+		Integer idNo = ModalSharedDialogs.actDialogIdSelection();
 		Loghelper.get(ModalSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
@@ -153,22 +153,23 @@ public class ModalSql {
 	}
 
 	public String sqlTableCopySrv1ToSrv2(Boolean boDateCriteria) {
+
 		if (getServerConfig1()==null || getServerConfig2()==null) {
 			FxDialogShow.showPopWarn("Lütfen Server Bağlantılarını yapınız.");
 			return "";
 		}
 		String txMessage = String.format("Lütfen Kopyalanacak Tabloları Seçiniz.\nServer: %s Db: %s", getServerConfig1().getServer(), getServerConfig1().getServerDb());
-		List<SqlTable> sqlTables = ModalCodeGenDialog.showDialogSelectTableMulti(getJdbi1(), txMessage,true);
+		List<EntSqlTable> entSqlTables = ModalSharedDialogs.showDialogSelectTableMulti(getJdbi1(), txMessage,true,true);
 
-		if(sqlTables==null) sqlTables = new ArrayList<>();
+		if(entSqlTables ==null) entSqlTables = new ArrayList<>();
 
 		StringBuilder sbSql = new StringBuilder();
-		for (SqlTable sqlTable : sqlTables) {
+		for (EntSqlTable entSqlTable : entSqlTables) {
 
 			if(FiBoolean.isTrue(boDateCriteria)){
-				sbSql.append(getSqlInsertSelectWithColsWhereDate(sqlTable.getTABLE_NAME()));
+				sbSql.append(getSqlInsertSelectWithColsWhereDate(entSqlTable.getTABLE_NAME()));
 			}else {
-				sbSql.append(getSqlInsertSelectWithCols(sqlTable.getTABLE_NAME()));
+				sbSql.append(getSqlInsertSelectWithCols(entSqlTable.getTABLE_NAME()));
 			}
 			sbSql.append("\n\n");
 		}

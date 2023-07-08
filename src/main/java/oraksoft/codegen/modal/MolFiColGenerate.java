@@ -1,10 +1,10 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.ModHomeCodeGenCont;
+import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
-import ozpasyazilim.utils.gui.fxcomponents.FxSimpleDialog;
+import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 
 import java.io.File;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public class MolFiColGenerate {
 
 
-	public static void actExcelToFiTableColViaMethods(ModHomeCodeGenCont modHomeCodeGenCont) {
+	public static void actExcelToFiTableColViaMethods(ModHomeCodeGenerator modHomeCodeGenerator) {
 
 		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -31,13 +31,13 @@ public class MolFiColGenerate {
 
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
 
-			modHomeCodeGenCont.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
+			modHomeCodeGenerator.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
 
 		}
 
 	}
 
-	public static void actExcelToFiColsMethodWay1(ModHomeCodeGenCont modHomeCodeGenCont) {
+	public static void actExcelToFiColsMethodWay1(ModHomeCodeGenerator modHomeCodeGenerator) {
 
 		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -46,12 +46,12 @@ public class MolFiColGenerate {
 			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
 			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel,0);
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			modHomeCodeGenCont.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldNameForExcel(listHeader,listFields));
+			modHomeCodeGenerator.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldNameForExcel(listHeader,listFields));
 		}
 
 	}
 
-	public static void actExcelToFiColsListByFiColsMikro(ModHomeCodeGenCont modHomeCodeGenCont) {
+	public static void actExcelToFiColsListByFiColsMikro(ModHomeCodeGenerator modHomeCodeGenerator) {
 
 		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -60,7 +60,7 @@ public class MolFiColGenerate {
 			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
 			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel,0);
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			modHomeCodeGenCont.appendTextNewLine(FiCodeHelper.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader,listFields));
+			modHomeCodeGenerator.appendTextNewLine(FiCodeHelper.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader,listFields));
 		}
 
 	}
