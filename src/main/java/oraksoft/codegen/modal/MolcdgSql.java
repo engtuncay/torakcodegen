@@ -25,7 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.*;
 
-public class ModalSql {
+public class MolcdgSql {
 
 	Jdbi jdbi1;
 	Jdbi jdbi2;
@@ -34,16 +34,16 @@ public class ModalSql {
 	private ServerConfig serverConfig1;
 	private ServerConfig serverConfig2;
 	FiListKeyString listMapDateField;
-	ModalHome modalHome;
+	MolcdgHome molcdgHome;
 
-	public ModalSql() {
+	public MolcdgSql() {
 	}
 
-	public ModalSql(Jdbi jdbi1) {
+	public MolcdgSql(Jdbi jdbi1) {
 		this.jdbi1 = jdbi1;
 	}
 
-	public ModalSql(Jdbi jdbi1, boolean enableDbOperation) {
+	public MolcdgSql(Jdbi jdbi1, boolean enableDbOperation) {
 		this.jdbi1 = jdbi1;
 		this.enableDbOperation = enableDbOperation;
 	}
@@ -102,8 +102,8 @@ public class ModalSql {
 
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
-		Integer idNo = ModalSharedDialogs.actDialogIdSelection();
-		Loghelper.get(ModalSql.class).debug("Id:" + idNo);
+		Integer idNo = MolcdgSharedDialogs.actDialogIdSelection();
+		Loghelper.get(MolcdgSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
 
@@ -124,8 +124,8 @@ public class ModalSql {
 		return "no result";
 	}
 
-	public static ModalSql bui() {
-		return new ModalSql();
+	public static MolcdgSql bui() {
+		return new MolcdgSql();
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class ModalSql {
 			return "";
 		}
 		String txMessage = String.format("Lütfen Kopyalanacak Tabloları Seçiniz.\nServer: %s Db: %s", getServerConfig1().getServer(), getServerConfig1().getServerDb());
-		List<EntSqlTable> entSqlTables = ModalSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
+		List<EntSqlTable> entSqlTables = MolcdgSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
 
 		if(entSqlTables ==null) entSqlTables = new ArrayList<>();
 
@@ -411,12 +411,12 @@ public class ModalSql {
 		this.listMapDateField = listMapDateField;
 	}
 
-	public ModalHome getModalHome() {
-		return modalHome;
+	public MolcdgHome getModalHome() {
+		return molcdgHome;
 	}
 
-	public void setModalHome(ModalHome modalHome) {
-		this.modalHome = modalHome;
+	public void setModalHome(MolcdgHome molcdgHome) {
+		this.molcdgHome = molcdgHome;
 	}
 
 	public String queryUnique1Fields(Class selectedClass) {

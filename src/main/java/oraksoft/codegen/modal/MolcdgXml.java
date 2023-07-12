@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModalXml {
+public class MolcdgXml {
 
 	public static String actXmlToFiFieldList(File fileXml) {
 

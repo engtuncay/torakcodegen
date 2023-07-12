@@ -9,7 +9,7 @@ import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import java.io.File;
 import java.util.List;
 
-public class MolFiColGenerate {
+public class MolcdgFiColGenerate {
 
 
 	public static void actExcelToFiTableColViaMethods(ModHomeCodeGenerator modHomeCodeGenerator) {

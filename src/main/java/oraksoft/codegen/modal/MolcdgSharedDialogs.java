@@ -13,7 +13,7 @@ import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
 
 import java.util.List;
 
-public class ModalSharedDialogs {
+public class MolcdgSharedDialogs {
 
 	public static Integer actDialogIdSelection() {
 		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
@@ -44,7 +44,7 @@ public class ModalSharedDialogs {
 			fxSimpleTableWindowCont.addNoteLine(txMessage);
 		}
 
-		List<EntSqlTable> entSqlTableList = new ModalSql().getSqlTableList(jdbi);
+		List<EntSqlTable> entSqlTableList = new MolcdgSql().getSqlTableList(jdbi);
 		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
 		fxSimpleTableWindowCont.setTableContent(entSqlTableList);
 		fxSimpleTableWindowCont.openAsModalMain(null);
@@ -79,10 +79,10 @@ public class ModalSharedDialogs {
 		List<EntSqlTable> entSqlTableList;
 
 		if (FiBoolean.isTrue(boShowCount)) {
-			entSqlTableList = new ModalSql().getSqlTableListWithCount(jdbi);
+			entSqlTableList = new MolcdgSql().getSqlTableListWithCount(jdbi);
 			fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlBoCount());
 		} else {
-			entSqlTableList = new ModalSql().getSqlTableList(jdbi);
+			entSqlTableList = new MolcdgSql().getSqlTableList(jdbi);
 		}
 
 		fxSimpleTableWindowCont.setTableContent(entSqlTableList);

@@ -21,7 +21,7 @@ import ozpasyazilim.utils.returntypes.Fdr;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModalDbExport {
+public class MolcdgDbExport {
 
 	/**
 	 *
@@ -30,13 +30,13 @@ public class ModalDbExport {
 	 */
     public static void actTableExport1(ModHomeCodeGenerator modHome, Boolean boExcludePk) {
 
-        if (!ModalShared.checkAndSetupActiveServerJdbi(modHome)) return;
+        if (!MolcdgShared.checkAndSetupActiveServerJdbi(modHome)) return;
 
         ServerConfig serverConfig1 = modHome.getModalSqlInit().getServerConfig1();
 
         String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
         Jdbi jdbi1 = modHome.getModalSqlInit().getJdbi1();
-        List<EntSqlTable> entSqlTables = ModalSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
+        List<EntSqlTable> entSqlTables = MolcdgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
 
         if (entSqlTables == null) entSqlTables = new ArrayList<>();
 
@@ -147,7 +147,7 @@ public class ModalDbExport {
         return listDataValues;
     }
 
-    private static Class<ModalDbExport> getClassi() {
-        return ModalDbExport.class;
+    private static Class<MolcdgDbExport> getClassi() {
+        return MolcdgDbExport.class;
     }
 }

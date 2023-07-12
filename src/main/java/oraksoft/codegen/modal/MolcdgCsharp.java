@@ -9,7 +9,7 @@ import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
 
-public class ModalCsharp {
+public class MolcdgCsharp {
 
 	public void actCsharpSinifOlusturma(ModHomeCodeGenerator modHome) {
 
