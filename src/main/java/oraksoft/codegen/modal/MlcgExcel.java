@@ -12,7 +12,7 @@ import ozpasyazilim.utils.table.FiColList;
 import java.io.File;
 import java.util.List;
 
-public class MolcdgExcel {
+public class MlcgExcel {
 
 	public static String actExcelToEntity() {
 
@@ -60,7 +60,7 @@ public class MolcdgExcel {
 		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
-			Loghelper.get(MolcdgExcel.class).debug("Excel Dosyası Seçildi");
+			Loghelper.get(MlcgExcel.class).debug("Excel Dosyası Seçildi");
 			FiColList fiCols = FiColList.build().buildAdd("txDateField", "Tarih Alanı").buildAdd("txTable", "Tablo İsmi");
 			FiListKeyString fiListKeyString = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
 			return fiListKeyString;

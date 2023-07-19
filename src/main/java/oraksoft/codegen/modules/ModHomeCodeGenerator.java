@@ -39,8 +39,8 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     File fileSelected;
     String propPath = "appcodegen.properties";
 
-    private MolcdgSql molcdgSql;
-    private MolcdgHome molcdgHome;
+    private MlcgSql mlcgSql;
+    private MlcgHome mlcgHome;
 
     @Override
     public void initCont() {
@@ -103,27 +103,29 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         // **** Table Col Generate Combos
 
         codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
-            appendTextNewLine(MolcdgTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
+            appendTextNewLine(MlcgTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
         }));
 
         codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)", () -> {
-            appendTextNewLine(MolcdgTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
+            appendTextNewLine(MlcgTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName());
         }));
 
         //this::actExcelToFiTableColWithFieldName
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol Üreten Metodları oluştur(1)R1:Header R2:FieldName", () -> MolcdgFiColGenerate.actExcelToFiColsMethodWay1(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol Üreten Metodları oluştur(1)R1:Header R2:FieldName", () -> MlcgFiCol.actExcelToFiColsMethodWay1(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur", () -> MolcdgFiColGenerate.actExcelToFiTableColViaMethods(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur", () -> MlcgFiCol.actExcelToFiTableColViaMethods(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (3)", () -> MolcdgFiColGenerate.actExcelToFiColsMethodWay1(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (3)", () -> MlcgFiCol.actExcelToFiColsMethodWay1(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)", () -> MolcdgFiColGenerate.actExcelToFiColsListByFiColsMikro(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)", () -> MlcgFiCol.actExcelToFiColsListByFiColsMikro(this)));
 
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 // , "Excelden FiTableCol List oluştur.(Auto Field Name)");
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur.", this::actClassToFiTableColGenerate));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(
+                ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur."
+                        ,()-> MlcgFiCol.codeFiColsMethodsByClass1(this)));
 
         //actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
@@ -155,7 +157,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
         // **** Excel Islemler Combos
 
-        codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItemText.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(MolcdgExcel.actExcelToEntity())));
+        codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItemText.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(MlcgExcel.actExcelToEntity())));
 
         // enumComboItem.ExcelToEntity
 
@@ -177,7 +179,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
         FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
         codeGenMainView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
-        cshEntitySinifOlusturma.setOnAction(event -> new MolcdgCsharp().actCsharpSinifOlusturma(this));
+        cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
 
         // Combobox Listener Ayarları
 
@@ -205,13 +207,13 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
         miTransferTarihExcel.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = MolcdgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = MlcgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 fiListKeyString.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Tarih Alanları Okundu.");
             }
             getModalSqlInit().setListMapDateField(fiListKeyString);
-            FiConsole.debugListMap(fiListKeyString, MolcdgExcel.class, true);
+            FiConsole.debugListMap(fiListKeyString, MlcgExcel.class, true);
         });
         mbSqlTransfer.addItem(miTransferTarihExcel);
 
@@ -226,7 +228,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
         miTransferSqlExcelOto.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = MolcdgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = MlcgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
@@ -241,11 +243,11 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         FxMenuButton mbDbExport = new FxMenuButton("Db Export");
 
         FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
-                , (event) -> MolcdgDbExport.actTableExport1(this,true));
+                , (event) -> MlcgDbExport.actTableExport1(this,true));
         mbDbExport.addItem(miDbExportForExportTable1);
 
         FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
-                , (event) -> MolcdgDbExport.actTableExport1(this,false));
+                , (event) -> MlcgDbExport.actTableExport1(this,false));
         mbDbExport.addItem(miDbExportForExportTable2);
 
         // Menu Layout
@@ -262,7 +264,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
      */
     private void actXmlToFiFieldList() {
 //		Loghelper.get(getClass()).debug("Xml To Field List");
-        String code = MolcdgXml.actXmlToFiFieldList(getFileSelected());
+        String code = MlcgXml.actXmlToFiFieldList(getFileSelected());
         appendTextNewLine(code);
     }
 
@@ -380,13 +382,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     }
 
-    private void actClassToFiTableColGenerate() {
 
-        if (!checkClassChoose()) return;
-
-        String result = FiCodeHelper.codeFiTableColsGeneraterMethodsByFiFields(getClassSelected());
-        appendTextNewLine(result);
-    }
 
     private void actSqlQueryToFiTableCol() {
 
@@ -535,7 +531,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     }
 
     private void actBtnClassSec() {
-        ModEntityListCont modEntityListCont = MolcdgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
@@ -546,7 +542,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     }
 
     private void actBtnClassSec2() {
-        ModEntityListCont modEntityListCont = MolcdgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
@@ -592,7 +588,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     private void actBtnFiTableColListWithEnumFields() {
 
-        ModEntityListCont modEntityListCont = MolcdgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
 
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -624,7 +620,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     private void actBtnFiTableColListWithFieldHeader() {
 
-        ModEntityListCont modEntityListCont = MolcdgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
 
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -709,7 +705,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     }
 
     private void entityFillerMethodFromDb() {
-        appendTextNewLine(MolcdgSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected()));
+        appendTextNewLine(MlcgSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected()));
     }
 
     private void actAlterNewFields() {
@@ -925,18 +921,18 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         this.fileSelected = fileSelected;
     }
 
-    public MolcdgSql getModalSqlInit() {
-        if (molcdgSql == null) {
-            molcdgSql = new MolcdgSql();
+    public MlcgSql getModalSqlInit() {
+        if (mlcgSql == null) {
+            mlcgSql = new MlcgSql();
         }
-        return molcdgSql;
+        return mlcgSql;
     }
 
-    public MolcdgHome getModalHome() {
-        if (molcdgHome == null) {
-            molcdgHome = new MolcdgHome();
+    public MlcgHome getModalHome() {
+        if (mlcgHome == null) {
+            mlcgHome = new MlcgHome();
         }
-        return molcdgHome;
+        return mlcgHome;
     }
 
     public Stage getMainStage() {

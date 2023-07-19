@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MolcdgXml {
+public class MlcgXml {
 
 	public static String actXmlToFiFieldList(File fileXml) {
 

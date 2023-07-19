@@ -4,7 +4,6 @@ import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiCollection;
-import ozpasyazilim.utils.core.FiConsole;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.datatypes.FiListFkb;
@@ -21,7 +20,7 @@ import ozpasyazilim.utils.returntypes.Fdr;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MolcdgDbExport {
+public class MlcgDbExport {
 
 	/**
 	 *
@@ -30,13 +29,13 @@ public class MolcdgDbExport {
 	 */
     public static void actTableExport1(ModHomeCodeGenerator modHome, Boolean boExcludePk) {
 
-        if (!MolcdgShared.checkAndSetupActiveServerJdbi(modHome)) return;
+        if (!MlcgShared.checkAndSetupActiveServerJdbi(modHome)) return;
 
         ServerConfig serverConfig1 = modHome.getModalSqlInit().getServerConfig1();
 
         String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
         Jdbi jdbi1 = modHome.getModalSqlInit().getJdbi1();
-        List<EntSqlTable> entSqlTables = MolcdgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
+        List<EntSqlTable> entSqlTables = MlcgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
 
         if (entSqlTables == null) entSqlTables = new ArrayList<>();
 
@@ -57,7 +56,7 @@ public class MolcdgDbExport {
 
                 RepoFkbJdbi repoFkbJdbi = new RepoFkbJdbi(jdbi1);
                 Fdr<FiListFkb> fdrListData = repoFkbJdbi.selAll(txTableName);
-                Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
+//              Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
 
                 if (fdrListData.isTrueBoResult()) {
 
@@ -147,7 +146,7 @@ public class MolcdgDbExport {
         return listDataValues;
     }
 
-    private static Class<MolcdgDbExport> getClassi() {
-        return MolcdgDbExport.class;
+    private static Class<MlcgDbExport> getClassi() {
+        return MlcgDbExport.class;
     }
 }

@@ -1,4 +1,4 @@
 package oraksoft.codegen.modal;
 
-public class MolcdgJava {
+public class MlcgJava {
 }
