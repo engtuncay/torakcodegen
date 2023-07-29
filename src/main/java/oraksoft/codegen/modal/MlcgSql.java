@@ -107,7 +107,7 @@ public class MlcgSql {
 
 		if (idNo != null) {
 
-			Fdr<Optional<Object>> fdr = new RepoJdbiCustom(jdbi, selectedClass).jdSelectEntityById(idNo);
+			Fdr<Optional<Object>> fdr = new RepoJdbiCustom(jdbi, selectedClass).jdSelectEntityOptById(idNo);
 
 			if (fdr.getValue().isPresent()) {
 				//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
