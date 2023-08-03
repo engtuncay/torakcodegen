@@ -8,7 +8,7 @@ import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 public class MlcgTypeScript {
 
 	public static String actBtnTypescriptEntity() {
-		ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
+		ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
 		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 		if (selectedEntity != null) {
 			return FiTypescriptHelper.tsEntity(selectedEntity.getClazz());

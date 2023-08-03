@@ -102,7 +102,7 @@ public class MlcgSql {
 
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
-		Integer idNo = MlcgSharedDialogs.actDialogIdSelection();
+		Integer idNo = McgSharedDialogs.actDialogIdSelection();
 		Loghelper.get(MlcgSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
@@ -159,7 +159,7 @@ public class MlcgSql {
 			return "";
 		}
 		String txMessage = String.format("Lütfen Kopyalanacak Tabloları Seçiniz.\nServer: %s Db: %s", getServerConfig1().getServer(), getServerConfig1().getServerDb());
-		List<EntSqlTable> entSqlTables = MlcgSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
+		List<EntSqlTable> entSqlTables = McgSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
 
 		if(entSqlTables ==null) entSqlTables = new ArrayList<>();
 

@@ -35,7 +35,7 @@ public class MlcgDbExport {
 
         String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
         Jdbi jdbi1 = modHome.getModalSqlInit().getJdbi1();
-        List<EntSqlTable> entSqlTables = MlcgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
+        List<EntSqlTable> entSqlTables = McgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
 
         if (entSqlTables == null) entSqlTables = new ArrayList<>();
 

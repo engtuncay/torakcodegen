@@ -13,7 +13,10 @@ import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
 
 import java.util.List;
 
-public class MlcgSharedDialogs {
+/**
+ * Mcg : Modal of Code Generator
+ */
+public class McgSharedDialogs {
 
 	public static Integer actDialogIdSelection() {
 		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");

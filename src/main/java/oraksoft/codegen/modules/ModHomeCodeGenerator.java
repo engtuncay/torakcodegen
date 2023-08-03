@@ -531,7 +531,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     }
 
     private void actBtnClassSec() {
-        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
@@ -542,7 +542,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
     }
 
     private void actBtnClassSec2() {
-        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
@@ -588,7 +588,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     private void actBtnFiTableColListWithEnumFields() {
 
-        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
 
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
@@ -620,7 +620,7 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
 
     private void actBtnFiTableColListWithFieldHeader() {
 
-        ModEntityListCont modEntityListCont = MlcgSharedDialogs.showDialogSelectEntityClass();
+        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
 
         EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
 
