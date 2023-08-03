@@ -3,6 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.ServerConfig;
+import ozpasyazilim.utils.core.FiBoolean;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
@@ -20,7 +21,7 @@ import ozpasyazilim.utils.returntypes.Fdr;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MlcgDbExport {
+public class McgDbExport {
 
 	/**
 	 *
@@ -49,10 +50,14 @@ public class MlcgDbExport {
                 List<EntSqlColumn> sqlColumnList = fdrColList.getValue();
                 //Loghelper.get(getClassi()).debug(FiConsole.textListObjectsNotNullFields(sqlColumnList));
 
-                FiCollection.removeListItems(sqlColumnList, entSqlColumn -> {
-                    if (FiString.isEqual(entSqlColumn.getTX_KEY_TYPE(), TutMetaEntSqlColTxKeyTypes.primaryKey().toString())) return true;
-					return false;
-                });
+                if(FiBoolean.isTrue(boExcludePk)){
+
+                    FiCollection.removeListItems(sqlColumnList, entSqlColumn -> {
+                        if (FiString.isEqual(entSqlColumn.getTX_KEY_TYPE(), TutMetaEntSqlColTxKeyTypes.primaryKey().toString())) return true;
+                        return false;
+                    });
+
+                }
 
                 RepoFkbJdbi repoFkbJdbi = new RepoFkbJdbi(jdbi1);
                 Fdr<FiListFkb> fdrListData = repoFkbJdbi.selAll(txTableName);
@@ -146,7 +151,7 @@ public class MlcgDbExport {
         return listDataValues;
     }
 
-    private static Class<MlcgDbExport> getClassi() {
-        return MlcgDbExport.class;
+    private static Class<McgDbExport> getClassi() {
+        return McgDbExport.class;
     }
 }

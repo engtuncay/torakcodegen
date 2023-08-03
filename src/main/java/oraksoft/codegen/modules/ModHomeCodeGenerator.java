@@ -243,11 +243,11 @@ public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCo
         FxMenuButton mbDbExport = new FxMenuButton("Db Export");
 
         FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
-                , (event) -> MlcgDbExport.actTableExport1(this,true));
+                , (event) -> McgDbExport.actTableExport1(this,true));
         mbDbExport.addItem(miDbExportForExportTable1);
 
         FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
-                , (event) -> MlcgDbExport.actTableExport1(this,false));
+                , (event) -> McgDbExport.actTableExport1(this,false));
         mbDbExport.addItem(miDbExportForExportTable2);
 
         // Menu Layout
