@@ -33,7 +33,7 @@ public class McgSharedDialogs {
 	public static ModEntityListCont showDialogSelectEntityClass() {
 		ModEntityListCont modEntityListCont = new ModEntityListCont();
 		modEntityListCont.initCont();
-		FxDialogShow.build().nodeModalByIFxSimpleCont(null, modEntityListCont, null, null, null);
+		FxDialogShow.build().nodeWindow(null, modEntityListCont, null, null, null);
 		return modEntityListCont;
 	}
 

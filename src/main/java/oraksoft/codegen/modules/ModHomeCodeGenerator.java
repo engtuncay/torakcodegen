@@ -13,7 +13,7 @@ import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItemText;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.log.Loghelper;
-import ozpasyazilim.utils.mvc.AbsFxSimpleCont;
+import ozpasyazilim.utils.mvc.AbsFxSimpleBaseCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiCol;
@@ -29,7 +29,7 @@ import java.util.*;
 /**
  * Code Gen Home
  */
-public class ModHomeCodeGenerator extends AbsFxSimpleCont implements IFxSimpleCont {
+public class ModHomeCodeGenerator extends AbsFxSimpleBaseCont implements IFxSimpleCont {
     ModHomeCodeGenView codeGenMainView;
     Class classSelected;
     Class classSelected2;
