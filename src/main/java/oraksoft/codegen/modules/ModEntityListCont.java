@@ -4,6 +4,7 @@ import oraksoft.codegen.entity.EntityClazz;
 import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;
+import ozpasyazilim.utils.mvc.IFxSimpSelectionCont;
 import ozpasyazilim.utils.mvc.IFxSimpleCont;
 import ozpasyazilim.utils.table.FiCol;
 
@@ -14,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFxSimpleCont {
+public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFxSimpleCont, IFxSimpSelectionCont {
 
 	public static List<EntityClazz> listClassDefault;
 
@@ -31,7 +32,8 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		getFxTableView().setEnableLocalFilterEditor(true);
 		getFxTableView().addAllFiColsAuto(listCols);
 		getFxTableView().setItemsAsFilteredList(listClassDefault);
-		getFxTableView().activateExtensionFxTableSelectAndClose(this);
+		// entitySelected metodları implemente edilmeli
+		//getFxTableView().activateExtensionFxTableSelectAndClose(this);
 
 	}
 
@@ -88,5 +90,15 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 
 	public static void setListClassDefault(List<EntityClazz> listClassDefault) {
 		ModEntityListCont.listClassDefault = listClassDefault;
+	}
+
+	@Override
+	public Object getEntitySelected() {
+		return null;
+	}
+
+	@Override
+	public void setEntitySelected(Object entitySelected) {
+
 	}
 }
