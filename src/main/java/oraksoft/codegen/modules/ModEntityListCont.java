@@ -15,9 +15,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFxSimpleCont, IFxSimpSelectionCont {
+public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFxSimpleCont, IFxSimpSelectionCont<EntityClazz> {
 
 	public static List<EntityClazz> listClassDefault;
+	EntityClazz entitySelected;
 
 	@Override
 	public void initCont() {
@@ -33,7 +34,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		getFxTableView().addAllFiColsAuto(listCols);
 		getFxTableView().setItemsAsFilteredList(listClassDefault);
 		// entitySelected metodları implemente edilmeli
-		//getFxTableView().activateExtensionFxTableSelectAndClose(this);
+		getFxTableView().activateExtensionFxTableSelectAndClose(this);
 
 	}
 
@@ -93,12 +94,12 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 	}
 
 	@Override
-	public Object getEntitySelected() {
-		return null;
+	public EntityClazz getEntitySelected() {
+		return entitySelected;
 	}
 
 	@Override
-	public void setEntitySelected(Object entitySelected) {
-
+	public void setEntitySelected(EntityClazz entitySelected) {
+		this.entitySelected = entitySelected;
 	}
 }

@@ -532,11 +532,13 @@ public class ModHomeCodeGenerator extends AbsFxSimpleBaseCont implements IFxSimp
 
     private void actBtnClassSec() {
         ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
-        EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+        EntityClazz selectedEntity = modEntityListCont.getEntitySelected();
 
         if (selectedEntity != null) {
             setClassSelected(selectedEntity.getClazz());
             getCodeGenMainView().getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+        }else{
+            FxDialogShow.showPopWarn("Sınıf Seçilmedi !!!");
         }
 
     }
