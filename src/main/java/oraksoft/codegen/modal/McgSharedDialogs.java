@@ -4,7 +4,7 @@ import ozpasyazilim.utils.entitysql.EntSqlTable;
 import oraksoft.codegen.modules.ModEntityListCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
-import ozpasyazilim.utils.core.FiBoolean;
+import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fxwindow.FxSimpleTableWindowCont;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
@@ -66,7 +66,7 @@ public class McgSharedDialogs {
 		fxSimpleTableWindowCont.getFxTableView().setEnableLocalFilterEditor(true);
 
 		// çoklu seçim olacak mı
-		if(FiBoolean.isTrue(boMulti)){
+		if(FiBool.isTrue(boMulti)){
 			fxSimpleTableWindowCont.activateSelectButtonForMulti();
 		}else{
 			fxSimpleTableWindowCont.activateSelectButton();
@@ -81,7 +81,7 @@ public class McgSharedDialogs {
 
 		List<EntSqlTable> entSqlTableList;
 
-		if (FiBoolean.isTrue(boShowCount)) {
+		if (FiBool.isTrue(boShowCount)) {
 			entSqlTableList = new MlcgSql().getSqlTableListWithCount(jdbi);
 			fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlBoCount());
 		} else {

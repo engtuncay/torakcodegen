@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.ServerConfig;
-import ozpasyazilim.utils.core.FiBoolean;
+import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
@@ -50,7 +50,7 @@ public class McgDbExport {
                 List<EntSqlColumn> sqlColumnList = fdrColList.getValue();
                 //Loghelper.get(getClassi()).debug(FiConsole.textListObjectsNotNullFields(sqlColumnList));
 
-                if(FiBoolean.isTrue(boExcludePk)){
+                if(FiBool.isTrue(boExcludePk)){
 
                     FiCollection.removeListItems(sqlColumnList, entSqlColumn -> {
                         if (FiString.isEqual(entSqlColumn.getTX_KEY_TYPE(), TutMetaEntSqlColTxKeyTypes.primaryKey().toString())) return true;

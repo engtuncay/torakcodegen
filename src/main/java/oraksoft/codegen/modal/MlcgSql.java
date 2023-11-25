@@ -12,7 +12,7 @@ import org.jdbi.v3.core.Jdbi;
 import org.reflections.Reflections;
 import ozpasyazilim.mikro.dbrepo.repoMikro2.RepoJdbiGeneric;
 import ozpasyazilim.utils.configmisc.ServerConfig;
-import ozpasyazilim.utils.core.FiBoolean;
+import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiMapList;
 import ozpasyazilim.utils.fidbanno.FiTable;
@@ -141,7 +141,7 @@ public class MlcgSql {
 		String sqlCreate = FiQueryGenerator.createQuery20(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
-		if (FiBoolean.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
 				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
@@ -166,7 +166,7 @@ public class MlcgSql {
 		StringBuilder sbSql = new StringBuilder();
 		for (EntSqlTable entSqlTable : entSqlTables) {
 
-			if(FiBoolean.isTrue(boDateCriteria)){
+			if(FiBool.isTrue(boDateCriteria)){
 				sbSql.append(getSqlInsertSelectWithColsWhereDate(entSqlTable.getTABLE_NAME()));
 			}else {
 				sbSql.append(getSqlInsertSelectWithCols(entSqlTable.getTABLE_NAME()));
@@ -284,7 +284,7 @@ public class MlcgSql {
 
 			if(entityClazzes.size()>1){
 				for (EntityClazz entityClazz : entityClazzes) {
-					if(FiBoolean.isTrue(entityClazz.getBoInsertSelectClass())) return entityClazz;
+					if(FiBool.isTrue(entityClazz.getBoInsertSelectClass())) return entityClazz;
 				}
 				FxDialogShow.showPopWarn(selectedTable + " tablosu için birden fazla class var."+"\nKullanılan Sınıf:"+entityClazzes.get(0).getSimpleName());
 				return entityClazzes.get(0);
@@ -426,7 +426,7 @@ public class MlcgSql {
 		String sqlCreate = FiQueryGenerator.uniqueQuery(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
-		if (FiBoolean.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
 				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
