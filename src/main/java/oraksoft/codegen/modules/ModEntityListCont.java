@@ -5,7 +5,7 @@ import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;
 import ozpasyazilim.utils.mvc.IFxSimpSelectionCont;
-import ozpasyazilim.utils.mvc.IFxSimpleCont;
+import ozpasyazilim.utils.mvc.IFiModCont;
 import ozpasyazilim.utils.table.FiCol;
 
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFxSimpleCont, IFxSimpSelectionCont<EntityClazz> {
+public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFiModCont, IFxSimpSelectionCont<EntityClazz> {
 
 	public static List<EntityClazz> listClassDefault;
 	EntityClazz entitySelected;
