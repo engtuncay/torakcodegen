@@ -371,7 +371,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
             String sqlQuery = fxSimpleDialog.getTxValue();
 
-            List<String> queryFields = FiQueryGenerator.getQueryFieldsAsString(sqlQuery);
+            List<String> queryFields = Fiqugen.getQueryFieldsAsString(sqlQuery);
 
             String result = FiCodeHelper.codeFiTableColsGeneraterMethods(queryFields, "", queryFields);
             appendTextNewLine(result);
@@ -393,7 +393,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
             String sqlQuery = fxSimpleDialog.getTxValue();
 
-            List<String> queryFields = FiQueryGenerator.getQueryFieldsAsString(sqlQuery);
+            List<String> queryFields = Fiqugen.getQueryFieldsAsString(sqlQuery);
 
             String result = FiCodeHelper.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
             appendTextNewLine(result);
@@ -572,10 +572,10 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (fxSimpleDialog.isClosedWithOk()) {
 
             FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-            FiQueryGenerator fiQueryGenerator = new FiQueryGenerator();
+            Fiqugen fiqugen = new Fiqugen();
 
             System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-            String entityCode = FiQueryGenerator.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+            String entityCode = Fiqugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
             if (!FiString.isEmpty(entityCode)) {
                 getCodeGenMainView().getTxaMainOutput().appendText(entityCode);
@@ -608,13 +608,13 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
             }
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    FiQueryGenerator.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
+                    Fiqugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
 
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    FiQueryGenerator.codeColsEnum(selectedEntity.getClazz(), false));
+                    Fiqugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
 
@@ -629,13 +629,13 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (selectedEntity != null) {
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    FiQueryGenerator.codeTableColsSimple(selectedEntity.getClazz(), false));
+                    Fiqugen.codeTableColsSimple(selectedEntity.getClazz(), false));
 
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    FiQueryGenerator.codeColsEnum(selectedEntity.getClazz(), false));
+                    Fiqugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
 
@@ -714,7 +714,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 
         if (checkServer() && checkClassChoose()) {
 
-            Fdr<List<String>> fdr = FiQueryGenerator.getAlterAddFieldQueries(getClassSelected(), getAndSetupActiveServerJdbi());
+            Fdr<List<String>> fdr = Fiqugen.getAlterAddFieldQueries(getClassSelected(), getAndSetupActiveServerJdbi());
 
             FxDialogShow.showDbResult(fdr);
 

@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
-import ozpasyazilim.utils.fidborm.FiQueryGenerator;
+import ozpasyazilim.utils.fidborm.Fiqugen;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.log.Loghelper;
@@ -51,7 +51,7 @@ public class MlcgExcel {
 		if (fileExcel != null) {
 			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			return FiQueryGenerator.codeFiTableColsFromHeader(listHeader, "Excel");
+			return Fiqugen.codeFiTableColsFromHeader(listHeader, "Excel");
 		}
 		return "";
 	}
