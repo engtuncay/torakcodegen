@@ -4,7 +4,7 @@ import oraksoft.codegen.modules.ModHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiString;
-import ozpasyazilim.utils.fidborm.Fiqugen;
+import ozpasyazilim.utils.fidborm.FiQugen;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
@@ -29,10 +29,10 @@ public class MlcgCsharp {
 		if (fxSimpleDialog.isClosedWithOk()) {
 
 			FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-			Fiqugen fiqugen = new Fiqugen();
+			FiQugen fiqugen = new FiQugen();
 
 			System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-			String entityCode = Fiqugen.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
+			String entityCode = FiQugen.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
 
 			if (!FiString.isEmpty(entityCode)) {
 				modHome.getCodeGenMainView().getTxaMainOutput().appendText(entityCode);

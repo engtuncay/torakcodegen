@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
-import ozpasyazilim.utils.fidborm.Fiqugen;
+import ozpasyazilim.utils.fidborm.FiQugen;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.log.Loghelper;
@@ -12,7 +12,7 @@ import ozpasyazilim.utils.table.FiColList;
 import java.io.File;
 import java.util.List;
 
-public class MlcgExcel {
+public class McgExcel {
 
 	public static String actExcelToEntity() {
 
@@ -51,7 +51,7 @@ public class MlcgExcel {
 		if (fileExcel != null) {
 			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			return Fiqugen.codeFiTableColsFromHeader(listHeader, "Excel");
+			return FiQugen.codeFiTableColsFromHeader(listHeader, "Excel");
 		}
 		return "";
 	}
@@ -60,7 +60,7 @@ public class MlcgExcel {
 		File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
 		if (fileExcel != null) {
-			Loghelper.get(MlcgExcel.class).debug("Excel Dosyası Seçildi");
+			Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
 			FiColList fiCols = FiColList.build().buildAdd("txDateField", "Tarih Alanı").buildAdd("txTable", "Tablo İsmi");
 			FiListKeyString fiListKeyString = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
 			return fiListKeyString;

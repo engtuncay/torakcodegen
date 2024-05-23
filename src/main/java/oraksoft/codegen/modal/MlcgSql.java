@@ -111,7 +111,7 @@ public class MlcgSql {
 
 			if (fdr.getValue().isPresent()) {
 				//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-				String result = Fiqugen.codeEntityFieldsInitMethod(jdbi, selectedClass, fdr.getValue());
+				String result = FiQugen.codeEntityFieldsInitMethod(jdbi, selectedClass, fdr.getValue());
 				return result;
 			} else {
 				System.out.println("Db den Veri Okunamadı");
@@ -138,7 +138,7 @@ public class MlcgSql {
 
 		if (!checkSelClass(selectedClass)) return "";
 
-		String sqlCreate = Fiqugen.createQuery20(selectedClass);
+		String sqlCreate = FiQugen.createQuery20(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
@@ -216,7 +216,7 @@ public class MlcgSql {
 			return "";
 		}
 
-		String sql = Fiqugen.insertSelectQueryWithDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate,getTxSqlTransferDate());
+		String sql = FiQugen.insertSelectQueryWithDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate,getTxSqlTransferDate());
 
 		return sql;
 	}
@@ -233,7 +233,7 @@ public class MlcgSql {
 
 		if(FiString.isEmpty(getTxSqlTransferDate())) setTxSqlTransferDate("@txTransferDate");
 
-		String sql = Fiqugen.insertSelectQueryWithColsAndDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate, getTxSqlTransferDate(),getJdbi1());
+		String sql = FiQugen.insertSelectQueryWithColsAndDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate, getTxSqlTransferDate(),getJdbi1());
 		//pairFieldDate.getValue().getClazz()
 
 		return sql;
@@ -241,7 +241,7 @@ public class MlcgSql {
 
 	private String getSqlInsertSelectWithCols(String selectedTable) {
 		//EntityClazz entityClazz = getEntityClassByTableName(selectedTable);
-		String sql = Fiqugen.insertSelectQueryWithCols(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(), getJdbi1());
+		String sql = FiQugen.insertSelectQueryWithCols(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(), getJdbi1());
 		return sql;
 	}
 
@@ -312,8 +312,8 @@ public class MlcgSql {
 		FiMapList<String, EntityClazz> fiMapList = new FiMapList<>();
 
 		allClasses.forEach(aClass -> {
-			String tableName = Fiqugen.getTableName(aClass);
-			Boolean boInsertSelectClass = Fiqugen.checkAnnoClassOfInsertSelect(aClass);
+			String tableName = FiQugen.getTableName(aClass);
+			Boolean boInsertSelectClass = FiQugen.checkAnnoClassOfInsertSelect(aClass);
 			EntityClazz entityClazz = new EntityClazz(aClass.getSimpleName(), aClass.getName(), aClass);
 			entityClazz.setTableName(tableName);
 			entityClazz.setBoInsertSelectClass(boInsertSelectClass);
@@ -423,7 +423,7 @@ public class MlcgSql {
 
 		if (!checkSelClass(selectedClass)) return "";
 
-		String sqlCreate = Fiqugen.uniqueQuery(selectedClass);
+		String sqlCreate = FiQugen.uniqueQuery(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {

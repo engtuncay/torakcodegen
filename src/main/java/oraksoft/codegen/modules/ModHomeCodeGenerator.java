@@ -112,20 +112,20 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 
         //this::actExcelToFiTableColWithFieldName
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol Üreten Metodları oluştur(1)R1:Header R2:FieldName", () -> MlcgFiCol.actExcelToFiColsMethodWay1(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiCol Üreten Metodları oluştur(1)R1:Header R2:FieldName", () -> McgFiCol.actExcelToFiColsMethodWay1(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur", () -> MlcgFiCol.actExcelToFiTableColViaMethods(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur", () -> McgFiCol.actExcelToFiTableColViaMethods(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (3)", () -> MlcgFiCol.actExcelToFiColsMethodWay1(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (3)", () -> McgFiCol.actExcelToFiColsMethodWay1(this)));
 
-        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)", () -> MlcgFiCol.actExcelToFiColsListByFiColsMikro(this)));
+        codeGenMainView.getCmbTableColGenerate().addComboItem(ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)", () -> McgFiCol.actExcelToFiColsListByFiColsMikro(this)));
 
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 // , "Excelden FiTableCol List oluştur.(Auto Field Name)");
 
         codeGenMainView.getCmbTableColGenerate().addComboItem(
                 ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur."
-                        ,()-> MlcgFiCol.codeFiColsMethodsByClass1(this)));
+                        ,()-> McgFiCol.codeFiColsMethodsByClass1(this)));
 
         //actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
@@ -157,7 +157,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 
         // **** Excel Islemler Combos
 
-        codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItemText.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(MlcgExcel.actExcelToEntity())));
+        codeGenMainView.getCmbExcelIslemler().addComboItem(ComboItemText.buildWitAction("Excel'den Entity Oluştur", () -> actionResult(McgExcel.actExcelToEntity())));
 
         // enumComboItem.ExcelToEntity
 
@@ -207,13 +207,13 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
         miTransferTarihExcel.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = MlcgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 fiListKeyString.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Tarih Alanları Okundu.");
             }
             getModalSqlInit().setListMapDateField(fiListKeyString);
-            FiConsole.debugListMap(fiListKeyString, MlcgExcel.class, true);
+            FiConsole.debugListMap(fiListKeyString, McgExcel.class, true);
         });
         mbSqlTransfer.addItem(miTransferTarihExcel);
 
@@ -228,7 +228,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
         miTransferSqlExcelOto.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = MlcgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
@@ -371,7 +371,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
             String sqlQuery = fxSimpleDialog.getTxValue();
 
-            List<String> queryFields = Fiqugen.getQueryFieldsAsString(sqlQuery);
+            List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
 
             String result = FiCodeHelper.codeFiTableColsGeneraterMethods(queryFields, "", queryFields);
             appendTextNewLine(result);
@@ -393,7 +393,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
             String sqlQuery = fxSimpleDialog.getTxValue();
 
-            List<String> queryFields = Fiqugen.getQueryFieldsAsString(sqlQuery);
+            List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
 
             String result = FiCodeHelper.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
             appendTextNewLine(result);
@@ -572,10 +572,10 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (fxSimpleDialog.isClosedWithOk()) {
 
             FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-            Fiqugen fiqugen = new Fiqugen();
+            FiQugen fiqugen = new FiQugen();
 
             System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-            String entityCode = Fiqugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+            String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
             if (!FiString.isEmpty(entityCode)) {
                 getCodeGenMainView().getTxaMainOutput().appendText(entityCode);
@@ -608,13 +608,13 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
             }
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    Fiqugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
+                    FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
 
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    Fiqugen.codeColsEnum(selectedEntity.getClazz(), false));
+                    FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
 
@@ -629,13 +629,13 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
         if (selectedEntity != null) {
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    Fiqugen.codeTableColsSimple(selectedEntity.getClazz(), false));
+                    FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
 
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
             getCodeGenMainView().getTxaMainOutput().appendNewLine();
 
             getCodeGenMainView().getTxaMainOutput().appendTextLnAsyn(
-                    Fiqugen.codeColsEnum(selectedEntity.getClazz(), false));
+                    FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
 
@@ -714,7 +714,7 @@ public class ModHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 
         if (checkServer() && checkClassChoose()) {
 
-            Fdr<List<String>> fdr = Fiqugen.getAlterAddFieldQueries(getClassSelected(), getAndSetupActiveServerJdbi());
+            Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected(), getAndSetupActiveServerJdbi());
 
             FxDialogShow.showDbResult(fdr);
 
