@@ -61,7 +61,7 @@ public class McgExcel {
 
 		if (fileExcel != null) {
 			Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
-			FiColList fiCols = FiColList.build().buildAdd("txDateField", "Tarih Alanı").buildAdd("txTable", "Tablo İsmi");
+			FiColList fiCols = FiColList.bui().buiAdd("txDateField", "Tarih Alanı").buiAdd("txTable", "Tablo İsmi");
 			FiListKeyString fiListKeyString = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
 			return fiListKeyString;
 		}
