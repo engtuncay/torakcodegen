@@ -7,9 +7,9 @@ import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fxwindow.FxSimpleTableWindowCont;
-import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
+import ozpasyazilim.utils.gui.fxcomponents.FxWindow;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class McgSharedDialogs {
 	public static ModEntityListCont showDialogSelectEntityClass() {
 		ModEntityListCont modEntityListCont = new ModEntityListCont();
 		modEntityListCont.initCont();
-		FxDialogShow.nodeWindow(null, modEntityListCont, null, null, null);
+		FxWindow.nodeWindow(null, modEntityListCont, null, null, null);
 		return modEntityListCont;
 	}
 
@@ -92,7 +92,7 @@ public class McgSharedDialogs {
 		fxSimpleTableWindowCont.openAsModalMain(null);
 
 		if (fxSimpleTableWindowCont.checkClosedWithDone()) {
-			return fxSimpleTableWindowCont.getFxTableView().getItemsCheckedByBoSelectAsListInAllElements();
+			return fxSimpleTableWindowCont.getFxTableView().getItemsFiCheckedAsNewListInAllElements();
 		}
 
 		return null;
