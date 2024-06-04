@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import ozpasyazilim.utils.log.Loghelper;
 
 public class AppCodeGen extends Application {
+
     public static void main(String[] args) {
         Loghelper.installLogger(true);
         launch(args);
