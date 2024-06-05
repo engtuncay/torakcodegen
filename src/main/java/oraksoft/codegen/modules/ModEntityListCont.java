@@ -4,7 +4,7 @@ import oraksoft.codegen.entity.EntityClazz;
 import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiTable;
 import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;
-import ozpasyazilim.utils.mvc.IFxSimpSelectionCont;
+import ozpasyazilim.utils.mvc.IFxTableSelectionCont;
 import ozpasyazilim.utils.mvc.IFiModCont;
 import ozpasyazilim.utils.table.FiCol;
 
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFiModCont, IFxSimpSelectionCont<EntityClazz> {
+public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFiModCont, IFxTableSelectionCont<EntityClazz> {
 
 	public static List<EntityClazz> listClassDefault;
 	EntityClazz entitySelected;
