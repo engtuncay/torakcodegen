@@ -1,6 +1,6 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.ModHomeCodeGenerator;
+import oraksoft.codegen.modules.GcgHomeCodeGenerator;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,11 +15,11 @@ public class AppCodeGen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ModHomeCodeGenerator modHomeCodeGenerator = new ModHomeCodeGenerator();
-        modHomeCodeGenerator.initCont();
-        modHomeCodeGenerator.setMainStage(primaryStage);
+        GcgHomeCodeGenerator gcgHomeCodeGenerator = new GcgHomeCodeGenerator();
+        gcgHomeCodeGenerator.initCont();
+        gcgHomeCodeGenerator.setMainStage(primaryStage);
 
-        Scene scene = new Scene(modHomeCodeGenerator.getModView().getRootPane());
+        Scene scene = new Scene(gcgHomeCodeGenerator.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);

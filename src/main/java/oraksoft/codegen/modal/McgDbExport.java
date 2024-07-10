@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.ModHomeCodeGenerator;
+import oraksoft.codegen.modules.GcgHomeCodeGenerator;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiBool;
@@ -28,14 +28,14 @@ public class McgDbExport {
 	 * @param modHome
 	 * @param boExcludePk Primary Key Alanlarını Dahil Etmez
 	 */
-    public static void actTableExport1(ModHomeCodeGenerator modHome, Boolean boExcludePk) {
+    public static void actTableExport1(GcgHomeCodeGenerator modHome, Boolean boExcludePk) {
 
         if (!MlcgShared.checkAndSetupActiveServerJdbi(modHome)) return;
 
-        ServerConfig serverConfig1 = modHome.getModalSqlInit().getServerConfig1();
+        ServerConfig serverConfig1 = modHome.getMcgSqlInit().getServerConfig1();
 
         String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
-        Jdbi jdbi1 = modHome.getModalSqlInit().getJdbi1();
+        Jdbi jdbi1 = modHome.getMcgSqlInit().getJdbi1();
         List<EntSqlTable> entSqlTables = McgSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
 
         if (entSqlTables == null) entSqlTables = new ArrayList<>();

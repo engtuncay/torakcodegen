@@ -7,7 +7,7 @@ import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import java.io.File;
 import java.util.List;
 
-public class MlcgTableColGenerate {
+public class McgTableColGenerate {
 
 	public static String actExcelToFiColWithHeaderAsHeaderName() {
 

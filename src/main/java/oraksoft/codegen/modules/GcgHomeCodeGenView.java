@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.mvc.IFiModView;
 
-public class ModHomeCodeGenView implements IFiModView {
+public class GcgHomeCodeGenView implements IFiModView {
 
 	// Layout Components
 	private FxMigPane migRoot;
@@ -12,8 +12,6 @@ public class ModHomeCodeGenView implements IFiModView {
 	private FxMigPane migHeader;
 	private FxMigPane migMenu;
 	private FxMigPane migContent;
-
-
 
 	// Other Components
 
@@ -28,7 +26,7 @@ public class ModHomeCodeGenView implements IFiModView {
 	private FxCheckBox chkDosyayaYazdir;
 	private FxCheckBox chkVeritabandaOlustur;
 
-	private FxComboBoxSimple cmbTableColGenerate;
+	private FxComboBoxSimple cmbFiColHelpers;
 	private FxComboBoxSimple cmbDbRead;
 	private FxComboBoxSimple cmbQueryGenerator;
 	private FxComboBoxSimple cmbTypeScriptOperations;
@@ -65,8 +63,8 @@ public class ModHomeCodeGenView implements IFiModView {
 
 		btnDosyaSec = new FxButton("Dosya Seç");
 
-		cmbTableColGenerate = new FxComboBoxSimple("FiTableCol Generations");
-		cmbTableColGenerate.setMaxWidth(200d);
+		cmbFiColHelpers = new FxComboBoxSimple("FiTableCol Generations");
+		cmbFiColHelpers.setMaxWidth(200d);
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
 		cmbQueryGenerator = new FxComboBoxSimple("Query Generate");
 		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript Operations");
@@ -85,7 +83,7 @@ public class ModHomeCodeGenView implements IFiModView {
 		migMenu.add(btnServer2,"");
 		migMenu.add(btnClassSec2,"wrap");
 		//migMenu.add(new FxLabel("-----"), "span");
-		migMenu.add(cmbTableColGenerate, "");
+		migMenu.add(cmbFiColHelpers, "");
 		migMenu.add(cmbDbRead, "");
 		migMenu.add(cmbQueryGenerator, "");
 		migMenu.add(cmbTypeScriptOperations, "");
@@ -118,8 +116,8 @@ public class ModHomeCodeGenView implements IFiModView {
 
 	public FxButton getBtnServer1() {return btnServer1;}
 
-	public FxComboBoxSimple getCmbTableColGenerate() {
-		return cmbTableColGenerate;
+	public FxComboBoxSimple getCmbFiColHelpers() {
+		return cmbFiColHelpers;
 	}
 
 	public FxComboBoxSimple getCmbDbRead() {return cmbDbRead;}

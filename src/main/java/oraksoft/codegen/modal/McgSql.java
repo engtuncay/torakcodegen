@@ -25,7 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.*;
 
-public class MlcgSql {
+public class McgSql {
 
 	Jdbi jdbi1;
 	Jdbi jdbi2;
@@ -34,16 +34,16 @@ public class MlcgSql {
 	private ServerConfig serverConfig1;
 	private ServerConfig serverConfig2;
 	FiListKeyString listMapDateField;
-	MlcgHome mlcgHome;
+	McgHome mcgHome;
 
-	public MlcgSql() {
+	public McgSql() {
 	}
 
-	public MlcgSql(Jdbi jdbi1) {
+	public McgSql(Jdbi jdbi1) {
 		this.jdbi1 = jdbi1;
 	}
 
-	public MlcgSql(Jdbi jdbi1, boolean enableDbOperation) {
+	public McgSql(Jdbi jdbi1, boolean enableDbOperation) {
 		this.jdbi1 = jdbi1;
 		this.enableDbOperation = enableDbOperation;
 	}
@@ -103,7 +103,7 @@ public class MlcgSql {
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
 		Integer idNo = McgSharedDialogs.actDialogIdSelection();
-		Loghelper.get(MlcgSql.class).debug("Id:" + idNo);
+		Loghelper.get(McgSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
 
@@ -124,8 +124,8 @@ public class MlcgSql {
 		return "no result";
 	}
 
-	public static MlcgSql bui() {
-		return new MlcgSql();
+	public static McgSql bui() {
+		return new McgSql();
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class MlcgSql {
 
 			for (EntityClazz entityClazz : entityClazzes) {
 				Loghelper.get(getClass()).debug("entity class map de bulundu:"+ entityClazz.getSimpleName());
-				List<FiField> listFieldsDateSeperatorField = FiEntity.getListFieldsDateSeperatorField(entityClazz.getClazz());
+				List<FiField> listFieldsDateSeperatorField = FiFieldUtil.getListFieldsDateSeperatorField(entityClazz.getClazz());
 				if(listFieldsDateSeperatorField.size()>0){
 					String dbFieldName = listFieldsDateSeperatorField.get(0).getDbFieldName();
 					Pair<String, EntityClazz> pairReturn = new Pair<>(dbFieldName,entityClazz);
@@ -411,12 +411,12 @@ public class MlcgSql {
 		this.listMapDateField = listMapDateField;
 	}
 
-	public MlcgHome getModalHome() {
-		return mlcgHome;
+	public McgHome getModalHome() {
+		return mcgHome;
 	}
 
-	public void setModalHome(MlcgHome mlcgHome) {
-		this.mlcgHome = mlcgHome;
+	public void setModalHome(McgHome mcgHome) {
+		this.mcgHome = mcgHome;
 	}
 
 	public String queryUnique1Fields(Class selectedClass) {

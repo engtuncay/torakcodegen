@@ -2,15 +2,15 @@ package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.gui.fxcomponents.FxTextArea;
 
-public class MlcgHome {
+public class McgHome {
 
 	FxTextArea fxTextArea;
-	MlcgSql mlcgSql;
+	McgSql mcgSql;
 
-	public MlcgHome() {
+	public McgHome() {
 	}
 
-	public MlcgHome(FxTextArea fxTextArea) {
+	public McgHome(FxTextArea fxTextArea) {
 		this.fxTextArea = fxTextArea;
 	}
 
@@ -22,12 +22,12 @@ public class MlcgHome {
 		return fxTextArea;
 	}
 
-	public MlcgSql getModalSql() {
-		return mlcgSql;
+	public McgSql getModalSql() {
+		return mcgSql;
 	}
 
-	public void setModalSql(MlcgSql mlcgSql) {
-		this.mlcgSql = mlcgSql;
+	public void setModalSql(McgSql mcgSql) {
+		this.mcgSql = mcgSql;
 	}
 
 	public void setFxTextArea(FxTextArea fxTextArea) {
