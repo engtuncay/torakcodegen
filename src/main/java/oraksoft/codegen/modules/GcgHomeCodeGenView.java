@@ -63,15 +63,15 @@ public class GcgHomeCodeGenView implements IFiModView {
 
 		btnDosyaSec = new FxButton("Dosya Seç");
 
-		cmbFiColHelpers = new FxComboBoxSimple("FiTableCol Generations");
-		cmbFiColHelpers.setMaxWidth(200d);
+		cmbFiColHelpers = new FxComboBoxSimple("FiCol");
+		cmbFiColHelpers.setMaxWidth(150d);
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
-		cmbQueryGenerator = new FxComboBoxSimple("Query Generate");
-		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript Operations");
-		cmbExcelIslemler = new FxComboBoxSimple("Excel İşlemler");
-		cmbXmlAraclar = new FxComboBoxSimple("Xml Araçlar");
+		cmbQueryGenerator = new FxComboBoxSimple("Query");
+		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript");
+		cmbExcelIslemler = new FxComboBoxSimple("Excel");
+		cmbXmlAraclar = new FxComboBoxSimple("Xml");
 
-		csharpIslemler = new FxMenuButton("Csharp İşlemler");
+		csharpIslemler = new FxMenuButton("Csharp");
 
 		migMenu.add(chkDosyayaYazdir, "");
 		migMenu.add(chkVeritabandaOlustur, "wrap");
