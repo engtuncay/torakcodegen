@@ -3,6 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.GcgHomeCodeGenerator;
 import ozpasyazilim.utils.core.FiExcel;
 import ozpasyazilim.utils.core.FiString;
+import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.ficodegen.FiCodeHelper;
 import ozpasyazilim.utils.fidborm.FiFieldUtil;
 import ozpasyazilim.utils.fidborm.FiField;
@@ -13,12 +14,27 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Mcg : Model Code Generator
+ * Mcg : Modal of Code Generator Project
  * <p>
  * FiCol metod tanımları üreten metodlar
  */
 public class McgFiCol {
 
+    GcgHomeCodeGenerator gcgHome;
+
+    public McgFiCol(GcgHomeCodeGenerator gcgHome) {
+        this.gcgHome = gcgHome;
+    }
+
+    public GcgHomeCodeGenerator getGcgHome() {
+        return gcgHome;
+    }
+
+    public void setGcgHome(GcgHomeCodeGenerator gcgHome) {
+        this.gcgHome = gcgHome;
+    }
+
+    // Metodlar
 
     public static void actExcelToFiTableColViaMethods(GcgHomeCodeGenerator gcgHomeCodeGenerator) {
 
@@ -124,6 +140,57 @@ public class McgFiCol {
 
         //return query.toString() + listColsTemplate;
 
+    }
+
+
+    /**
+     * FiColsMikro gibi sınıfı oluşturuk, statik FiCol oluşturan metodlar barındırır.
+     */
+    public void codeFiColsClass() {
+
+        if (!getGcgHome().checkClassChoose()) return;
+
+        Class entclazz = getGcgHome().getClassSelected();
+        List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
+
+        String templateMain = "import ozpasyazilim.utils.table.FiCol;\n" +
+                "import ozpasyazilim.utils.table.OzColType;\n" +
+                "\n" +
+                "public class {{className}} {\n" +
+                "\n" +
+                "{{classBody}}\n" +
+                "}";
+
+        FiKeyBean fkbParamsMain = new FiKeyBean();
+        fkbParamsMain.add("className", "FiCols" + entclazz.getSimpleName());
+
+        String templateFiColMethod = "\tpublic static FiCol {{fieldName}}() {\n" +
+                "       FiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
+                "       fiCol.buiColType(OzColType.{{fieldType}});\n" +
+                "       return fiCol;\n" +
+                "   }";
+
+        StringBuilder sbClassBody = new StringBuilder();
+        int index = 0;
+        for (FiField field : listFields) {
+
+            String fieldName = field.getDbFieldName();
+
+            FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
+            fkbParamsFiColMethod.add("fieldName", fieldName);
+            fkbParamsFiColMethod.add("fieldType", field.getClassNameSimple());
+            fkbParamsFiColMethod.add("fieldHeader", FiString.orEmpty(field.getLabel()));
+
+            String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
+            sbClassBody.append(txFiColMethod).append("\n\n");
+
+            index++;
+        }
+
+        fkbParamsMain.add("classBody", sbClassBody.toString());
+        String txResult = FiString.substitutor(templateMain, fkbParamsMain);
+
+        getGcgHome().appendTextNewLine(txResult);
     }
 
 }

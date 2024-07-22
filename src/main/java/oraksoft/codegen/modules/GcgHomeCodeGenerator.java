@@ -103,6 +103,15 @@ public class GcgHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 
         // **** FiCol Generator Helpers
 
+        McgFiCol mcgFiCol = new McgFiCol(this);
+
+        gcgHomeCodeGenView.getCmbFiColHelpers().addComboItem(
+                ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur."
+                        , () -> McgFiCol.codeFiColsMethodsByClass1(this)));
+
+        gcgHomeCodeGenView.getCmbFiColHelpers().addComboItem(ComboItemText.buildWitAction("Sınftan FiCol Generator Sınıfını oluştur."
+                , mcgFiCol::codeFiColsClass));
+
         gcgHomeCodeGenView.getCmbFiColHelpers().addComboItem(ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)", () -> {
             appendTextNewLine(McgTableColGenerate.actExcelToFiColWithHeaderAsHeaderName());
         }));
@@ -124,9 +133,6 @@ public class GcgHomeCodeGenerator extends AbsFiModBaseCont implements IFiModCont
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 // , "Excelden FiTableCol List oluştur.(Auto Field Name)");
 
-        gcgHomeCodeGenView.getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Sınftan FiCol Generate Method oluştur."
-                        , () -> McgFiCol.codeFiColsMethodsByClass1(this)));
 
         // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
