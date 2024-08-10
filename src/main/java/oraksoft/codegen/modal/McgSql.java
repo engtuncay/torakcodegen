@@ -29,7 +29,7 @@ public class McgSql {
 
 	Jdbi jdbi1;
 	Jdbi jdbi2;
-	Boolean enableDbOperation;
+	Boolean boEnableDbOperation;
 	String txSqlTransferDate;
 	private ServerConfig serverConfig1;
 	private ServerConfig serverConfig2;
@@ -43,9 +43,9 @@ public class McgSql {
 		this.jdbi1 = jdbi1;
 	}
 
-	public McgSql(Jdbi jdbi1, boolean enableDbOperation) {
+	public McgSql(Jdbi jdbi1, boolean boEnableDbOperation) {
 		this.jdbi1 = jdbi1;
-		this.enableDbOperation = enableDbOperation;
+		this.boEnableDbOperation = boEnableDbOperation;
 	}
 
 	public String textSqlTableList(Jdbi jdbi) {
@@ -141,7 +141,7 @@ public class McgSql {
 		String sqlCreate = FiQugen.createQuery20(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
-		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
 				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
@@ -202,8 +202,8 @@ public class McgSql {
 		}
 		sbSql.append("\n -- end sql copy");
 
-		getModalHome().getFxTextArea().appendNewLine();
-		getModalHome().getFxTextArea().appendTextLnAsyn(sbSql.toString());
+		getMcgHome().getFxTextArea().appendNewLine();
+		getMcgHome().getFxTextArea().appendTextLnAsyn(sbSql.toString());
 	}
 
 	private String getSqlInsertSelectWithDate(String selectedTable) {
@@ -263,7 +263,7 @@ public class McgSql {
 				Loghelper.get(getClass()).debug("entity class map de bulundu:"+ entityClazz.getSimpleName());
 				List<FiField> listFieldsDateSeperatorField = FiFieldUtil.getListFieldsDateSeperatorField(entityClazz.getClazz());
 				if(listFieldsDateSeperatorField.size()>0){
-					String dbFieldName = listFieldsDateSeperatorField.get(0).getDbFieldName();
+					String dbFieldName = listFieldsDateSeperatorField.get(0).getOfcTxDbFieldName();
 					Pair<String, EntityClazz> pairReturn = new Pair<>(dbFieldName,entityClazz);
 					return pairReturn;
 				}
@@ -359,12 +359,12 @@ public class McgSql {
 		this.jdbi1 = jdbi1;
 	}
 
-	public Boolean getEnableDbOperation() {
-		return enableDbOperation;
+	public Boolean getBoEnableDbOperation() {
+		return boEnableDbOperation;
 	}
 
-	public void setEnableDbOperation(Boolean enableDbOperation) {
-		this.enableDbOperation = enableDbOperation;
+	public void setBoEnableDbOperation(Boolean boEnableDbOperation) {
+		this.boEnableDbOperation = boEnableDbOperation;
 	}
 
 	public String textVtBaglantisiYapilmamis() {
@@ -411,11 +411,11 @@ public class McgSql {
 		this.listMapDateField = listMapDateField;
 	}
 
-	public McgHome getModalHome() {
+	public McgHome getMcgHome() {
 		return mcgHome;
 	}
 
-	public void setModalHome(McgHome mcgHome) {
+	public void setMcgHome(McgHome mcgHome) {
 		this.mcgHome = mcgHome;
 	}
 
@@ -426,7 +426,7 @@ public class McgSql {
 		String sqlCreate = FiQugen.uniqueQuery(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
-		if (FiBool.isTrue(getEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
 				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");

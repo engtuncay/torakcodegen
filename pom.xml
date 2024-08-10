@@ -10,7 +10,7 @@
     <version>0.1</version>
 
     <build>
-        <finalName>gapi-codegen</finalName>
+        <finalName>orak-codegen</finalName>
 
         <plugins>
 

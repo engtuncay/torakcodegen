@@ -1,11 +1,18 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.GcgHomeCodeGenerator;
+import oraksoft.codegen.modules.GocHomeWindowCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ozpasyazilim.utils.log.Loghelper;
 
+/**
+ * Goc -> Gui Orak Code Generator App
+ * <p>
+ * Moc -> Modal Ocg App
+ * <p>
+ * Roc -> Repo Ocg App
+ */
 public class AppCodeGen extends Application {
 
     public static void main(String[] args) {
@@ -15,11 +22,11 @@ public class AppCodeGen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GcgHomeCodeGenerator gcgHomeCodeGenerator = new GcgHomeCodeGenerator();
-        gcgHomeCodeGenerator.initCont();
-        gcgHomeCodeGenerator.setMainStage(primaryStage);
+        GocHomeWindowCont gocHomeWindowCont = new GocHomeWindowCont();
+        gocHomeWindowCont.initCont();
+        gocHomeWindowCont.setFxStage(primaryStage);
 
-        Scene scene = new Scene(gcgHomeCodeGenerator.getModView().getRootPane());
+        Scene scene = new Scene(gocHomeWindowCont.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);

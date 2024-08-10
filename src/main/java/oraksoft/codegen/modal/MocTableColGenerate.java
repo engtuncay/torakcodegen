@@ -1,13 +1,13 @@
 package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.core.FiExcel;
-import ozpasyazilim.utils.ficodegen.FiCodeHelper;
+import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 
 import java.io.File;
 import java.util.List;
 
-public class McgTableColGenerate {
+public class MocTableColGenerate {
 
 	public static String actExcelToFiColWithHeaderAsHeaderName() {
 
@@ -19,7 +19,7 @@ public class McgTableColGenerate {
 			List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
 
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			return FiCodeHelper.codeFiColListFromHeadersAndFields(listHeader, "Excel", listFields);
+			return FiCodeGen.codeFiColListFromHeadersAndFields(listHeader, "Excel", listFields);
 
 		}
 
@@ -34,7 +34,7 @@ public class McgTableColGenerate {
 			List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
 			//List<String> listRow1 = new FiExcel().readExcelRowIndex(fileExcel, 1);
 			//FiConsole.debugListObjectsToString(listHeader,getClass());
-			return FiCodeHelper.codeFiColListFromHeadersAndFields(listHeader, "Excel", listHeader);
+			return FiCodeGen.codeFiColListFromHeadersAndFields(listHeader, "Excel", listHeader);
 		}
 
 		return "Excel File is not selected.";

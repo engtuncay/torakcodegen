@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.mvc.IFiModView;
 
-public class GcgHomeCodeGenView implements IFiModView {
+public class GocHomeWindowView implements IFiModView {
 
 	// Layout Components
 	private FxMigPane migRoot;
@@ -27,6 +27,8 @@ public class GcgHomeCodeGenView implements IFiModView {
 	private FxCheckBox chkVeritabandaOlustur;
 
 	private FxComboBoxSimple cmbFiColHelpers;
+	private FxComboBoxSimple cmbFiColHelpers2;
+
 	private FxComboBoxSimple cmbDbRead;
 	private FxComboBoxSimple cmbQueryGenerator;
 	private FxComboBoxSimple cmbTypeScriptOperations;
@@ -34,13 +36,14 @@ public class GcgHomeCodeGenView implements IFiModView {
 	private FxComboBoxSimple cmbXmlAraclar;
 	private String txDosyaYolu;
 
+
 	@Override
 	public Pane getRootPane() {
 		return getMigRoot();
 	}
 
 	public void initGui() {
-		//FxMpConfig.debugMode = true;
+		// FxMpConfig.debugMode = true;
 		// Root Container
 		migRoot = new FxMigPane(FxMigHp.bui().lcgInset0Gap55().lcgNoGrid().getLcg());
 		// Layout Containers
@@ -65,6 +68,10 @@ public class GcgHomeCodeGenView implements IFiModView {
 
 		cmbFiColHelpers = new FxComboBoxSimple("FiCol");
 		cmbFiColHelpers.setMaxWidth(150d);
+
+		cmbFiColHelpers2 = new FxComboBoxSimple("FiCol(2)");
+		cmbFiColHelpers2.setMaxWidth(150d);
+
 		cmbDbRead = new FxComboBoxSimple("Db Table Read");
 		cmbQueryGenerator = new FxComboBoxSimple("Query");
 		cmbTypeScriptOperations = new FxComboBoxSimple("TypeScript");
@@ -84,6 +91,7 @@ public class GcgHomeCodeGenView implements IFiModView {
 		migMenu.add(btnClassSec2,"wrap");
 		//migMenu.add(new FxLabel("-----"), "span");
 		migMenu.add(cmbFiColHelpers, "");
+		migMenu.add(cmbFiColHelpers2, "");
 		migMenu.add(cmbDbRead, "");
 		migMenu.add(cmbQueryGenerator, "");
 		migMenu.add(cmbTypeScriptOperations, "");
@@ -150,4 +158,15 @@ public class GcgHomeCodeGenView implements IFiModView {
 
 	public FxMigPane getMigContent() {return migContent;}
 
+	public FxCheckBox getChkDosyayaYazdir() {
+		return chkDosyayaYazdir;
+	}
+
+	public FxComboBoxSimple getCmbTypeScriptOperations() {
+		return cmbTypeScriptOperations;
+	}
+
+	public FxComboBoxSimple getCmbFiColHelpers2() {
+		return cmbFiColHelpers2;
+	}
 }

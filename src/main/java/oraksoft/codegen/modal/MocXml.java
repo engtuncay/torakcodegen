@@ -2,7 +2,7 @@ package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.core.FiXmlParser;
-import ozpasyazilim.utils.ficodegen.FiCodeHelper;
+import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 
@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MlcgXml {
+public class MocXml {
 
 	public static String actXmlToFiFieldList(File fileXml) {
 
@@ -34,7 +34,7 @@ public class MlcgXml {
 
 		//FiConsole.debugListObjectsToString(listHeader,getClass());
 
-		String code = FiCodeHelper.codeFiTableColsFromHeaderAndFieldName2(xmlHeaderList, "Xml", listFields);
+		String code = FiCodeGen.codeFiTableColsFromHeaderAndFieldName2(xmlHeaderList, "Xml", listFields);
 
 		return code;
 

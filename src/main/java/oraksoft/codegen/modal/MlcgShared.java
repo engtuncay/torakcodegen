@@ -1,11 +1,11 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.GcgHomeCodeGenerator;
+import oraksoft.codegen.modules.GocHomeWindowCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 
 public class MlcgShared {
-    public static boolean checkAndSetupActiveServerJdbi(GcgHomeCodeGenerator modHome) {
+    public static boolean checkAndSetupActiveServerJdbi(GocHomeWindowCont modHome) {
         Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 
         if (activeServerJdbi != null) {
@@ -19,7 +19,7 @@ public class MlcgShared {
 
     }
 
-    public static boolean checkActiveServerJdbi2(GcgHomeCodeGenerator modHome) {
+    public static boolean checkActiveServerJdbi2(GocHomeWindowCont modHome) {
         Jdbi activeServerJdbi = modHome.getMcgSqlInit().getJdbi1();
 
         if (activeServerJdbi == null) {
