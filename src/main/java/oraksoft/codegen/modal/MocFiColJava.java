@@ -344,7 +344,7 @@ public class MocFiColJava {
 
         for (FiKeyString fikField : fikeysExcelFiCols) {
 
-            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailForExcel(fikField);
+            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailByExcelFks(fikField);
 
             FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
             String fieldName = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldName());
@@ -405,7 +405,7 @@ public class MocFiColJava {
 
         FiColList fiCols = getFiColListFromExcel();
 
-        if (fiCols == null) return;
+        if (FiCollection.isEmpty(fiCols)) return;
 
         String templateFiColMethod = "public static FiCol {{fieldName}}() {\n" +
                 "\tFiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
@@ -423,7 +423,7 @@ public class MocFiColJava {
 
         for (FiCol fiCol : fiCols) {
 
-            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailForFiCol(fiCol);
+            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailByFiCol(fiCol);
 
             FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
             String fieldName = fiCol.getOfcTxFieldName();
@@ -466,7 +466,7 @@ public class MocFiColJava {
 
         String classPref = "FiCols";
         //FIXME entity name çekilecek
-        String txEntityName = "";  //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
+        String txEntityName = fiCols.get(0).getOfcTxEntityName(); //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
 
         FiKeyBean fkbParamsMain = new FiKeyBean();
         fkbParamsMain.add("classPref", classPref);
@@ -510,7 +510,7 @@ public class MocFiColJava {
      * @param fikField
      * @return
      */
-    private static StringBuilder genFiColMethodBodyDetailForExcel(FiKeyString fikField) {
+    private static StringBuilder genFiColMethodBodyDetailByExcelFks(FiKeyString fikField) {
 
         StringBuilder sbFiColMethodBody = new StringBuilder();
 
@@ -591,7 +591,7 @@ public class MocFiColJava {
         return sbFiColMethodBody;
     }
 
-    private static StringBuilder genFiColMethodBodyDetailForFiCol(FiCol fiCol) {
+    private static StringBuilder genFiColMethodBodyDetailByFiCol(FiCol fiCol) {
 
         StringBuilder sbFiColMethodBody = new StringBuilder();
 
@@ -604,7 +604,7 @@ public class MocFiColJava {
         //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
 
         if (!FiString.isEmpty(ofiTxIdType)) {
-            sbFiColMethodBody.append("\tfiCol.setBoKeyIdentityField(true);\n");
+            sbFiColMethodBody.append("\tfiCol.setBoKeyIdField(true);\n");
             sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
         }
 
@@ -661,6 +661,7 @@ public class MocFiColJava {
 
         fiCol.setOfcTxFieldName(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldName()));
         fiCol.setOfcTxHeader(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxHeader()));
+        fiCol.setOfcTxEntityName(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxEntityName()));
 
         String txFieldType = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType());
 
@@ -786,3 +787,4 @@ public class MocFiColJava {
     }
 
 }
+
