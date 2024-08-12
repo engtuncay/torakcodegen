@@ -321,7 +321,7 @@ public class MocFiColJava {
 
         //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
 
-        FiListKeyString fikeysExcelFiCols = genExcelFiColsDetailAsFiKeys(fileExcel);
+        FiListKeyString fikeysExcelFiCols = genFksFiColDetailsFromExcel(fileExcel);
 
         FiConsole.logFiListKeyString(fikeysExcelFiCols);
 
@@ -404,6 +404,7 @@ public class MocFiColJava {
     public void actGenFiColListByExcel() {
 
         FiColList fiCols = getFiColListFromExcel();
+
         if (fiCols == null) return;
 
         String templateFiColMethod = "public static FiCol {{fieldName}}() {\n" +
@@ -422,7 +423,7 @@ public class MocFiColJava {
 
         for (FiCol fiCol : fiCols) {
 
-            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailForExcel(fiCol);
+            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailForFiCol(fiCol);
 
             FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
             String fieldName = fiCol.getOfcTxFieldName();
@@ -464,7 +465,8 @@ public class MocFiColJava {
         sbClassBody.append("\n").append(sbFiColMethodsBody.toString()).append("\n");
 
         String classPref = "FiCols";
-        String txEntityName = fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
+        //FIXME entity name çekilecek
+        String txEntityName = "";  //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
 
         FiKeyBean fkbParamsMain = new FiKeyBean();
         fkbParamsMain.add("classPref", classPref);
@@ -476,7 +478,7 @@ public class MocFiColJava {
 
         getGcgHome().appendTextNewLine(txResult);
 
-        getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
+        //getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
     }
 
     private static @Nullable FiColList getFiColListFromExcel() {
@@ -487,7 +489,7 @@ public class MocFiColJava {
 
         //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
 
-        FiListKeyString fikeysExcelFiCols = genExcelFiColsDetailAsFiKeys(fileExcel);
+        FiListKeyString fikeysExcelFiCols = genFksFiColDetailsFromExcel(fileExcel);
 
         //FiConsole.logFiListKeyString(fikeysExcelFiCols);
 
@@ -610,57 +612,39 @@ public class MocFiColJava {
             sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
         }
 
-        Integer lnLength = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
-
         if (fiCol.getOfcLnLength() != null) {
             sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnLength(%s);\n", fiCol.getOfcLnLength().toString()));
         }
 
-        Boolean prmOfcBoNullable = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoNullable()));
-
-        if (FiBool.isTrue(prmOfcBoNullable)) {
+        if (FiBool.isTrue(fiCol.getBoNullable())) {
             sbFiColMethodBody.append("\tfiCol.setOfcBoNullable(true);\n");
         }
 
-        Integer lnPrecision = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnPrecision()));
-
-        if (lnPrecision != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", lnPrecision.toString()));
+        if (fiCol.getOfcLnPrecision() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", fiCol.getOfcLnPrecision().toString()));
         }
 
-        Integer lnScale = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnScale()));
-
-        if (lnScale != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", lnScale.toString()));
+        if (fiCol.getOfcLnScale() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", fiCol.getOfcLnScale().toString()));
         }
 
-        Boolean boUnique = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUnique()));
-
-        if (FiBool.isTrue(boUnique)) {
+        if (FiBool.isTrue(fiCol.getOfcBoUnique())) {
             sbFiColMethodBody.append("\tfiCol.setOfcBoUnique(true);\n");
         }
 
-        Boolean boUnique1 = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUniqGro1()));
-
-        if (FiBool.isTrue(boUnique1)) {
+        if (FiBool.isTrue(fiCol.getOfcBoUniqGro1())) {
             sbFiColMethodBody.append("\tfiCol.setOfcBoUniqGro1(true);\n");
         }
 
-        Boolean boUtfSupport = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUtfSupport()));
-
-        if (FiBool.isTrue(boUtfSupport)) {
+        if (FiBool.isTrue(fiCol.getOfcBoUtfSupport())) {
             sbFiColMethodBody.append("\tfiCol.setOfcBoUtfSupport(true);\n");
         }
 
-        String txDefValue = fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxDefValue());
-
-        if (!FiString.isEmpty(txDefValue)) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", txDefValue));
+        if (!FiString.isEmpty(fiCol.getOfcTxDefValue())) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", fiCol.getOfcTxDefValue()));
         }
 
-        Boolean boFilterLike = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoFilterLike()));
-
-        if (FiBool.isTrue(boFilterLike)) {
+        if (FiBool.isTrue(fiCol.getBoFilterLike())) {
             sbFiColMethodBody.append("\tfiCol.setOfcBoFilterLike(true);\n");
         }
 
@@ -699,6 +683,7 @@ public class MocFiColJava {
 
 
         String ofiTxIdType = FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fikField.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
+
 
         if (!FiString.isEmpty(ofiTxIdType)) {
             fiCol.setBoKeyIdField(true);
@@ -774,7 +759,7 @@ public class MocFiColJava {
         return fiCol;
     }
 
-    private static FiListKeyString genExcelFiColsDetailAsFiKeys(File fileExcel) {
+    private static FiListKeyString genFksFiColDetailsFromExcel(File fileExcel) {
 
         FiColList fiCols = FiColList.bui()
                 .buiAdd(FiColsMetaTable.ofcTxEntityName().buiSynFieldToHeader())
