@@ -70,20 +70,26 @@
             <version>0.9.10</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>ozpasyazilim</groupId>
+            <artifactId>tunc-utils-java</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-       <!--  https://mvnrepository.com/artifact/com.google.guava/guava
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>21.0</version>
-        </dependency>
-        &lt;!&ndash; https://mvnrepository.com/artifact/org.javassist/javassist &ndash;&gt;
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.25.0-GA</version>
-        </dependency>
-        -->
+        <!--  https://mvnrepository.com/artifact/com.google.guava/guava
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>21.0</version>
+         </dependency>
+         &lt;!&ndash; https://mvnrepository.com/artifact/org.javassist/javassist &ndash;&gt;
+         <dependency>
+             <groupId>org.javassist</groupId>
+             <artifactId>javassist</artifactId>
+             <version>3.25.0-GA</version>
+         </dependency>
+         -->
 
     </dependencies>
 

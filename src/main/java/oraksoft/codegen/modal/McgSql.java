@@ -2,6 +2,7 @@ package oraksoft.codegen.modal;
 
 import javafx.util.Pair;
 import oraksoft.codegen.entity.EntityClazz;
+import ozpasyazilim.mikro.metadata.metaMikro.FiColsEnmMutabakat;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
@@ -132,6 +133,7 @@ public class McgSql {
 	 * Class Tanımından
 	 *
 	 * @param selectedClass
+	 *
 	 * @return
 	 */
 	public String createQuery(Class selectedClass) {
@@ -139,6 +141,24 @@ public class McgSql {
 		if (!checkSelClass(selectedClass)) return "";
 
 		String sqlCreate = FiQugen.createQuery20(selectedClass);
+		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
+
+		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
+			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
+			if (fdr.isTrueBoResult()) {
+				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
+			}
+			FxDialogShow.showDbResult(fdr);
+		}
+
+		return sqlCreate;
+	}
+
+	public String createQueryByFiCol() {
+
+		//if (!checkSelClass(selectedClass)) return "";
+
+		String sqlCreate = FiQugen.createQuery20(new FiColsEnmMutabakat());
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {

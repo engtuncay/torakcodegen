@@ -2,17 +2,21 @@ package oraksoft.codegen.modal;
 
 import oraksoft.codegen.modules.GocHomeWindowCont;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.datatypes.FiKeyString;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
+import ozpasyazilim.utils.fidbanno.FiIdGenerationType;
 import ozpasyazilim.utils.fidborm.FiColsMetaTable;
 import ozpasyazilim.utils.fidborm.FiFieldUtil;
 import ozpasyazilim.utils.fidborm.FiField;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
+import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.table.OzColType;
 
 import java.io.File;
 import java.util.List;
@@ -69,7 +73,7 @@ public class MocFiColJava {
 
     }
 
-    public static void actFiColsClassJavaByExcelV1(GocHomeWindowCont gocHomeWindowCont) {
+    public static void actFiColsClassJavaByExcelRowHeader(GocHomeWindowCont gocHomeWindowCont) {
 
         //Loghelper.get(MocFiCol.class).debug("actExcelToFiColsMethodWay1");
 
@@ -169,21 +173,25 @@ public class MocFiColJava {
                 "import ozpasyazilim.utils.table.OzColType;\n" +
                 "import ozpasyazilim.utils.table.FiColList;\n" +
                 "import ozpasyazilim.utils.fidbanno.FiIdGenerationType;\n" +
-                "import ozpasyazilim.utils.fidborm.IFiTableMeta;\n"+
+                "import ozpasyazilim.utils.fidborm.IFiTableMeta;\n" +
                 "\n" +
                 "public class {{classPref}}{{entityName}} implements IFiTableMeta {\n" +
                 "\n" +
                 "\tpublic String getITxTableName() {\n" +
                 "\t\treturn getTxTableName();\n" +
-                "\t}\n\n"+
+                "\t}\n\n" +
                 "\tpublic static String getTxTableName() {\n" +
                 "\t\treturn \"{{entityName}}\";\n" +
                 "\t}\n" +
-                "\n"+
+                "\n" +
                 "public FiColList genITableCols() {\n" +
                 "\treturn genTableCols();\n" +
                 "}\n" +
-                "\n"+
+                "\n" +
+                "public FiColList genITableColsTrans() {\n" +
+                "\treturn genTableColsTrans();\n" +
+                "\t}\n" +
+                "\n" +
                 "{{classBody}}\n" +
                 "}";
 
@@ -332,6 +340,7 @@ public class MocFiColJava {
         int index = 0;
 
         StringBuilder sbFieldColsAddition = new StringBuilder();
+        StringBuilder sbFieldColsAdditionTrans = new StringBuilder();
 
         for (FiKeyString fikField : fikeysExcelFiCols) {
 
@@ -347,7 +356,11 @@ public class MocFiColJava {
 
             Boolean oftBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.oftBoTransient()));
 
-            if(!FiBool.isTrue(oftBoTransient)) sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
+            if (!FiBool.isTrue(oftBoTransient)) {
+                sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
+            } else {
+                sbFieldColsAdditionTrans.append("\tfiColList.add(").append(fieldName).append("());\n");
+            }
 
             index++;
         }
@@ -360,6 +373,17 @@ public class MocFiColJava {
 
         String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
         sbClassBody.append("\n").append(txGenTableColsMethod).append("\n");
+
+        String tempGenTableColsTrans = "public static FiColList genTableColsTrans() {\n\n" +
+                "\tFiColList fiColList = new FiColList();\n\n" +
+                "{{fiColsAddition}}\n" +
+                "\treturn fiColList;\n" +
+                "}";
+
+        String txGenTableColsMethodTrans = FiTemplate.replaceParams(tempGenTableColsTrans
+                , FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAdditionTrans.toString()));
+        sbClassBody.append("\n").append(txGenTableColsMethodTrans).append("\n");
+
 
         sbClassBody.append("\n").append(sbFiColMethodsBody.toString()).append("\n");
 
@@ -375,6 +399,107 @@ public class MocFiColJava {
         String txResult = FiTemplate.replaceParams(templateMain, fkbParamsMain);
 
         getGcgHome().appendTextNewLine(txResult);
+    }
+
+    public void actGenFiColListByExcel() {
+
+        FiColList fiCols = getFiColListFromExcel();
+        if (fiCols == null) return;
+
+        String templateFiColMethod = "public static FiCol {{fieldName}}() {\n" +
+                "\tFiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
+                "{{fiColMethodBody}}\n" +
+                "\treturn fiCol;\n" +
+                "}";
+
+        //fiCol.buiColType(OzColType.{{fieldType}});
+        StringBuilder sbClassBody = new StringBuilder();
+        StringBuilder sbFiColMethodsBody = new StringBuilder();
+        int index = 0;
+
+        StringBuilder sbFieldColsAddition = new StringBuilder();
+        StringBuilder sbFieldColsAdditionTrans = new StringBuilder();
+
+        for (FiCol fiCol : fiCols) {
+
+            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailForExcel(fiCol);
+
+            FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
+            String fieldName = fiCol.getOfcTxFieldName();
+            fkbParamsFiColMethod.add("fieldName", fieldName);
+            fkbParamsFiColMethod.add("fieldHeader", fiCol.getOfcTxHeader());
+            fkbParamsFiColMethod.add("fiColMethodBody", sbFiColMethodBody.toString());
+            String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
+            sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
+
+            if (!FiBool.isTrue(fiCol.getOftBoTransient())) {
+                sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
+            } else {
+                sbFieldColsAdditionTrans.append("\tfiColList.add(").append(fieldName).append("());\n");
+            }
+
+            index++;
+        }
+
+        String tempGenTableCols = "public static FiColList genTableCols() {\n\n" +
+                "\tFiColList fiColList = new FiColList();\n\n" +
+                "{{fiColsAddition}}\n" +
+                "\treturn fiColList;\n" +
+                "}";
+
+        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
+        sbClassBody.append("\n").append(txGenTableColsMethod).append("\n");
+
+        String tempGenTableColsTrans = "public static FiColList genTableColsTrans() {\n\n" +
+                "\tFiColList fiColList = new FiColList();\n\n" +
+                "{{fiColsAddition}}\n" +
+                "\treturn fiColList;\n" +
+                "}";
+
+        String txGenTableColsMethodTrans = FiTemplate.replaceParams(tempGenTableColsTrans
+                , FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAdditionTrans.toString()));
+        sbClassBody.append("\n").append(txGenTableColsMethodTrans).append("\n");
+
+
+        sbClassBody.append("\n").append(sbFiColMethodsBody.toString()).append("\n");
+
+        String classPref = "FiCols";
+        String txEntityName = fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
+
+        FiKeyBean fkbParamsMain = new FiKeyBean();
+        fkbParamsMain.add("classPref", classPref);
+        fkbParamsMain.add("entityName", txEntityName);
+        fkbParamsMain.add("classBody", sbClassBody.toString());
+
+        String templateMain = getTemplateFiColsClassWithInterface();
+        String txResult = FiTemplate.replaceParams(templateMain, fkbParamsMain);
+
+        getGcgHome().appendTextNewLine(txResult);
+
+        getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
+    }
+
+    private static @Nullable FiColList getFiColListFromExcel() {
+
+        File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
+
+        if (fileExcel == null) return null;
+
+        //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
+
+        FiListKeyString fikeysExcelFiCols = genExcelFiColsDetailAsFiKeys(fileExcel);
+
+        //FiConsole.logFiListKeyString(fikeysExcelFiCols);
+
+        //Class entclazz = getGcgHome().getClassSelected();
+        //List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
+        FiColList fiCols = new FiColList();
+
+        for (FiKeyString fikField : fikeysExcelFiCols) {
+            fiCols.add(genFiColFromExcelFks(fikField));
+        }
+
+        return fiCols;
     }
 
     /**
@@ -394,7 +519,7 @@ public class MocFiColJava {
 
         String ofiTxIdType = FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fikField.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
 
-        if (!FiString.isEmpty(ofiTxIdType)){
+        if (!FiString.isEmpty(ofiTxIdType)) {
             sbFiColMethodBody.append("\tfiCol.setBoKeyIdentityField(true);\n");
             sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
         }
@@ -405,7 +530,248 @@ public class MocFiColJava {
             sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
         }
 
+        Integer lnLength = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
+
+        if (lnLength != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnLength(%s);\n", lnLength.toString()));
+        }
+
+        Boolean prmOfcBoNullable = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoNullable()));
+
+        if (FiBool.isTrue(prmOfcBoNullable)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoNullable(true);\n");
+        }
+
+        Integer lnPrecision = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnPrecision()));
+
+        if (lnPrecision != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", lnPrecision.toString()));
+        }
+
+        Integer lnScale = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnScale()));
+
+        if (lnScale != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", lnScale.toString()));
+        }
+
+        Boolean boUnique = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUnique()));
+
+        if (FiBool.isTrue(boUnique)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUnique(true);\n");
+        }
+
+        Boolean boUnique1 = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUniqGro1()));
+
+        if (FiBool.isTrue(boUnique1)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUniqGro1(true);\n");
+        }
+
+        Boolean boUtfSupport = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUtfSupport()));
+
+        if (FiBool.isTrue(boUtfSupport)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUtfSupport(true);\n");
+        }
+
+        String txDefValue = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxDefValue());
+
+        if (!FiString.isEmpty(txDefValue)) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", txDefValue));
+        }
+
+        Boolean boFilterLike = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoFilterLike()));
+
+        if (FiBool.isTrue(boFilterLike)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoFilterLike(true);\n");
+        }
+
+        // ofcTxCollation	ofcTxTypeName
+
         return sbFiColMethodBody;
+    }
+
+    private static StringBuilder genFiColMethodBodyDetailForFiCol(FiCol fiCol) {
+
+        StringBuilder sbFiColMethodBody = new StringBuilder();
+
+        //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
+
+        if (fiCol.getColType()!=null)
+            sbFiColMethodBody.append(String.format("\tfiCol.buiColType(OzColType.%s);\n", fiCol.getColType().toString()));
+
+        String ofiTxIdType = fiCol.getOfiTxIdType();
+        //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
+
+        if (!FiString.isEmpty(ofiTxIdType)) {
+            sbFiColMethodBody.append("\tfiCol.setBoKeyIdentityField(true);\n");
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
+        }
+
+        if (FiBool.isTrue(fiCol.getOftBoTransient())) {
+            sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
+        }
+
+        Integer lnLength = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
+
+        if (fiCol.getOfcLnLength() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnLength(%s);\n", fiCol.getOfcLnLength().toString()));
+        }
+
+        Boolean prmOfcBoNullable = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoNullable()));
+
+        if (FiBool.isTrue(prmOfcBoNullable)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoNullable(true);\n");
+        }
+
+        Integer lnPrecision = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnPrecision()));
+
+        if (lnPrecision != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", lnPrecision.toString()));
+        }
+
+        Integer lnScale = FiNumber.convertStringToInteger(fiCol.getTosOrEmpty(FiColsMetaTable.ofcLnScale()));
+
+        if (lnScale != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", lnScale.toString()));
+        }
+
+        Boolean boUnique = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUnique()));
+
+        if (FiBool.isTrue(boUnique)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUnique(true);\n");
+        }
+
+        Boolean boUnique1 = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUniqGro1()));
+
+        if (FiBool.isTrue(boUnique1)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUniqGro1(true);\n");
+        }
+
+        Boolean boUtfSupport = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoUtfSupport()));
+
+        if (FiBool.isTrue(boUtfSupport)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoUtfSupport(true);\n");
+        }
+
+        String txDefValue = fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxDefValue());
+
+        if (!FiString.isEmpty(txDefValue)) {
+            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", txDefValue));
+        }
+
+        Boolean boFilterLike = FiBool.convertExcelTxBool(fiCol.getTosOrEmpty(FiColsMetaTable.ofcBoFilterLike()));
+
+        if (FiBool.isTrue(boFilterLike)) {
+            sbFiColMethodBody.append("\tfiCol.setOfcBoFilterLike(true);\n");
+        }
+
+        // ofcTxCollation	ofcTxTypeName
+
+        return sbFiColMethodBody;
+    }
+
+    private static FiCol genFiColFromExcelFks(FiKeyString fikField) {
+
+        //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
+
+        FiCol fiCol = new FiCol();
+
+        fiCol.setOfcTxFieldName(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldName()));
+        fiCol.setOfcTxHeader(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxHeader()));
+
+        String txFieldType = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType());
+
+        if (!FiString.isEmpty(txFieldType)) {
+
+            if (txFieldType.equalsIgnoreCase("int")) {
+                fiCol.setColType(OzColType.Integer);
+            } else if (txFieldType.equalsIgnoreCase("string")) {
+                fiCol.setColType(OzColType.String);
+            } else if (txFieldType.equalsIgnoreCase("bool")) {
+                fiCol.setColType(OzColType.Boolean);
+            } else if (txFieldType.equalsIgnoreCase("tint")) {
+                fiCol.setColType(OzColType.Integer);
+                //FIXME tint olduğunu belirten tanımlama
+            } else if (txFieldType.equalsIgnoreCase("double")) {
+                fiCol.setColType(OzColType.Double);
+            }
+
+        }
+
+
+        String ofiTxIdType = FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fikField.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
+
+        if (!FiString.isEmpty(ofiTxIdType)) {
+            fiCol.setBoKeyIdField(true);
+
+            if (ofiTxIdType.equals(FiIdGenerationType.identity.toString())) {
+                fiCol.setOfiTxIdType(FiIdGenerationType.identity.toString());
+            }
+
+        }
+
+        Boolean oftBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.oftBoTransient()));
+
+        if (FiBool.isTrue(oftBoTransient)) {
+            fiCol.setOftBoTransient(true);
+        }
+
+        Integer lnLength = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
+
+        if (lnLength != null) {
+            fiCol.setOfcLnLength(lnLength);
+        }
+
+        Boolean prmOfcBoNullable = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoNullable()));
+
+        if (FiBool.isTrue(prmOfcBoNullable)) {
+            fiCol.setOfcBoNullable(true);
+        }
+
+        Integer lnPrecision = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnPrecision()));
+
+        if (lnPrecision != null) {
+            fiCol.setOfcLnPrecision(lnPrecision);
+        }
+
+        Integer lnScale = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnScale()));
+
+        if (lnScale != null) {
+            fiCol.setOfcLnScale(lnScale);
+        }
+
+        Boolean boUnique = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUnique()));
+
+        if (FiBool.isTrue(boUnique)) {
+            fiCol.setOfcBoUnique(true);
+        }
+
+        Boolean boUnique1 = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUniqGro1()));
+
+        if (FiBool.isTrue(boUnique1)) {
+            fiCol.setOfcBoUniqGro1(true);
+        }
+
+        Boolean boUtfSupport = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUtfSupport()));
+
+        if (FiBool.isTrue(boUtfSupport)) {
+            fiCol.setOfcBoUtfSupport(true);
+        }
+
+        String txDefValue = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxDefValue());
+
+        if (!FiString.isEmpty(txDefValue)) {
+            fiCol.setOfcTxDefValue(txDefValue);
+        }
+
+        Boolean boFilterLike = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoFilterLike()));
+
+        if (FiBool.isTrue(boFilterLike)) {
+            fiCol.setBoFilterLike(true);
+        }
+
+        // ofcTxCollation	ofcTxTypeName
+
+        return fiCol;
     }
 
     private static FiListKeyString genExcelFiColsDetailAsFiKeys(File fileExcel) {

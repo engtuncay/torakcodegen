@@ -109,6 +109,9 @@ public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detayli Alanlar)"
                         , ()-> MocFiColJava.bui(this).actGenFiColClassWitDetailByExcel()));
 
+        gocHomeView.getCmbFiColHelpers2().addComboItem(
+                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (2)"
+                        , ()-> MocFiColJava.bui(this).actGenFiColListByExcel()));
 
         gocHomeView.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
@@ -116,7 +119,7 @@ public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         gocHomeView.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
-                        , () -> MocFiColJava.actFiColsClassJavaByExcelV1(this)));
+                        , () -> MocFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
 
 
 
@@ -199,6 +202,10 @@ public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         gocHomeView.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Create Query", () ->
                         actionResult(getMcgSqlInit().createQuery(getClassSelected()))));
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
+                        actionResult(getMcgSqlInit().createQueryByFiCol())));
 
         gocHomeView.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Alter Table Field(Add)"
