@@ -313,94 +313,6 @@ public class MocFiColJava {
     /**
      * Excel Detaylı Alan Listesi FiCol Üretme Sınıfına Dönüştürülür
      */
-    public void actGenFiColClassWitDetailByExcel() {
-
-        File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
-
-        if (fileExcel == null) return;
-
-        //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
-
-        FiListKeyString fikeysExcelFiCols = genFksFiColDetailsFromExcel(fileExcel);
-
-        FiConsole.logFiListKeyString(fikeysExcelFiCols);
-
-        //Class entclazz = getGcgHome().getClassSelected();
-        //List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
-
-        String templateFiColMethod = "public static FiCol {{fieldName}}() {\n" +
-                "\tFiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
-                "{{fiColMethodBody}}\n" +
-                "\treturn fiCol;\n" +
-                "}";
-
-        //fiCol.buiColType(OzColType.{{fieldType}});
-        StringBuilder sbClassBody = new StringBuilder();
-        StringBuilder sbFiColMethodsBody = new StringBuilder();
-        int index = 0;
-
-        StringBuilder sbFieldColsAddition = new StringBuilder();
-        StringBuilder sbFieldColsAdditionTrans = new StringBuilder();
-
-        for (FiKeyString fikField : fikeysExcelFiCols) {
-
-            StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailByExcelFks(fikField);
-
-            FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
-            String fieldName = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldName());
-            fkbParamsFiColMethod.add("fieldName", fieldName);
-            fkbParamsFiColMethod.add("fieldHeader", fikField.getTosOrEmpty(FiColsMetaTable.ofcTxHeader()));
-            fkbParamsFiColMethod.add("fiColMethodBody", sbFiColMethodBody.toString());
-            String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
-            sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
-
-            Boolean oftBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.oftBoTransient()));
-
-            if (!FiBool.isTrue(oftBoTransient)) {
-                sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
-            } else {
-                sbFieldColsAdditionTrans.append("\tfiColList.add(").append(fieldName).append("());\n");
-            }
-
-            index++;
-        }
-
-        String tempGenTableCols = "public static FiColList genTableCols() {\n\n" +
-                "\tFiColList fiColList = new FiColList();\n\n" +
-                "{{fiColsAddition}}\n" +
-                "\treturn fiColList;\n" +
-                "}";
-
-        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
-        sbClassBody.append("\n").append(txGenTableColsMethod).append("\n");
-
-        String tempGenTableColsTrans = "public static FiColList genTableColsTrans() {\n\n" +
-                "\tFiColList fiColList = new FiColList();\n\n" +
-                "{{fiColsAddition}}\n" +
-                "\treturn fiColList;\n" +
-                "}";
-
-        String txGenTableColsMethodTrans = FiTemplate.replaceParams(tempGenTableColsTrans
-                , FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAdditionTrans.toString()));
-        sbClassBody.append("\n").append(txGenTableColsMethodTrans).append("\n");
-
-
-        sbClassBody.append("\n").append(sbFiColMethodsBody.toString()).append("\n");
-
-        String classPref = "FiCols";
-        String txEntityName = fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
-
-        FiKeyBean fkbParamsMain = new FiKeyBean();
-        fkbParamsMain.add("classPref", classPref);
-        fkbParamsMain.add("entityName", txEntityName);
-        fkbParamsMain.add("classBody", sbClassBody.toString());
-
-        String templateMain = getTemplateFiColsClassWithInterface();
-        String txResult = FiTemplate.replaceParams(templateMain, fkbParamsMain);
-
-        getGcgHome().appendTextNewLine(txResult);
-    }
-
     public void actGenFiColListByExcel() {
 
         FiColList fiCols = getFiColListFromExcel();
@@ -504,100 +416,13 @@ public class MocFiColJava {
         return fiCols;
     }
 
-    /**
-     * Excel FiCol Listesindeki Alanların Özelliklerini Koda çevirir
-     *
-     * @param fikField
-     * @return
-     */
-    private static StringBuilder genFiColMethodBodyDetailByExcelFks(FiKeyString fikField) {
-
-        StringBuilder sbFiColMethodBody = new StringBuilder();
-
-        String fieldType = FiCodeGen.convertExcelTypeToOzColType(fikField.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
-
-        if (!FiString.isEmpty(fieldType))
-            sbFiColMethodBody.append(String.format("\tfiCol.buiColType(OzColType.%s);\n", fieldType));
-
-        String ofiTxIdType = FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fikField.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
-
-        if (!FiString.isEmpty(ofiTxIdType)) {
-            sbFiColMethodBody.append("\tfiCol.setBoKeyIdentityField(true);\n");
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
-        }
-
-        Boolean oftBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.oftBoTransient()));
-
-        if (FiBool.isTrue(oftBoTransient)) {
-            sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
-        }
-
-        Integer lnLength = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
-
-        if (lnLength != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnLength(%s);\n", lnLength.toString()));
-        }
-
-        Boolean prmOfcBoNullable = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoNullable()));
-
-        if (FiBool.isTrue(prmOfcBoNullable)) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoNullable(true);\n");
-        }
-
-        Integer lnPrecision = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnPrecision()));
-
-        if (lnPrecision != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", lnPrecision.toString()));
-        }
-
-        Integer lnScale = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnScale()));
-
-        if (lnScale != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", lnScale.toString()));
-        }
-
-        Boolean boUnique = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUnique()));
-
-        if (FiBool.isTrue(boUnique)) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUnique(true);\n");
-        }
-
-        Boolean boUnique1 = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUniqGro1()));
-
-        if (FiBool.isTrue(boUnique1)) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUniqGro1(true);\n");
-        }
-
-        Boolean boUtfSupport = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoUtfSupport()));
-
-        if (FiBool.isTrue(boUtfSupport)) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUtfSupport(true);\n");
-        }
-
-        String txDefValue = fikField.getTosOrEmpty(FiColsMetaTable.ofcTxDefValue());
-
-        if (!FiString.isEmpty(txDefValue)) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", txDefValue));
-        }
-
-        Boolean boFilterLike = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoFilterLike()));
-
-        if (FiBool.isTrue(boFilterLike)) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoFilterLike(true);\n");
-        }
-
-        // ofcTxCollation	ofcTxTypeName
-
-        return sbFiColMethodBody;
-    }
-
     private static StringBuilder genFiColMethodBodyDetailByFiCol(FiCol fiCol) {
 
         StringBuilder sbFiColMethodBody = new StringBuilder();
 
         //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
 
-        if (fiCol.getColType()!=null)
+        if (fiCol.getColType() != null)
             sbFiColMethodBody.append(String.format("\tfiCol.buiColType(OzColType.%s);\n", fiCol.getColType().toString()));
 
         String ofiTxIdType = fiCol.getOfiTxIdType();
@@ -684,7 +509,6 @@ public class MocFiColJava {
 
 
         String ofiTxIdType = FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fikField.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
-
 
         if (!FiString.isEmpty(ofiTxIdType)) {
             fiCol.setBoKeyIdField(true);

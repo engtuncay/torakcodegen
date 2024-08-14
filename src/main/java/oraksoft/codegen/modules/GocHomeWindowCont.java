@@ -106,11 +106,7 @@ public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         // FiColHelpers (2)
 
         gocHomeView.getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detayli Alanlar)"
-                        , ()-> MocFiColJava.bui(this).actGenFiColClassWitDetailByExcel()));
-
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (2)"
+                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
                         , ()-> MocFiColJava.bui(this).actGenFiColListByExcel()));
 
         gocHomeView.getCmbFiColHelpers2().addComboItem(
