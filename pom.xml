@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.orakyazilim</groupId>
-    <artifactId>torakcodegen</artifactId>
+    <artifactId>codegen</artifactId>
     <version>0.1</version>
 
     <build>
