@@ -1,6 +1,6 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.GocHomeWindowCont;
+import oraksoft.codegen.modules.CocHomeWindowCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,11 +22,11 @@ public class AppCodeGen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GocHomeWindowCont gocHomeWindowCont = new GocHomeWindowCont();
-        gocHomeWindowCont.initCont();
-        gocHomeWindowCont.setFxStage(primaryStage);
+        CocHomeWindowCont cocHomeWindowCont = new CocHomeWindowCont();
+        cocHomeWindowCont.initCont();
+        cocHomeWindowCont.setFxStage(primaryStage);
 
-        Scene scene = new Scene(gocHomeWindowCont.getModView().getRootPane());
+        Scene scene = new Scene(cocHomeWindowCont.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);

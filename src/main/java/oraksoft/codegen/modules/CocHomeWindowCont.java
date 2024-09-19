@@ -27,11 +27,11 @@ import java.io.File;
 import java.util.*;
 
 /**
- * (Coc : Gui (Controller) - Orak Code Generator ) Home Screen
+ * (Coc : Controller of Orak Code Generator ) Home Screen
  * <p>
  * Mcg : Modal of Orak Code Generator App (Moc)
  */
-public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
+public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     GocHomeWindowView gocHomeView;
     Class classSelected;
@@ -103,7 +103,7 @@ public class GocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // **** FiCol Generator Helpers
 
-        // FiColHelpers (2)
+        // ## FiColHelpers (2)
 
         gocHomeView.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"

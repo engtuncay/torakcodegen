@@ -2,6 +2,9 @@ package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.gui.fxcomponents.FxTextArea;
 
+/**
+ * Mcg : Model Code Generator (Home Module)
+ */
 public class McgHome {
 
 	FxTextArea fxTextArea;
