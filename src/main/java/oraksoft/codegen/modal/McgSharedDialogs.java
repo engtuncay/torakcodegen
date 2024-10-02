@@ -8,7 +8,7 @@ import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fxwindow.FxSimpleTableWindowCont;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
-import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
+import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 import ozpasyazilim.utils.gui.fxcomponents.FxWindow;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class McgSharedDialogs {
 
 	public static Integer actDialogIdSelection() {
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
 		fxSimpleDialog.openAsDialogSync();
 
 		if (fxSimpleDialog.isClosedWithOk()) {

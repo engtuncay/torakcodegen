@@ -7,7 +7,7 @@ import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fidborm.FiQugen;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
-import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
+import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 
 public class MlcgCsharp {
 
@@ -23,7 +23,7 @@ public class MlcgCsharp {
 			return;
 		}
 
-		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextField, "Tablo Adını Giriniz:");
+		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Tablo Adını Giriniz:");
 		fxSimpleDialog.openAsDialogSync();
 
 		if (fxSimpleDialog.isClosedWithOk()) {

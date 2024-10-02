@@ -2,9 +2,11 @@ package oraksoft.codegen.modal;
 
 import javafx.util.Pair;
 import oraksoft.codegen.entity.EntityClazz;
+import oraksoft.codegen.modules.ModFiColTableListCont;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEnmMutabakat;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
+import ozpasyazilim.utils.core.FiReflection;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.datatypes.FiKeyString;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
@@ -157,8 +159,25 @@ public class McgSql {
 	public String createQueryByFiCol() {
 
 		//if (!checkSelClass(selectedClass)) return "";
+		ModFiColTableListCont modEntityListCont = new ModFiColTableListCont();
+		modEntityListCont.initCont();
+		modEntityListCont.openAsNonModal();
+		//McgSharedDialogs.showDialogSelectEntityClass();
+		EntityClazz selectedEntity = modEntityListCont.getEntitySelected();
 
-		String sqlCreate = FiQugen.createQuery20(new FiColsEnmMutabakat());
+		if (selectedEntity != null) {
+			//setClassSelected(selectedEntity.getClazz());
+			//getGcgHomeCodeGenView().getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+			Loghelper.get(getClass()).debug("FiColTable seçildi");
+
+		} else {
+			FxDialogShow.showPopWarn("FiColTable Seçilmedi !!!");
+			return "";
+		}
+
+		IFiTableMeta iFiTableMeta = (IFiTableMeta) FiReflection.generateObject(selectedEntity.getClazz());
+
+        String sqlCreate = FiQugen.createQueryByIFiTableMeta(iFiTableMeta); //new FiColsEnmMutabakat()
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {

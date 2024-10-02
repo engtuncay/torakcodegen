@@ -20,7 +20,7 @@ import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.FiColList;
 import ozpasyazilim.utils.fxwindow.FxSimpleContGen;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
-import ozpasyazilim.utils.fxwindow.FxSimpleDialogMetaType;
+import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         gocHomeView = new GocHomeWindowView();
         gocHomeView.initGui();
 
-        gocHomeView.getBtnClassSec().setOnAction(event -> actBtnClassSec());
+        gocHomeView.getBtnClassSec().setOnAction(event -> actBtnSelectClass());
         gocHomeView.getBtnServer1().setOnAction(event -> actBtnSelectServer1());
 
         gocHomeView.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
@@ -88,7 +88,153 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // ***** Db To Code Combos
         FxMenuButton mbDbToCode = new FxMenuButton("Db To Code");
+        setupDbToCode(mbDbToCode);
 
+        // **** FiCol Generator Helpers
+        setupMenuFiColHelpers2();
+        setupMenuFiColHelper1();
+
+        // **** Db Read Combos
+        setupDbReadCombos();
+
+        // **** Excel Islemler Combos
+        setupMenuExcelIslemler();
+
+        // enumComboItem.ExcelToEntity
+
+        // ****** Query Helpers Combos
+        setupMenuQueryGenerator();
+
+        // Xml Combo
+        setupMenuXml();
+
+        setupMenuCsharpIslemler();
+
+        // Combobox Listener Ayarları
+
+        gocHomeView.getCmbDbRead().activateSetNullAfterAction();
+        gocHomeView.getCmbFiColHelpers().activateSetNullAfterAction();
+        gocHomeView.getCmbFiColHelpers2().activateSetNullAfterAction();
+        gocHomeView.getCmbExcelIslemler().activateSetNullAfterAction();
+        gocHomeView.getCmbQueryGenerator().activateSetNullAfterAction();
+        gocHomeView.getCmbXmlAraclar().activateSetNullAfterAction();
+
+        // Sql İşlemler
+        FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
+        setupMenuSqlTransfer(mbSqlTransfer);
+
+        // Db Export
+        FxMenuButton mbDbExport = new FxMenuButton("Db Export");
+        setupMenuDbExport(mbDbExport);
+
+        // Menu Layout
+        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbToCode);
+        getGcgHomeCodeGenView().getMigMenu().addSpan(mbSqlTransfer);
+        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbExport);
+
+    }
+
+    private void setupMenuSqlTransfer(FxMenuButton mbSqlTransfer) {
+        FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
+        miTransferTarih.setOnAction(event -> {
+            FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Tarih Giriniz (yyyymmdd)");
+            //fxSimpleDialog.openAsDialogSync();
+            if (fxSimpleDialog.isClosedWithOk()) {
+                getMcgSqlInit().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
+                appendTextNewLine("Tarih Alanı Değeri Atandı:" + fxSimpleDialog.getTxValue());
+            }
+        });
+        mbSqlTransfer.addItem(miTransferTarih);
+
+        FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
+        miTransferTarihExcel.setOnAction(event -> {
+            //Loghelper.get(getClass()).info("excel tarih start");
+            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            if (fiListKeyString != null) {
+                fiListKeyString.clearRowsKeyIfEmpty("txDateField");
+                appendTextNewLine("Tarih Alanları Okundu.");
+            }
+            getMcgSqlInit().setListMapDateField(fiListKeyString);
+            FiConsole.debugListMap(fiListKeyString, McgExcel.class, true);
+        });
+        mbSqlTransfer.addItem(miTransferTarihExcel);
+
+        FxMenuItem miTabloKopyalama = new FxMenuItem("Tablo Kopyalama (Kaynak:Db1->Hedef:Db2)");
+        miTabloKopyalama.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(false)));
+        mbSqlTransfer.addItem(miTabloKopyalama);
+
+        FxMenuItem miTabloKopyalamaTarihli = new FxMenuItem("Tablo Kopyalama Tarihli (Kaynak:Db1->Hedef:Db2)");
+        miTabloKopyalamaTarihli.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(true)));
+        mbSqlTransfer.addItem(miTabloKopyalamaTarihli);
+
+        FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
+        miTransferSqlExcelOto.setOnAction(event -> {
+            //Loghelper.get(getClass()).info("excel tarih start");
+            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            if (fiListKeyString != null) {
+                //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
+                appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
+            }
+            // FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
+            getMcgSqlInit().setListMapDateField(fiListKeyString);
+            getMcgSqlInit().sqlTableCopySrv1ToSrv2Auto();
+        });
+        mbSqlTransfer.addItem(miTransferSqlExcelOto);
+    }
+
+    private void setupMenuCsharpIslemler() {
+        FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
+        gocHomeView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+
+        cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
+    }
+
+    private void setupMenuXml() {
+        gocHomeView.getCmbXmlAraclar().addComboItem(
+                ComboItemText.buildWitAction("Xml to Field List"
+                        , this::actXmlToFiFieldList));
+    }
+
+    private void setupMenuDbExport(FxMenuButton mbDbExport) {
+        FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
+                , (event) -> McgDbExport.actTableExport1(this, true));
+        mbDbExport.addItem(miDbExportForExportTable1);
+
+        FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
+                , (event) -> McgDbExport.actTableExport1(this, false));
+        mbDbExport.addItem(miDbExportForExportTable2);
+    }
+
+    private void setupMenuQueryGenerator() {
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Create Query", () ->
+                        actionResult(getMcgSqlInit().createQuery(getClassSelected()))));
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
+                        actionResult(getMcgSqlInit().createQueryByFiCol())));
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Alter Table Field(Add)"
+                        , this::actAlterNewFields));
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Clone Table Data"
+                        , this::actCloneTableData));
+
+        gocHomeView.getCmbQueryGenerator().addComboItem(
+                ComboItemText.buildWitAction("Unique1 Fields", () ->
+                        actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected()))));
+    }
+
+    private void setupMenuExcelIslemler() {
+        gocHomeView.getCmbExcelIslemler().addComboItem(
+                ComboItemText.buildWitAction("Excel'den Entity Oluştur"
+                        , () -> actionResult(McgExcel.actExcelToEntity())));
+    }
+
+    private void setupDbToCode(FxMenuButton mbDbToCode) {
         FxMenuItem tabloToEntity = new FxMenuItem("Tablodan Entity Oluştur");
         tabloToEntity.setOnAction(event -> actTableToEntity());
         mbDbToCode.addItem(tabloToEntity);
@@ -100,28 +246,19 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         FxMenuItem vtAlter = new FxMenuItem("Veritabanına eklenecek alanların Alter Sorguları");
         vtAlter.setOnAction(event -> actAlterNewFields());
         mbDbToCode.addItem(vtAlter);
+    }
 
-        // **** FiCol Generator Helpers
+    private void setupDbReadCombos() {
+        gocHomeView.getCmbDbRead().addComboItem(
+                ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
+//		actDbKayitSablonById(); //DbKayitSablonById
 
-        // ## FiColHelpers (2)
+        gocHomeView.getCmbDbRead().addComboItem(
+                ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
+        //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
+    }
 
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
-                        , ()-> MocFiColJava.bui(this).actGenFiColListByExcel()));
-
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
-                , ()-> MocFiColJava.bui(this).actFiColsClassByClass()));
-
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
-                        , () -> MocFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
-
-
-
-        // FiColHelpers (1)
-
-
+    private void setupMenuFiColHelper1() {
         gocHomeView.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
                         , () -> MocFiColJava.codeFiColsMethodsByClass1(this)));
@@ -172,137 +309,21 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
                 ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
                         , this::actAlanListesiByCandIdWithValue));
         //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
+    }
 
+    private void setupMenuFiColHelpers2() {
 
-        // **** Db Read Combos
+        gocHomeView.getCmbFiColHelpers2().addComboItem(
+                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
+                        , ()-> MocFiColJava.bui(this).actGenFiColListByExcel()));
 
-        gocHomeView.getCmbDbRead().addComboItem(
-                ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
-//		actDbKayitSablonById(); //DbKayitSablonById
+        gocHomeView.getCmbFiColHelpers2().addComboItem(
+                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
+                , ()-> MocFiColJava.bui(this).actFiColsClassByClass()));
 
-        gocHomeView.getCmbDbRead().addComboItem(
-                ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
-        //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
-
-
-        // **** Excel Islemler Combos
-
-        gocHomeView.getCmbExcelIslemler().addComboItem(
-                ComboItemText.buildWitAction("Excel'den Entity Oluştur"
-                        , () -> actionResult(McgExcel.actExcelToEntity())));
-
-        // enumComboItem.ExcelToEntity
-
-        // ****** Query Helpers Combos
-
-        gocHomeView.getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Create Query", () ->
-                        actionResult(getMcgSqlInit().createQuery(getClassSelected()))));
-
-        gocHomeView.getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
-                        actionResult(getMcgSqlInit().createQueryByFiCol())));
-
-        gocHomeView.getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Alter Table Field(Add)"
-                        , this::actAlterNewFields));
-
-        gocHomeView.getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Clone Table Data"
-                        , this::actCloneTableData));
-
-        gocHomeView.getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Unique1 Fields", () ->
-                        actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected()))));
-
-        // Xml Combo
-
-        gocHomeView.getCmbXmlAraclar().addComboItem(
-                ComboItemText.buildWitAction("Xml to Field List"
-                        , this::actXmlToFiFieldList));
-
-
-        FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-        gocHomeView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
-
-        cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
-
-        // Combobox Listener Ayarları
-
-        gocHomeView.getCmbDbRead().activateSetNullAfterAction();
-        gocHomeView.getCmbFiColHelpers().activateSetNullAfterAction();
-        gocHomeView.getCmbFiColHelpers2().activateSetNullAfterAction();
-        gocHomeView.getCmbExcelIslemler().activateSetNullAfterAction();
-        gocHomeView.getCmbQueryGenerator().activateSetNullAfterAction();
-        gocHomeView.getCmbXmlAraclar().activateSetNullAfterAction();
-
-        // Sql İşlemler
-        FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
-
-
-        FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
-        miTransferTarih.setOnAction(event -> {
-            FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Tarih Giriniz (yyyymmdd)");
-            //fxSimpleDialog.openAsDialogSync();
-            if (fxSimpleDialog.isClosedWithOk()) {
-                getMcgSqlInit().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
-                appendTextNewLine("Tarih Alanı Değeri Atandı:" + fxSimpleDialog.getTxValue());
-            }
-        });
-        mbSqlTransfer.addItem(miTransferTarih);
-
-        FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
-        miTransferTarihExcel.setOnAction(event -> {
-            //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-            if (fiListKeyString != null) {
-                fiListKeyString.clearRowsKeyIfEmpty("txDateField");
-                appendTextNewLine("Tarih Alanları Okundu.");
-            }
-            getMcgSqlInit().setListMapDateField(fiListKeyString);
-            FiConsole.debugListMap(fiListKeyString, McgExcel.class, true);
-        });
-        mbSqlTransfer.addItem(miTransferTarihExcel);
-
-        FxMenuItem miTabloKopyalama = new FxMenuItem("Tablo Kopyalama (Kaynak:Db1->Hedef:Db2)");
-        miTabloKopyalama.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(false)));
-        mbSqlTransfer.addItem(miTabloKopyalama);
-
-        FxMenuItem miTabloKopyalamaTarihli = new FxMenuItem("Tablo Kopyalama Tarihli (Kaynak:Db1->Hedef:Db2)");
-        miTabloKopyalamaTarihli.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(true)));
-        mbSqlTransfer.addItem(miTabloKopyalamaTarihli);
-
-        FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
-        miTransferSqlExcelOto.setOnAction(event -> {
-            //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-            if (fiListKeyString != null) {
-                //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
-                appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
-            }
-            // FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
-            getMcgSqlInit().setListMapDateField(fiListKeyString);
-            getMcgSqlInit().sqlTableCopySrv1ToSrv2Auto();
-        });
-        mbSqlTransfer.addItem(miTransferSqlExcelOto);
-
-        // Db Export
-        FxMenuButton mbDbExport = new FxMenuButton("Db Export");
-
-        FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
-                , (event) -> McgDbExport.actTableExport1(this, true));
-        mbDbExport.addItem(miDbExportForExportTable1);
-
-        FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
-                , (event) -> McgDbExport.actTableExport1(this, false));
-        mbDbExport.addItem(miDbExportForExportTable2);
-
-        // Menu Layout
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbToCode);
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbSqlTransfer);
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbExport);
-
-
+        gocHomeView.getCmbFiColHelpers2().addComboItem(
+                ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
+                        , () -> MocFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
     }
 
 
@@ -396,7 +417,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     public Boolean checkClassChoose() {
 
         if (getClassSelected() == null) {
-            actBtnClassSec();
+            actBtnSelectClass();
         }
 
         if (getClassSelected() != null) {
@@ -411,7 +432,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void actSqlQueryToFiTableColGenerate() {
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextAreaString);
+        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
         fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
         fxSimpleDialog.openAsDialogSync();
 
@@ -432,7 +453,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void actSqlQueryToFiTableCol() {
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextAreaString);
+        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
         fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
         fxSimpleDialog.openAsDialogSync();
 
@@ -455,7 +476,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     private void actAlanListesi() {
 
         if (getClassSelected() == null) {
-            actBtnClassSec();
+            actBtnSelectClass();
         }
 
         if (getClassSelected() != null) {
@@ -479,12 +500,12 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         }
 
         if (getClassSelected() == null) {
-            actBtnClassSec();
+            actBtnSelectClass();
         }
 
         if (getClassSelected() != null) {
 
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
+            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
             fxSimpleDialog.openAsDialogSync();
 
             if (fxSimpleDialog.isClosedWithOk()) {
@@ -534,12 +555,12 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         }
 
         if (getClassSelected() == null) {
-            actBtnClassSec();
+            actBtnSelectClass();
         }
 
         if (getClassSelected() != null) {
 
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextField, "Id Değerini Giriniz");
+            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Id Değerini Giriniz");
             fxSimpleDialog.openAsDialogSync();
 
             if (fxSimpleDialog.isClosedWithOk()) {
@@ -576,7 +597,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     }
 
-    private void actBtnClassSec() {
+    private void actBtnSelectClass() {
         ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
         EntityClazz selectedEntity = modEntityListCont.getEntitySelected();
 
@@ -612,7 +633,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
             return;
         }
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextField, "Tablo Adını Giriniz:");
+        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Tablo Adını Giriniz:");
         fxSimpleDialog.openAsDialogSync();
 
         if (fxSimpleDialog.isClosedWithOk()) {
@@ -642,7 +663,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         if (selectedEntity != null) {
 
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextField, "Enum Sınıfının Adını Giriniz :");
+            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Enum Sınıfının Adını Giriniz :");
             fxSimpleDialog.openAsDialogSync();
 
             String fieldEnumClass = "EntegreField";
@@ -792,7 +813,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     public Integer actDialogIdSelection() {
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
+        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
         fxSimpleDialog.openAsDialogSync();
 
         if (fxSimpleDialog.isClosedWithOk()) {
@@ -805,7 +826,7 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private Object actDialogCandIdEntityForm() {
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FxSimpleDialogMetaType.FormAutoByCandIdFields);
+        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.FormAutoByCandIdFields);
         fxSimpleDialog.setEntityClass(getClassSelected());
         fxSimpleDialog.openAsDialogSync();
 
