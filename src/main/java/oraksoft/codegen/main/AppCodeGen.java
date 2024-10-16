@@ -9,9 +9,11 @@ import ozpasyazilim.utils.log.Loghelper;
 /**
  * Goc -> Gui Orak Code Generator App
  * <p>
- * Moc -> Modal Ocg App
+ * Coc : Controller of Orak Code Generator   (eskiler : Moc)
  * <p>
  * Roc -> Repo Ocg App
+ * <p>
+ * {@link oraksoft.codegen.modules.CocHomeWindowCont} Home Window Controller
  */
 public class AppCodeGen extends Application {
 
