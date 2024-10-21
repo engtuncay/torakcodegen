@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.CocHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeWindowCont;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ozpasyazilim.utils.core.*;
@@ -28,27 +28,27 @@ import java.util.List;
  */
 public class MocFiColJava {
 
-    CocHomeWindowCont gcgHome;
+    OccHomeWindowCont gcgHome;
 
-    public MocFiColJava(CocHomeWindowCont gcgHome) {
+    public MocFiColJava(OccHomeWindowCont gcgHome) {
         this.gcgHome = gcgHome;
     }
 
-    public static MocFiColJava bui(CocHomeWindowCont cocHomeWindowCont) {
-        return new MocFiColJava(cocHomeWindowCont);
+    public static MocFiColJava bui(OccHomeWindowCont occHomeWindowCont) {
+        return new MocFiColJava(occHomeWindowCont);
     }
 
-    public CocHomeWindowCont getGcgHome() {
+    public OccHomeWindowCont getGcgHome() {
         return gcgHome;
     }
 
-    public void setGcgHome(CocHomeWindowCont gcgHome) {
+    public void setGcgHome(OccHomeWindowCont gcgHome) {
         this.gcgHome = gcgHome;
     }
 
     // Metodlar
 
-    public static void actExcelToFiTableColViaMethods(CocHomeWindowCont cocHomeWindowCont) {
+    public static void actExcelToFiTableColViaMethods(OccHomeWindowCont occHomeWindowCont) {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -67,13 +67,13 @@ public class MocFiColJava {
 
             //FiConsole.debugListObjectsToString(listHeader,getClass());
 
-            cocHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
+            occHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
 
         }
 
     }
 
-    public static void actFiColsClassJavaByExcelRowHeader(CocHomeWindowCont cocHomeWindowCont) {
+    public static void actFiColsClassJavaByExcelRowHeader(OccHomeWindowCont occHomeWindowCont) {
 
         //Loghelper.get(MocFiCol.class).debug("actExcelToFiColsMethodWay1");
 
@@ -149,7 +149,7 @@ public class MocFiColJava {
         fkbParamsMain.add("classBody", sbClassBody.toString());
         String txResult = FiString.substitutor(templateMain, fkbParamsMain);
 
-        cocHomeWindowCont.appendTextNewLine(txResult);
+        occHomeWindowCont.appendTextNewLine(txResult);
 
         //gocHomeWindowCont.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldNameForExcel(listHeader, listFields));
     }
@@ -200,7 +200,7 @@ public class MocFiColJava {
         return templateMain;
     }
 
-    public static void actGenFiColListByExcel(CocHomeWindowCont cocHomeWindowCont) {
+    public static void actGenFiColListByExcel(OccHomeWindowCont occHomeWindowCont) {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -209,12 +209,12 @@ public class MocFiColJava {
             List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
             List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
             //FiConsole.debugListObjectsToString(listHeader,getClass());
-            cocHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader, listFields));
+            occHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader, listFields));
         }
 
     }
 
-    public static void codeFiColsMethodsByClass1(CocHomeWindowCont modHome) {
+    public static void codeFiColsMethodsByClass1(OccHomeWindowCont modHome) {
 
         if (!modHome.checkClassChoose()) return;
 

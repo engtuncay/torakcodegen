@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.CocHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeWindowCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiBool;
@@ -28,7 +28,7 @@ public class McgDbExport {
 	 * @param modHome
 	 * @param boExcludePk Primary Key Alanlarını Dahil Etmez
 	 */
-    public static void actTableExport1(CocHomeWindowCont modHome, Boolean boExcludePk) {
+    public static void actTableExport1(OccHomeWindowCont modHome, Boolean boExcludePk) {
 
         if (!MlcgShared.checkAndSetupActiveServerJdbi(modHome)) return;
 

@@ -49,6 +49,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		listPrefix.add("ozpasyazilim.mikro.formEntity");
 		listPrefix.add("ozpasyazilim.mikro.dao");
 
+
 		//listPrefix.add("ozpasyazilim.mikro.dbentity.dbmikro2");
 
 		for (String prefix : listPrefix) {

@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 import ozpasyazilim.utils.gui.fxcomponents.*;
 import ozpasyazilim.utils.mvc.IFiModView;
 
-public class GocHomeWindowView implements IFiModView {
+public class OcgHomeWindow implements IFiModView {
 
 	// Layout Components
 	private FxMigPane migRoot;

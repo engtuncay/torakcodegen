@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.CocHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeWindowCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiString;
@@ -11,7 +11,7 @@ import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 
 public class MlcgCsharp {
 
-	public void actCsharpSinifOlusturma(CocHomeWindowCont modHome) {
+	public void actCsharpSinifOlusturma(OccHomeWindowCont modHome) {
 
 		Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 

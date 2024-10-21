@@ -27,13 +27,14 @@ import java.io.File;
 import java.util.*;
 
 /**
- * (Coc : Controller of Orak Code Generator ) Home Screen
+ * Occ : Orak Code Generator - Controller
  * <p>
- * Mcg : Modal of Orak Code Generator App (Moc)
+ * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
+ *
  */
-public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
+public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
-    GocHomeWindowView gocHomeView;
+    OcgHomeWindow ocgHomeWindow;
     Class classSelected;
     Class classSelected2;
 
@@ -46,16 +47,16 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     @Override
     public void initCont() {
 
-        gocHomeView = new GocHomeWindowView();
-        gocHomeView.initGui();
+        ocgHomeWindow = new OcgHomeWindow();
+        ocgHomeWindow.initGui();
 
-        gocHomeView.getBtnClassSec().setOnAction(event -> actBtnSelectClass());
-        gocHomeView.getBtnServer1().setOnAction(event -> actBtnSelectServer1());
+        ocgHomeWindow.getBtnClassSec().setOnAction(event -> actBtnSelectClass());
+        ocgHomeWindow.getBtnServer1().setOnAction(event -> actBtnSelectServer1());
 
-        gocHomeView.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
-        gocHomeView.getBtnServer2().setOnAction(event -> actBtnSelectServer2());
+        ocgHomeWindow.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
+        ocgHomeWindow.getBtnServer2().setOnAction(event -> actBtnSelectServer2());
 
-        gocHomeView.getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
+        ocgHomeWindow.getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
 
         // modal ayarlar
         getMcgHomeInit().setFxTextArea(getModView().getTxaMainOutput());
@@ -112,12 +113,12 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // Combobox Listener Ayarları
 
-        gocHomeView.getCmbDbRead().activateSetNullAfterAction();
-        gocHomeView.getCmbFiColHelpers().activateSetNullAfterAction();
-        gocHomeView.getCmbFiColHelpers2().activateSetNullAfterAction();
-        gocHomeView.getCmbExcelIslemler().activateSetNullAfterAction();
-        gocHomeView.getCmbQueryGenerator().activateSetNullAfterAction();
-        gocHomeView.getCmbXmlAraclar().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbDbRead().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbFiColHelpers().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbFiColHelpers2().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbExcelIslemler().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbQueryGenerator().activateSetNullAfterAction();
+        ocgHomeWindow.getCmbXmlAraclar().activateSetNullAfterAction();
 
         // Sql İşlemler
         FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
@@ -184,13 +185,13 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuCsharpIslemler() {
         FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-        gocHomeView.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+        ocgHomeWindow.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
         cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
     }
 
     private void setupMenuXml() {
-        gocHomeView.getCmbXmlAraclar().addComboItem(
+        ocgHomeWindow.getCmbXmlAraclar().addComboItem(
                 ComboItemText.buildWitAction("Xml to Field List"
                         , this::actXmlToFiFieldList));
     }
@@ -207,29 +208,29 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuQueryGenerator() {
 
-        gocHomeView.getCmbQueryGenerator().addComboItem(
+        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Create Query", () ->
                         actionResult(getMcgSqlInit().createQuery(getClassSelected()))));
 
-        gocHomeView.getCmbQueryGenerator().addComboItem(
+        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
                         actionResult(getMcgSqlInit().createQueryByFiCol())));
 
-        gocHomeView.getCmbQueryGenerator().addComboItem(
+        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Alter Table Field(Add)"
                         , this::actAlterNewFields));
 
-        gocHomeView.getCmbQueryGenerator().addComboItem(
+        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Clone Table Data"
                         , this::actCloneTableData));
 
-        gocHomeView.getCmbQueryGenerator().addComboItem(
+        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Unique1 Fields", () ->
                         actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected()))));
     }
 
     private void setupMenuExcelIslemler() {
-        gocHomeView.getCmbExcelIslemler().addComboItem(
+        ocgHomeWindow.getCmbExcelIslemler().addComboItem(
                 ComboItemText.buildWitAction("Excel'den Entity Oluştur"
                         , () -> actionResult(McgExcel.actExcelToEntity())));
     }
@@ -249,33 +250,33 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private void setupDbReadCombos() {
-        gocHomeView.getCmbDbRead().addComboItem(
+        ocgHomeWindow.getCmbDbRead().addComboItem(
                 ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
-        gocHomeView.getCmbDbRead().addComboItem(
+        ocgHomeWindow.getCmbDbRead().addComboItem(
                 ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
         //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
     }
 
     private void setupMenuFiColHelper1() {
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
                         , () -> MocFiColJava.codeFiColsMethodsByClass1(this)));
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
                         , () -> appendTextNewLine(MocTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
                         , () -> appendTextNewLine(MocTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur"
                         , () -> MocFiColJava.actExcelToFiTableColViaMethods(this)));
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
                         , () -> MocFiColJava.actGenFiColListByExcel(this)));
 
@@ -285,27 +286,27 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur."
                         , this::actSqlQueryToFiTableCol));
 
         //actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
                         , this::actSqlQueryToFiTableColGenerate));
         // actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
         //actAlanListesi();//AlanListesi
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi By Id With Value"
                         , this::actAlanListesiByIdWithValue));
         //actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
-        gocHomeView.getCmbFiColHelpers().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
                         , this::actAlanListesiByCandIdWithValue));
         //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
@@ -313,15 +314,15 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuFiColHelpers2() {
 
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
-                        , ()-> MocFiColJava.bui(this).actGenFiColListByExcel()));
+                        , () -> MocFiColJava.bui(this).actGenFiColListByExcel()));
 
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
-                , ()-> MocFiColJava.bui(this).actFiColsClassByClass()));
+                        , () -> MocFiColJava.bui(this).actFiColsClassByClass()));
 
-        gocHomeView.getCmbFiColHelpers2().addComboItem(
+        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
                         , () -> MocFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
     }
@@ -949,12 +950,12 @@ public class CocHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     @Override
-    public GocHomeWindowView getModView() {
+    public OcgHomeWindow getModView() {
         return getGcgHomeCodeGenView();
     }
 
-    public GocHomeWindowView getGcgHomeCodeGenView() {
-        return gocHomeView;
+    public OcgHomeWindow getGcgHomeCodeGenView() {
+        return ocgHomeWindow;
     }
 
     public String getPropPath() {

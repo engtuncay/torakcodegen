@@ -1,21 +1,21 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.CocHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeWindowCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ozpasyazilim.utils.log.Loghelper;
 
 /**
- * Goc -> Gui Orak Code Generator App
+ * Ocg -> Orak Code Generator - Gui  (eski Goc ) -> Gui Orak Code Generator App
  * <p>
- * Coc : Controller of Orak Code Generator   (eskiler : Moc)
+ * Occ : Orak Code Generator - Controller (eskiler : Moc)
  * <p>
  * Roc -> Repo Ocg App
  * <p>
- * {@link oraksoft.codegen.modules.CocHomeWindowCont} Home Window Controller
+ * {@link OccHomeWindowCont} Home Window Controller
  */
-public class AppCodeGen extends Application {
+public class AppOrakCodeGen extends Application {
 
     public static void main(String[] args) {
         Loghelper.installLogger(true);
@@ -24,11 +24,11 @@ public class AppCodeGen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        CocHomeWindowCont cocHomeWindowCont = new CocHomeWindowCont();
-        cocHomeWindowCont.initCont();
-        cocHomeWindowCont.setFxStage(primaryStage);
+        OccHomeWindowCont occHomeWindowCont = new OccHomeWindowCont();
+        occHomeWindowCont.initCont();
+        occHomeWindowCont.setFxStage(primaryStage);
 
-        Scene scene = new Scene(cocHomeWindowCont.getModView().getRootPane());
+        Scene scene = new Scene(occHomeWindowCont.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
