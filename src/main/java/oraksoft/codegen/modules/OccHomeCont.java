@@ -30,19 +30,41 @@ import java.util.*;
  * Occ : Orak Code Generator - Controller
  * <p>
  * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
- *
  */
-public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
+public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     OcgHomeWindow ocgHomeWindow;
-    Class classSelected;
+    Class classSelected1;
     Class classSelected2;
 
     Stage mainStage;
     File fileSelected;
 
     private McgSql mcgSql;
-    private McgHome mcgHome;
+    private OcmHome ocmHome;
+
+    // Other Components
+
+    private FxTextArea txaMainOutput;
+    private FxButton btnServer1;
+    private FxButton btnServer2;
+    private FxButton btnClassSec;
+    private FxButton btnClassSec2;
+    private FxButton btnDosyaSec;
+
+    private FxMenuButton csharpIslemler;
+    private FxCheckBox chkDosyayaYazdir;
+    private FxCheckBox chkVeritabandaOlustur;
+
+    private FxComboBoxSimple cmbFiColHelpers;
+    private FxComboBoxSimple cmbFiColHelpers2;
+
+    private FxComboBoxSimple cmbDbRead;
+    private FxComboBoxSimple cmbQueryGenerator;
+    private FxMenuButton mnbTypeScript;
+    private FxComboBoxSimple cmbExcelIslemler;
+    private FxComboBoxSimple cmbXmlAraclar;
+    private String txDosyaYolu;
 
     @Override
     public void initCont() {
@@ -50,26 +72,96 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         ocgHomeWindow = new OcgHomeWindow();
         ocgHomeWindow.initGui();
 
-        ocgHomeWindow.getBtnClassSec().setOnAction(event -> actBtnSelectClass());
-        ocgHomeWindow.getBtnServer1().setOnAction(event -> actBtnSelectServer1());
+        // Other components
+        chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
+        chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
+        btnServer1 = new FxButton("Server Seç");
 
-        ocgHomeWindow.getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
-        ocgHomeWindow.getBtnServer2().setOnAction(event -> actBtnSelectServer2());
+        btnClassSec = new FxButton("Class Seç");
+        btnServer2 = new FxButton("Server(2)");
+        btnClassSec2 = new FxButton("Class(2) Seç");
+        btnDosyaSec = new FxButton("Dosya Seç");
 
-        ocgHomeWindow.getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
+        // Combo Menuler
+
+        cmbFiColHelpers = new FxComboBoxSimple("FiCol");
+        cmbFiColHelpers.setMaxWidth(150d);
+
+        cmbFiColHelpers2 = new FxComboBoxSimple("FiCol(2)");
+        cmbFiColHelpers2.setMaxWidth(150d);
+
+        cmbDbRead = new FxComboBoxSimple("Db Table Read");
+        cmbQueryGenerator = new FxComboBoxSimple("Query");
+        mnbTypeScript = new FxMenuButton("Typescript"); // FxComboBoxSimple("TypeScript");
+        cmbExcelIslemler = new FxComboBoxSimple("Excel");
+        cmbXmlAraclar = new FxComboBoxSimple("Xml");
+
+        csharpIslemler = new FxMenuButton("Csharp");
+
+        getMigMenu().add(chkDosyayaYazdir, "");
+        getMigMenu().add(chkVeritabandaOlustur, "wrap");
+        getMigMenu().add(btnServer1, "");
+        getMigMenu().add(btnClassSec, "");
+        getMigMenu().add(btnDosyaSec, "");
+
+        //migMenu.add(new FxLabel("-----"), "span");
+        getMigMenu().add(btnServer2, "");
+        getMigMenu().add(btnClassSec2, "wrap");
+        //migMenu.add(new FxLabel("-----"), "span");
+        getMigMenu().add(cmbFiColHelpers, "");
+        getMigMenu().add(cmbFiColHelpers2, "");
+        getMigMenu().add(cmbDbRead, "");
+        getMigMenu().add(cmbQueryGenerator, "");
+        getMigMenu().add(mnbTypeScript, "");
+        getMigMenu().add(cmbExcelIslemler, "wrap");
+        getMigMenu().add(cmbXmlAraclar, "");
+        getMigMenu().add(csharpIslemler, "wrap");
+
+        //migMenu.add(new FxLabel("-----"), "span");
+
+        txaMainOutput = new FxTextArea();
+        getMigContent().add(getTxaMainOutput(), "span,grow,push");
+
+        getBtnClassSec().setOnAction(event -> actBtnSelectClass1());
+        getBtnServer1().setOnAction(event -> actBtnSelectServer1());
+
+        getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
+        getBtnServer2().setOnAction(event -> actBtnSelectServer2());
+
+        getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
 
         // modal ayarlar
-        getMcgHomeInit().setFxTextArea(getModView().getTxaMainOutput());
+        getMcgHomeInit().setFxTextArea(getTxaMainOutput());
         getMcgHomeInit().setModalSql(getMcgSqlInit());
         getMcgSqlInit().setMcgHome(getMcgHomeInit());
 
-        getModView().getChkVeritabandaOlustur().setOnChangeAction(aBoolean -> {
+        getChkVeritabandaOlustur().setOnChangeAction(aBoolean -> {
             getMcgSqlInit().setBoEnableDbOperation(aBoolean);
             //System.out.println("isEnabDbOper:"+ aBoolean);
         });
 
         setupCombos();
 
+        setupMenuTypescript();
+
+    }
+
+    private void setupMenuTypescript() {
+
+        FxMenuItem meiJavaClassToTs = new FxMenuItem("Java Class To Ts Class");
+        meiJavaClassToTs.setOnAction(event -> OcmTypescript.classToTsClass(this));
+
+        getMnbTypeScript().addItem(meiJavaClassToTs);
+
+
+    }
+
+    private FxMigPane getMigContent() {
+        return getModView().getMigContent();
+    }
+
+    private FxMigPane getMigMenu() {
+        return getModView().getMigMenu();
     }
 
     private void actBtnDosyaSec() {
@@ -78,7 +170,7 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         setFileSelected(fileSelected);
 
         if (fileSelected != null) {
-            getModView().getBtnDosyaSec().setText("Dosya:" + fileSelected.getName());
+            getBtnDosyaSec().setText("Dosya:" + fileSelected.getName());
         }
 
     }
@@ -113,12 +205,12 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // Combobox Listener Ayarları
 
-        ocgHomeWindow.getCmbDbRead().activateSetNullAfterAction();
-        ocgHomeWindow.getCmbFiColHelpers().activateSetNullAfterAction();
-        ocgHomeWindow.getCmbFiColHelpers2().activateSetNullAfterAction();
-        ocgHomeWindow.getCmbExcelIslemler().activateSetNullAfterAction();
-        ocgHomeWindow.getCmbQueryGenerator().activateSetNullAfterAction();
-        ocgHomeWindow.getCmbXmlAraclar().activateSetNullAfterAction();
+        getCmbDbRead().activateSetNullAfterAction();
+        getCmbFiColHelpers().activateSetNullAfterAction();
+        getCmbFiColHelpers2().activateSetNullAfterAction();
+        getCmbExcelIslemler().activateSetNullAfterAction();
+        getCmbQueryGenerator().activateSetNullAfterAction();
+        getCmbXmlAraclar().activateSetNullAfterAction();
 
         // Sql İşlemler
         FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
@@ -129,9 +221,9 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         setupMenuDbExport(mbDbExport);
 
         // Menu Layout
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbToCode);
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbSqlTransfer);
-        getGcgHomeCodeGenView().getMigMenu().addSpan(mbDbExport);
+        getOcgHomeWindow().getMigMenu().addSpan(mbDbToCode);
+        getOcgHomeWindow().getMigMenu().addSpan(mbSqlTransfer);
+        getOcgHomeWindow().getMigMenu().addSpan(mbDbExport);
 
     }
 
@@ -185,13 +277,13 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuCsharpIslemler() {
         FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-        ocgHomeWindow.getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+        getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
         cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
     }
 
     private void setupMenuXml() {
-        ocgHomeWindow.getCmbXmlAraclar().addComboItem(
+        getCmbXmlAraclar().addComboItem(
                 ComboItemText.buildWitAction("Xml to Field List"
                         , this::actXmlToFiFieldList));
     }
@@ -208,29 +300,29 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuQueryGenerator() {
 
-        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
+        getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Create Query", () ->
-                        actionResult(getMcgSqlInit().createQuery(getClassSelected()))));
+                        actionResult(getMcgSqlInit().createQuery(getClassSelected1()))));
 
-        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
+        getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
                         actionResult(getMcgSqlInit().createQueryByFiCol())));
 
-        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
+        getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Alter Table Field(Add)"
                         , this::actAlterNewFields));
 
-        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
+        getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Clone Table Data"
                         , this::actCloneTableData));
 
-        ocgHomeWindow.getCmbQueryGenerator().addComboItem(
+        getCmbQueryGenerator().addComboItem(
                 ComboItemText.buildWitAction("Unique1 Fields", () ->
-                        actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected()))));
+                        actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected1()))));
     }
 
     private void setupMenuExcelIslemler() {
-        ocgHomeWindow.getCmbExcelIslemler().addComboItem(
+        getCmbExcelIslemler().addComboItem(
                 ComboItemText.buildWitAction("Excel'den Entity Oluştur"
                         , () -> actionResult(McgExcel.actExcelToEntity())));
     }
@@ -250,35 +342,35 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private void setupDbReadCombos() {
-        ocgHomeWindow.getCmbDbRead().addComboItem(
+        getCmbDbRead().addComboItem(
                 ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
-        ocgHomeWindow.getCmbDbRead().addComboItem(
+        getCmbDbRead().addComboItem(
                 ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
         //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
     }
 
     private void setupMenuFiColHelper1() {
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
-                        , () -> MocFiColJava.codeFiColsMethodsByClass1(this)));
+                        , () -> OcmFiColJava.codeFiColsMethodsByClass1(this)));
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
-                        , () -> appendTextNewLine(MocTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
+                        , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
-                        , () -> appendTextNewLine(MocTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
+                        , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur"
-                        , () -> MocFiColJava.actExcelToFiTableColViaMethods(this)));
+                        , () -> OcmFiColJava.actExcelToFiTableColViaMethods(this)));
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
-                        , () -> MocFiColJava.actGenFiColListByExcel(this)));
+                        , () -> OcmFiColJava.actGenFiColListByExcel(this)));
 
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 // , "Excelden FiTableCol List oluştur.(Auto Field Name)");
@@ -286,27 +378,27 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur."
                         , this::actSqlQueryToFiTableCol));
 
         //actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
                         , this::actSqlQueryToFiTableColGenerate));
         // actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
         //actAlanListesi();//AlanListesi
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi By Id With Value"
                         , this::actAlanListesiByIdWithValue));
         //actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
-        ocgHomeWindow.getCmbFiColHelpers().addComboItem(
+        getCmbFiColHelpers().addComboItem(
                 ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
                         , this::actAlanListesiByCandIdWithValue));
         //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
@@ -314,17 +406,17 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuFiColHelpers2() {
 
-        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
+        getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
-                        , () -> MocFiColJava.bui(this).actGenFiColListByExcel()));
+                        , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
 
-        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
+        getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
-                        , () -> MocFiColJava.bui(this).actFiColsClassByClass()));
+                        , () -> OcmFiColJava.bui(this).actFiColsClassByClass()));
 
-        ocgHomeWindow.getCmbFiColHelpers2().addComboItem(
+        getCmbFiColHelpers2().addComboItem(
                 ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
-                        , () -> MocFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
+                        , () -> OcmFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
     }
 
 
@@ -333,7 +425,7 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
      */
     private void actXmlToFiFieldList() {
         //Loghelper.get(getClass()).debug("Xml To Field List");
-        String code = MocXml.actXmlToFiFieldList(getFileSelected());
+        String code = OcmXml.actXmlToFiFieldList(getFileSelected());
         appendTextNewLine(code);
     }
 
@@ -352,13 +444,13 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         if (form != null) {
 
-            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected()).jdSelectListByCandIds(form);
+            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListByCandIds(form);
 
             if (fdr.getValue().size() > 0) {
 
                 //Loghelper.getInstance(getClass()).debug("Size:"+fiDbResult.getResValue().size());
 
-                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected(), "ozpasentegre");
+                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
 
             } else {
                 System.out.println("Db den Veri Okunamadı");
@@ -376,11 +468,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
         if (idNo != null) {
 
-            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected()).jdSelectListById(idNo);
+            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListById(idNo);
 
             if (fdr.getValue().size() > 0) {
 
-                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected(), "ozpasentegre");
+                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
 
             } else {
                 System.out.println("Db den Veri Okunamadı");
@@ -417,11 +509,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     public Boolean checkClassChoose() {
 
-        if (getClassSelected() == null) {
-            actBtnSelectClass();
+        if (getClassSelected1() == null) {
+            actBtnSelectClass1();
         }
 
-        if (getClassSelected() != null) {
+        if (getClassSelected1() != null) {
             return true;
         } else {
             FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
@@ -476,12 +568,12 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void actAlanListesi() {
 
-        if (getClassSelected() == null) {
-            actBtnSelectClass();
+        if (getClassSelected1() == null) {
+            actBtnSelectClass1();
         }
 
-        if (getClassSelected() != null) {
-            appendTextNewLine(FiCodeGen.codeClassFieldList(getClassSelected()));
+        if (getClassSelected1() != null) {
+            appendTextNewLine(FiCodeGen.codeClassFieldList(getClassSelected1()));
         } else {
             FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
         }
@@ -500,11 +592,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
             return;
         }
 
-        if (getClassSelected() == null) {
-            actBtnSelectClass();
+        if (getClassSelected1() == null) {
+            actBtnSelectClass1();
         }
 
-        if (getClassSelected() != null) {
+        if (getClassSelected1() != null) {
 
             FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
             fxSimpleDialog.openAsDialogSync();
@@ -517,11 +609,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
                 if (idNo != null) {
 
-                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected()).jdSelectEntityOptById(idNo);
+                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptById(idNo);
 
                     if (fdr.getValue().isPresent()) {
                         //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected(), fdr.getValue());
+                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
                         appendTextNewLine(result);
                     } else {
                         System.out.println("Db den Veri Okunamadı");
@@ -555,11 +647,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
             return;
         }
 
-        if (getClassSelected() == null) {
-            actBtnSelectClass();
+        if (getClassSelected1() == null) {
+            actBtnSelectClass1();
         }
 
-        if (getClassSelected() != null) {
+        if (getClassSelected1() != null) {
 
             FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Id Değerini Giriniz");
             fxSimpleDialog.openAsDialogSync();
@@ -572,11 +664,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
                 if (candIdValue != null) {
 
-                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected()).jdSelectEntityOptByStringCandId1(candIdValue);
+                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptByStringCandId1(candIdValue);
 
                     if (fdr.getValue().isPresent()) {
                         //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected(), fdr.getValue());
+                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
                         appendTextNewLine(result);
                     } else {
                         System.out.println("Db den Veri Okunamadı");
@@ -598,13 +690,13 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     }
 
-    private void actBtnSelectClass() {
-        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
-        EntityClazz selectedEntity = modEntityListCont.getEntitySelected();
+    private void actBtnSelectClass1() {
+        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+        EntityClazz selectedEntity = occEntityListCont.getEntitySelected();
 
         if (selectedEntity != null) {
-            setClassSelected(selectedEntity.getClazz());
-            getGcgHomeCodeGenView().getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+            setClassSelected1(selectedEntity.getClazz());
+            getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
         } else {
             FxDialogShow.showPopWarn("Sınıf Seçilmedi !!!");
         }
@@ -612,12 +704,12 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private void actBtnClassSec2() {
-        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
-        EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
             setClassSelected2(selectedEntity.getClazz());
-            getGcgHomeCodeGenView().getBtnClassSec2().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+            getBtnClassSec2().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
         }
 
     }
@@ -646,9 +738,9 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
             String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
             if (!FiString.isEmpty(entityCode)) {
-                getGcgHomeCodeGenView().getTxaMainOutput().appendText(entityCode);
+                getTxaMainOutput().appendText(entityCode);
             } else {
-                getGcgHomeCodeGenView().getTxaMainOutput().appendText("N/A");
+                getTxaMainOutput().appendText("N/A");
             }
 
         }
@@ -658,9 +750,9 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void actBtnFiTableColListWithEnumFields() {
 
-        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
+        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
 
-        EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
 
@@ -675,13 +767,13 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
                 }
             }
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(
+            getTxaMainOutput().appendTextLnAsyn(
                     FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendNewLine();
-            getGcgHomeCodeGenView().getTxaMainOutput().appendNewLine();
+            getTxaMainOutput().appendNewLine();
+            getTxaMainOutput().appendNewLine();
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(
+            getTxaMainOutput().appendTextLnAsyn(
                     FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
@@ -690,19 +782,19 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void actBtnFiTableColListWithFieldHeader() {
 
-        ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
+        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
 
-        EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
 
         if (selectedEntity != null) {
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(
+            getTxaMainOutput().appendTextLnAsyn(
                     FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendNewLine();
-            getGcgHomeCodeGenView().getTxaMainOutput().appendNewLine();
+            getTxaMainOutput().appendNewLine();
+            getTxaMainOutput().appendNewLine();
 
-            getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(
+            getTxaMainOutput().appendTextLnAsyn(
                     FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
         }
@@ -723,7 +815,7 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
                 getMcgSqlInit().setJdbi1(jdbiFdr.getValue());
 
                 String txMessage = String.format("Server: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
-                getGcgHomeCodeGenView().getBtnServer1().setText(txMessage);
+                getBtnServer1().setText(txMessage);
                 FxDialogShow.showPopInfo("Server Bağlantı Başarılı ***");
             } else {
                 FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
@@ -742,7 +834,7 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
             if (fdrConnection.getValue() != null) {
                 getMcgSqlInit().setServerConfig2(serverConfig2);
                 getMcgSqlInit().setJdbi2(fdrConnection.getValue());
-                getGcgHomeCodeGenView().getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
+                getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
                 FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
             } else {
                 FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getMessage());
@@ -775,14 +867,14 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private void entityFillerMethodFromDb() {
-        appendTextNewLine(McgSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected()));
+        appendTextNewLine(McgSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected1()));
     }
 
     private void actAlterNewFields() {
 
         if (checkServer() && checkClassChoose()) {
 
-            Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected(), getAndSetupActiveServerJdbi());
+            Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected1(), getAndSetupActiveServerJdbi());
 
             FxDialogShow.showDbResult(fdr);
 
@@ -828,7 +920,7 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     private Object actDialogCandIdEntityForm() {
 
         FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.FormAutoByCandIdFields);
-        fxSimpleDialog.setEntityClass(getClassSelected());
+        fxSimpleDialog.setEntityClass(getClassSelected1());
         fxSimpleDialog.openAsDialogSync();
 
         if (fxSimpleDialog.isClosedWithOk()) {
@@ -938,36 +1030,32 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private boolean isEnableDbOperation() {
-        return getGcgHomeCodeGenView().getChkVeritabandaOlustur().isSelected();
+        return getChkVeritabandaOlustur().isSelected();
     }
 
     public void appendTextNewLine(String txValue) {
-        getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(txValue);
+        getTxaMainOutput().appendTextLnAsyn(txValue);
     }
 
     public void actionResult(String txResult) {
-        getGcgHomeCodeGenView().getTxaMainOutput().appendTextLnAsyn(txResult);
+        getTxaMainOutput().appendTextLnAsyn(txResult);
     }
 
     @Override
     public OcgHomeWindow getModView() {
-        return getGcgHomeCodeGenView();
-    }
-
-    public OcgHomeWindow getGcgHomeCodeGenView() {
-        return ocgHomeWindow;
+        return getOcgHomeWindow();
     }
 
     public String getPropPath() {
         return "appcodegen.properties";
     }
 
-    public Class getClassSelected() {
-        return classSelected;
+    public Class getClassSelected1() {
+        return classSelected1;
     }
 
-    public void setClassSelected(Class classSelected) {
-        this.classSelected = classSelected;
+    public void setClassSelected1(Class classSelected1) {
+        this.classSelected1 = classSelected1;
     }
 
     public Class getClassSelected2() {
@@ -993,11 +1081,11 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         return mcgSql;
     }
 
-    public McgHome getMcgHomeInit() {
-        if (mcgHome == null) {
-            mcgHome = new McgHome();
+    public OcmHome getMcgHomeInit() {
+        if (ocmHome == null) {
+            ocmHome = new OcmHome();
         }
-        return mcgHome;
+        return ocmHome;
     }
 
     public void setMainStage(Stage mainStage) {
@@ -1005,7 +1093,89 @@ public class OccHomeWindowCont extends AbsFiModBaseCont implements IFiModCont {
         setFxStage(mainStage);
     }
 
+    public OcgHomeWindow getOcgHomeWindow() {
+        return ocgHomeWindow;
+    }
 
+    public Stage getMainStage() {
+        return mainStage;
+    }
+
+    public McgSql getMcgSql() {
+        return mcgSql;
+    }
+
+    public OcmHome getMcgHome() {
+        return ocmHome;
+    }
+
+    public FxTextArea getTxaMainOutput() {
+        return txaMainOutput;
+    }
+
+    public FxButton getBtnServer1() {
+        return btnServer1;
+    }
+
+    public FxButton getBtnServer2() {
+        return btnServer2;
+    }
+
+    public FxButton getBtnClassSec() {
+        return btnClassSec;
+    }
+
+    public FxButton getBtnClassSec2() {
+        return btnClassSec2;
+    }
+
+    public FxButton getBtnDosyaSec() {
+        return btnDosyaSec;
+    }
+
+    public FxMenuButton getCsharpIslemler() {
+        return csharpIslemler;
+    }
+
+    public FxCheckBox getChkDosyayaYazdir() {
+        return chkDosyayaYazdir;
+    }
+
+    public FxCheckBox getChkVeritabandaOlustur() {
+        return chkVeritabandaOlustur;
+    }
+
+    public FxComboBoxSimple getCmbFiColHelpers() {
+        return cmbFiColHelpers;
+    }
+
+    public FxComboBoxSimple getCmbFiColHelpers2() {
+        return cmbFiColHelpers2;
+    }
+
+    public FxComboBoxSimple getCmbDbRead() {
+        return cmbDbRead;
+    }
+
+    public FxComboBoxSimple getCmbQueryGenerator() {
+        return cmbQueryGenerator;
+    }
+
+    public FxMenuButton getMnbTypeScript() {
+        return mnbTypeScript;
+    }
+
+    public FxComboBoxSimple getCmbExcelIslemler() {
+        return cmbExcelIslemler;
+    }
+
+    public FxComboBoxSimple getCmbXmlAraclar() {
+        return cmbXmlAraclar;
+    }
+
+    public String getTxDosyaYolu() {
+        return txDosyaYolu;
+    }
 }
 
 

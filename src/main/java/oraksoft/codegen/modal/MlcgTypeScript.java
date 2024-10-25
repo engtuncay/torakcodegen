@@ -2,14 +2,14 @@ package oraksoft.codegen.modal;
 
 
 import oraksoft.codegen.entity.EntityClazz;
-import oraksoft.codegen.modules.ModEntityListCont;
+import oraksoft.codegen.modules.OccEntityListCont;
 import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 
 public class MlcgTypeScript {
 
 	public static String actBtnTypescriptEntity() {
-		ModEntityListCont modEntityListCont = McgSharedDialogs.showDialogSelectEntityClass();
-		EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+		OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+		EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
 		if (selectedEntity != null) {
 			return FiTypescriptHelper.tsEntity(selectedEntity.getClazz());
 		}

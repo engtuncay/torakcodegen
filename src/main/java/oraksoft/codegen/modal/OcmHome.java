@@ -3,17 +3,17 @@ package oraksoft.codegen.modal;
 import ozpasyazilim.utils.gui.fxcomponents.FxTextArea;
 
 /**
- * Mcg : Model Code Generator (Home Module)
+ * Mcg : Orak Code Gen. Modal (Home Module)
  */
-public class McgHome {
+public class OcmHome {
 
 	FxTextArea fxTextArea;
 	McgSql mcgSql;
 
-	public McgHome() {
+	public OcmHome() {
 	}
 
-	public McgHome(FxTextArea fxTextArea) {
+	public OcmHome(FxTextArea fxTextArea) {
 		this.fxTextArea = fxTextArea;
 	}
 

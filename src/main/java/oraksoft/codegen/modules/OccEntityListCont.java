@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFiModCont, IFxTableSelectionCont<EntityClazz> {
+public class OccEntityListCont extends FxGenWindowContWindow<String, EntityClazz> implements IFiModCont, IFxTableSelectionCont<EntityClazz> {
 
 	public static List<EntityClazz> listClassDefault;
 	EntityClazz entitySelected;
@@ -42,18 +42,20 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 
 		Set<Class<?>> allClasses = new HashSet<>();
 
-		List <String> listPrefix= new ArrayList<>();
-		listPrefix.add("gapisoft.codegen.entity");
-		//listPrefix.add("ozpasyazilim.mikro.dbentity.dbmikroentegre");
-		listPrefix.add("ozpasyazilim.mikro.dbentity");
-		listPrefix.add("ozpasyazilim.mikro.formEntity");
-		listPrefix.add("ozpasyazilim.mikro.dao");
+		List <String> listPackage= new ArrayList<>();
+		listPackage.add("gapisoft.codegen.entity");
+		//listPackage.add("ozpasyazilim.mikro.dbentity.dbmikroentegre");
+		listPackage.add("ozpasyazilim.mikro.dbentity");
+		listPackage.add("ozpasyazilim.mikro.formEntity");
+		listPackage.add("ozpasyazilim.mikro.dao");
+		listPackage.add("ozpasyazilim.utils.returntypes");
+		listPackage.add("ozpasyazilim.utils.log");
+		listPackage.add("ozpasyazilim.utils.table");
 
+		//listPackage.add("ozpasyazilim.mikro.dbentity.dbmikro2");
 
-		//listPrefix.add("ozpasyazilim.mikro.dbentity.dbmikro2");
-
-		for (String prefix : listPrefix) {
-			allClasses.addAll(getClassSet(prefix));
+		for (String prefix : listPackage) {
+			allClasses.addAll(makClassSet(prefix));
 		}
 
 		List<EntityClazz> listClazz = new ArrayList<>();
@@ -76,7 +78,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		return listCol;
 	}
 
-	private Set<Class<?>> getClassSet(String prefix) {
+	private Set<Class<?>> makClassSet(String prefix) {
 		Reflections reflections = new Reflections(prefix);
 		//Reflections reflections = new Reflections(new String[]{prefix});
 		Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Entity.class, false);
@@ -91,7 +93,7 @@ public class ModEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 	}
 
 	public static void setListClassDefault(List<EntityClazz> listClassDefault) {
-		ModEntityListCont.listClassDefault = listClassDefault;
+		OccEntityListCont.listClassDefault = listClassDefault;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package oraksoft.codegen.modal;
 
 import ozpasyazilim.utils.entitysql.EntSqlTable;
-import oraksoft.codegen.modules.ModEntityListCont;
+import oraksoft.codegen.modules.OccEntityListCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiBool;
@@ -16,9 +16,10 @@ import java.util.List;
 /**
  * Mcg : Modal of Code Generator
  */
-public class McgSharedDialogs {
+public class OcmSharedDialogs {
 
 	public static Integer actDialogIdSelection() {
+
 		FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
 		fxSimpleDialog.openAsDialogSync();
 
@@ -30,11 +31,11 @@ public class McgSharedDialogs {
 		return null;
 	}
 
-	public static ModEntityListCont showDialogSelectEntityClass() {
-		ModEntityListCont modEntityListCont = new ModEntityListCont();
-		modEntityListCont.initCont();
-		FxWindow.nodeWindow(null, modEntityListCont, null, null, null);
-		return modEntityListCont;
+	public static OccEntityListCont showDialogSelectEntityClass() {
+		OccEntityListCont occEntityListCont = new OccEntityListCont();
+		occEntityListCont.initCont();
+		FxWindow.nodeWindow(null, occEntityListCont, null, null, null);
+		return occEntityListCont;
 	}
 
 	public static String showDialogSelectTable(Jdbi jdbi, String txMessage) {

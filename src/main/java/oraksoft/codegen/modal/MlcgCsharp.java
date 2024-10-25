@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiString;
@@ -11,7 +11,7 @@ import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 
 public class MlcgCsharp {
 
-	public void actCsharpSinifOlusturma(OccHomeWindowCont modHome) {
+	public void actCsharpSinifOlusturma(OccHomeCont modHome) {
 
 		Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 
@@ -35,9 +35,9 @@ public class MlcgCsharp {
 			String entityCode = FiQugen.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
 
 			if (!FiString.isEmpty(entityCode)) {
-				modHome.getGcgHomeCodeGenView().getTxaMainOutput().appendText(entityCode);
+				modHome.getTxaMainOutput().appendText(entityCode);
 			} else {
-				modHome.getGcgHomeCodeGenView().getTxaMainOutput().appendText("N/A");
+				modHome.getTxaMainOutput().appendText("N/A");
 			}
 
 		}

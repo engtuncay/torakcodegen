@@ -1,6 +1,6 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.OccHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +13,7 @@ import ozpasyazilim.utils.log.Loghelper;
  * <p>
  * Roc -> Repo Ocg App
  * <p>
- * {@link OccHomeWindowCont} Home Window Controller
+ * {@link OccHomeCont} Home Window Controller
  */
 public class AppOrakCodeGen extends Application {
 
@@ -24,11 +24,11 @@ public class AppOrakCodeGen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        OccHomeWindowCont occHomeWindowCont = new OccHomeWindowCont();
-        occHomeWindowCont.initCont();
-        occHomeWindowCont.setFxStage(primaryStage);
+        OccHomeCont occHomeCont = new OccHomeCont();
+        occHomeCont.initCont();
+        occHomeCont.setFxStage(primaryStage);
 
-        Scene scene = new Scene(occHomeWindowCont.getModView().getRootPane());
+        Scene scene = new Scene(occHomeCont.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);

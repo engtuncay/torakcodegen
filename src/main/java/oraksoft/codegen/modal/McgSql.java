@@ -3,7 +3,6 @@ package oraksoft.codegen.modal;
 import javafx.util.Pair;
 import oraksoft.codegen.entity.EntityClazz;
 import oraksoft.codegen.modules.ModFiColTableListCont;
-import ozpasyazilim.mikro.metadata.metaMikro.FiColsEnmMutabakat;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiReflection;
@@ -37,7 +36,7 @@ public class McgSql {
 	private ServerConfig serverConfig1;
 	private ServerConfig serverConfig2;
 	FiListKeyString listMapDateField;
-	McgHome mcgHome;
+	OcmHome ocmHome;
 
 	public McgSql() {
 	}
@@ -105,7 +104,7 @@ public class McgSql {
 
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
-		Integer idNo = McgSharedDialogs.actDialogIdSelection();
+		Integer idNo = OcmSharedDialogs.actDialogIdSelection();
 		Loghelper.get(McgSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
@@ -198,7 +197,7 @@ public class McgSql {
 			return "";
 		}
 		String txMessage = String.format("Lütfen Kopyalanacak Tabloları Seçiniz.\nServer: %s Db: %s", getServerConfig1().getServer(), getServerConfig1().getServerDb());
-		List<EntSqlTable> entSqlTables = McgSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
+		List<EntSqlTable> entSqlTables = OcmSharedDialogs.showDialogSelectTable(getJdbi1(), txMessage,true,true);
 
 		if(entSqlTables ==null) entSqlTables = new ArrayList<>();
 
@@ -450,12 +449,12 @@ public class McgSql {
 		this.listMapDateField = listMapDateField;
 	}
 
-	public McgHome getMcgHome() {
-		return mcgHome;
+	public OcmHome getMcgHome() {
+		return ocmHome;
 	}
 
-	public void setMcgHome(McgHome mcgHome) {
-		this.mcgHome = mcgHome;
+	public void setMcgHome(OcmHome ocmHome) {
+		this.ocmHome = ocmHome;
 	}
 
 	public String queryUnique1Fields(Class selectedClass) {

@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeWindowCont;
+import oraksoft.codegen.modules.OccHomeCont;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ozpasyazilim.utils.core.*;
@@ -26,29 +26,29 @@ import java.util.List;
  * <p>
  * FiCol metod tanımları üreten metodlar
  */
-public class MocFiColJava {
+public class OcmFiColJava {
 
-    OccHomeWindowCont gcgHome;
+    OccHomeCont gcgHome;
 
-    public MocFiColJava(OccHomeWindowCont gcgHome) {
+    public OcmFiColJava(OccHomeCont gcgHome) {
         this.gcgHome = gcgHome;
     }
 
-    public static MocFiColJava bui(OccHomeWindowCont occHomeWindowCont) {
-        return new MocFiColJava(occHomeWindowCont);
+    public static OcmFiColJava bui(OccHomeCont occHomeCont) {
+        return new OcmFiColJava(occHomeCont);
     }
 
-    public OccHomeWindowCont getGcgHome() {
+    public OccHomeCont getGcgHome() {
         return gcgHome;
     }
 
-    public void setGcgHome(OccHomeWindowCont gcgHome) {
+    public void setGcgHome(OccHomeCont gcgHome) {
         this.gcgHome = gcgHome;
     }
 
     // Metodlar
 
-    public static void actExcelToFiTableColViaMethods(OccHomeWindowCont occHomeWindowCont) {
+    public static void actExcelToFiTableColViaMethods(OccHomeCont occHomeCont) {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -67,13 +67,13 @@ public class MocFiColJava {
 
             //FiConsole.debugListObjectsToString(listHeader,getClass());
 
-            occHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
+            occHomeCont.appendTextNewLine(FiCodeGen.codeFiColsMethodsFromHeaderAndFieldName(listHeader, "Excel", listFields, fieldPrefix));
 
         }
 
     }
 
-    public static void actFiColsClassJavaByExcelRowHeader(OccHomeWindowCont occHomeWindowCont) {
+    public static void actFiColsClassJavaByExcelRowHeader(OccHomeCont occHomeCont) {
 
         //Loghelper.get(MocFiCol.class).debug("actExcelToFiColsMethodWay1");
 
@@ -98,8 +98,8 @@ public class MocFiColJava {
 
         String templateMain = getTemplateFiColsClass();
 
-        FiKeyBean fkbParamsMain = new FiKeyBean();
-        fkbParamsMain.add("className",  className); // "FiCols" +
+        FiKeyBean fkbMain = new FiKeyBean();
+        fkbMain.add("className",  className); // "FiCols" +
 
         String templateFiColMethod = "\tpublic static FiCol {{fieldName}}() {\n" +
                 "       FiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
@@ -118,13 +118,13 @@ public class MocFiColJava {
 
             if(FiString.isEmpty(fieldName))continue;
 
-            FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
-            fkbParamsFiColMethod.add("fieldName", fieldName);
-            fkbParamsFiColMethod.add("fieldType", ""); //field.getClassNameSimple()
-            fkbParamsFiColMethod.add("fieldTypeComment", "//"); //field.getClassNameSimple()
-            fkbParamsFiColMethod.add("fieldHeader", headerName);
+            FiKeyBean fkbFiColMethod = new FiKeyBean();
+            fkbFiColMethod.add("fieldName", fieldName);
+            fkbFiColMethod.add("fieldType", ""); //field.getClassNameSimple()
+            fkbFiColMethod.add("fieldTypeComment", "//"); //field.getClassNameSimple()
+            fkbFiColMethod.add("fieldHeader", headerName);
 
-            String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
+            String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbFiColMethod);
             sbFiColMethods.append(txFiColMethod).append("\n\n");
 
             sbFieldColsAddition.append("fiColList.add(").append(fieldName).append("());\n");
@@ -146,10 +146,10 @@ public class MocFiColJava {
         sbClassBody.append("\n\n");
         sbClassBody.append(sbFiColMethods.toString());
 
-        fkbParamsMain.add("classBody", sbClassBody.toString());
-        String txResult = FiString.substitutor(templateMain, fkbParamsMain);
+        fkbMain.add("classBody", sbClassBody.toString());
+        String txResult = FiString.substitutor(templateMain, fkbMain);
 
-        occHomeWindowCont.appendTextNewLine(txResult);
+        occHomeCont.appendTextNewLine(txResult);
 
         //gocHomeWindowCont.appendTextNewLine(FiCodeHelper.codeFiColsMethodsFromHeaderAndFieldNameForExcel(listHeader, listFields));
     }
@@ -200,7 +200,7 @@ public class MocFiColJava {
         return templateMain;
     }
 
-    public static void actGenFiColListByExcel(OccHomeWindowCont occHomeWindowCont) {
+    public static void actGenFiColListByExcel(OccHomeCont occHomeCont) {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -209,16 +209,16 @@ public class MocFiColJava {
             List<String> listFields = new FiExcel().readExcelRowIndex(fileExcel, 1);
             List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
             //FiConsole.debugListObjectsToString(listHeader,getClass());
-            occHomeWindowCont.appendTextNewLine(FiCodeGen.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader, listFields));
+            occHomeCont.appendTextNewLine(FiCodeGen.codeFiColListFromHeaderAndFieldNameByFiColsMikroWay(listHeader, listFields));
         }
 
     }
 
-    public static void codeFiColsMethodsByClass1(OccHomeWindowCont modHome) {
+    public static void codeFiColsMethodsByClass1(OccHomeCont modHome) {
 
         if (!modHome.checkClassChoose()) return;
 
-        Class entclazz = modHome.getClassSelected();
+        Class entclazz = modHome.getClassSelected1();
 
         List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
 
@@ -275,7 +275,7 @@ public class MocFiColJava {
 
         if (!getGcgHome().checkClassChoose()) return;
 
-        Class entclazz = getGcgHome().getClassSelected();
+        Class entclazz = getGcgHome().getClassSelected1();
         List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
 
         String templateMain = getTemplateFiColsClass();
