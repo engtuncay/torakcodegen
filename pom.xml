@@ -64,17 +64,11 @@
             <version>0.1</version>
         </dependency>
 
+        <!--0.9.11-->
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.10</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>ozpasyazilim</groupId>
-            <artifactId>tunc-utils-java</artifactId>
-            <version>0.1</version>
-            <scope>compile</scope>
+            <version>0.9.11</version>
         </dependency>
 
         <!--  https://mvnrepository.com/artifact/com.google.guava/guava

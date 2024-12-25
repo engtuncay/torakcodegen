@@ -1,17 +1,25 @@
 package oraksoft.codegen.modal;
 
-import ozpasyazilim.utils.core.FiExcel;
+import oraksoft.codegen.modules.OccHomeCont;
+import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidborm.FiQugen;
+import ozpasyazilim.utils.fidborm.FiReflectClass;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
+import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
+import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.windows.FiWinUtils;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
-public class McgExcel {
+public class OcmExcel {
 
     public static String actExcelToEntity() {
 
@@ -71,6 +79,23 @@ public class McgExcel {
             return fiListKeyString;
         }
         return null;
+    }
+
+    public static void actEntityToExcel(Class classSelected1, OccHomeCont occHomeCont) {
+
+        if (classSelected1 == null) {
+            FxDialogShow.showPopWarn("Lütfen sınıfı seçiniz.");
+            return ;
+        }
+
+        //FiReflection.getFieldsAsMap()
+        List<FiCol> listFields = FiReflectClass.getListFieldsMainAsFiCol(classSelected1, null, null);
+
+        String excelfilename = "entegre"+ FiDate.getTimeStampt3ForNow() + ".xlsx";
+        Path path = Paths.get(FiWinUtils.getTempDir() + excelfilename);
+
+        FiExcel2.writeListDataToExcel(listFields, OcmFiColJava.getFiColsFields(), path);
+        FiExcel2.openExcelFileWithApp(new File(path.toUri()));
     }
 }
 

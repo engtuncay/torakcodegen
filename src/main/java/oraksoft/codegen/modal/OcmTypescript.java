@@ -1,13 +1,12 @@
 package oraksoft.codegen.modal;
 
 import oraksoft.codegen.modules.OccHomeCont;
-import ozpasyazilim.utils.core.FiConsole;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.datatypes.FiKeyString;
 import ozpasyazilim.utils.ficols.FicRfcCoding;
 import ozpasyazilim.utils.fidborm.FiField;
-import ozpasyazilim.utils.fidborm.FiFieldUtil;
+import ozpasyazilim.utils.fidborm.FiReflectClass;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class OcmTypescript {
         FiKeyString fksTsTypes = getFksTsTypes();
         StringBuilder sbFieldDef = new StringBuilder();
 
-        List<FiField> fiFieldList = FiFieldUtil.getListFieldsWoutStatic(classSelected1, true);
+        List<FiField> fiFieldList = FiReflectClass.getListFieldsWoutStatic(classSelected1, true);
 
         for (FiField fiField : fiFieldList) {
             //System.out.println(FiConsole.textObjectFieldsNtn(fiField));

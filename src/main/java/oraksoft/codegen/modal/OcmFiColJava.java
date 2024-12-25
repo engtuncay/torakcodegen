@@ -10,7 +10,7 @@ import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidbanno.FiIdGenerationType;
 import ozpasyazilim.utils.fidborm.FiColsMetaTable;
-import ozpasyazilim.utils.fidborm.FiFieldUtil;
+import ozpasyazilim.utils.fidborm.FiReflectClass;
 import ozpasyazilim.utils.fidborm.FiField;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
@@ -220,7 +220,7 @@ public class OcmFiColJava {
 
         Class entclazz = modHome.getClassSelected1();
 
-        List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
+        List<FiField> listFields = FiReflectClass.getListFieldsWoutStatic(entclazz, true);
 
         StringBuilder query = new StringBuilder();
 
@@ -276,7 +276,7 @@ public class OcmFiColJava {
         if (!getGcgHome().checkClassChoose()) return;
 
         Class entclazz = getGcgHome().getClassSelected1();
-        List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
+        List<FiField> listFields = FiReflectClass.getListFieldsWoutStatic(entclazz, true);
 
         String templateMain = getTemplateFiColsClass();
 
@@ -586,8 +586,16 @@ public class OcmFiColJava {
         return fiCol;
     }
 
-    private static FiListKeyString genFksFiColDetailsFromExcel(File fileExcel) {
+    public static FiListKeyString genFksFiColDetailsFromExcel(File fileExcel) {
 
+        FiColList fiCols = getFiColsFields();
+
+        FiListKeyString fiKeyStrings = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
+
+        return fiKeyStrings;
+    }
+
+    public static FiColList getFiColsFields() {
         FiColList fiCols = FiColList.bui()
                 .buiAdd(FiColsMetaTable.ofcTxEntityName().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcTxFieldName().buiSynFieldToHeader())
@@ -606,10 +614,7 @@ public class OcmFiColJava {
                 .buiAdd(FiColsMetaTable.ofcTxCollation().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcTxTypeName().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcBoFilterLike().buiSynFieldToHeader());
-
-        FiListKeyString fiKeyStrings = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
-
-        return fiKeyStrings;
+        return fiCols;
     }
 
 }

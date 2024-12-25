@@ -55,7 +55,7 @@ public class OccEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		//listPackage.add("ozpasyazilim.mikro.dbentity.dbmikro2");
 
 		for (String prefix : listPackage) {
-			allClasses.addAll(makClassSet(prefix));
+			allClasses.addAll(makeClassSet(prefix));
 		}
 
 		List<EntityClazz> listClazz = new ArrayList<>();
@@ -78,7 +78,7 @@ public class OccEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 		return listCol;
 	}
 
-	private Set<Class<?>> makClassSet(String prefix) {
+	private Set<Class<?>> makeClassSet(String prefix) {
 		Reflections reflections = new Reflections(prefix);
 		//Reflections reflections = new Reflections(new String[]{prefix});
 		Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Entity.class, false);

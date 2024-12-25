@@ -7,7 +7,7 @@ import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
-import ozpasyazilim.utils.datatypes.FiListFkb;
+import ozpasyazilim.utils.datatypes.FkbList;
 import ozpasyazilim.utils.entitysql.EntSqlColumn;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.entitysql.TutMetaEntSqlColTxKeyTypes;
@@ -60,7 +60,7 @@ public class McgDbExport {
                 }
 
                 RepoFkbJdbi repoFkbJdbi = new RepoFkbJdbi(jdbi1);
-                Fdr<FiListFkb> fdrListData = repoFkbJdbi.selAll(txTableName);
+                Fdr<FkbList> fdrListData = repoFkbJdbi.selAll(txTableName);
 //              Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
 
                 if (fdrListData.isTrueBoResult()) {

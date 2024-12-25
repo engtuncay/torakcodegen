@@ -242,13 +242,13 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
         miTransferTarihExcel.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 fiListKeyString.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Tarih Alanları Okundu.");
             }
             getMcgSqlInit().setListMapDateField(fiListKeyString);
-            FiConsole.debugListMap(fiListKeyString, McgExcel.class, true);
+            FiConsole.debugListMap(fiListKeyString, OcmExcel.class, true);
         });
         mbSqlTransfer.addItem(miTransferTarihExcel);
 
@@ -263,7 +263,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
         miTransferSqlExcelOto.setOnAction(event -> {
             //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = McgExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+            FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
             if (fiListKeyString != null) {
                 //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
                 appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
@@ -324,7 +324,11 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     private void setupMenuExcelIslemler() {
         getCmbExcelIslemler().addComboItem(
                 ComboItemText.buildWitAction("Excel'den Entity Oluştur"
-                        , () -> actionResult(McgExcel.actExcelToEntity())));
+                        , () -> actionResult(OcmExcel.actExcelToEntity())));
+
+        getCmbExcelIslemler().addComboItem(
+                ComboItemText.buildWitAction("Entity To Excel"
+                        , () -> OcmExcel.actEntityToExcel(getClassSelected1(),this)));
     }
 
     private void setupDbToCode(FxMenuButton mbDbToCode) {
