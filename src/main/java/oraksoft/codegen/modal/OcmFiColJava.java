@@ -395,7 +395,7 @@ public class OcmFiColJava {
         //getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
     }
 
-    private static @Nullable FiColList getFiColListFromExcel() {
+    public static FiColList getFiColListFromExcel() {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 

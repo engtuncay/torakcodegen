@@ -27,7 +27,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Occ : Orak Code Generator - Controller
+ * Occ : Orak Code generator - Controller
  * <p>
  * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
  */
@@ -279,7 +279,17 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
         getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
-        cshEntitySinifOlusturma.setOnAction(event -> new MlcgCsharp().actCsharpSinifOlusturma(this));
+        cshEntitySinifOlusturma.setOnAction(event -> new OcmCsharp(this).actCsharpSinifOlusturma(this));
+
+        FxMenuItem cshFiColSinif = new FxMenuItem("Excelden FiCol Sınıf oluştur (Detaylı)");
+
+        cshEntitySinifOlusturma.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
+
+//        cshFiColSinif.setOnAction(event -> );
+//        getCmbFiColHelpers2().addComboItem(
+//                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
+                      // , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
+
     }
 
     private void setupMenuXml() {
