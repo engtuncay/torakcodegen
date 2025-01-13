@@ -283,12 +283,9 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
         FxMenuItem cshFiColSinif = new FxMenuItem("Excelden FiCol Sınıf oluştur (Detaylı)");
 
-        cshEntitySinifOlusturma.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
+        cshFiColSinif.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
 
-//        cshFiColSinif.setOnAction(event -> );
-//        getCmbFiColHelpers2().addComboItem(
-//                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
-                      // , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
+        getCsharpIslemler().getItems().add(cshFiColSinif);
 
     }
 
