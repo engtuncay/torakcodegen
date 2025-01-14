@@ -72,11 +72,7 @@ public class OcmCsharp {
 
         if (FiCollection.isEmpty(fiCols)) return;
 
-        String templateFiColMethod = "public static FiCol {{fieldName}}() {\n" +
-                "\tFiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
-                "{{fiColMethodBody}}\n" +
-                "\treturn fiCol;\n" +
-                "}";
+        String templateFiColMethod = getTemplateFiColMethod();
 
         //fiCol.buiColType(OzColType.{{fieldType}});
         StringBuilder sbClassBody = new StringBuilder();
@@ -92,6 +88,8 @@ public class OcmCsharp {
 
             FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
             String fieldName = fiCol.getOfcTxFieldName();
+            //fkbParamsFiColMethod.add("fieldMethodName", FiString.capitalizeFirstLetter(fieldName));
+            fkbParamsFiColMethod.add("fieldMethodName", fieldName);
             fkbParamsFiColMethod.add("fieldName", fieldName);
             fkbParamsFiColMethod.add("fieldHeader", fiCol.getOfcTxHeader());
             fkbParamsFiColMethod.add("fiColMethodBody", sbFiColMethodBody.toString());
@@ -99,15 +97,17 @@ public class OcmCsharp {
             sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
 
             if (!FiBool.isTrue(fiCol.getOftBoTransient())) {
-                sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
+                sbFieldColsAddition.append("\tfiColList.Add(").append(fieldName).append("());\n");
+//                sbFieldColsAddition.append("\tfiColList.Add(").append(FiString.capitalizeFirstLetter(fieldName)).append("());\n");
             } else {
-                sbFieldColsAdditionTrans.append("\tfiColList.add(").append(fieldName).append("());\n");
+                sbFieldColsAdditionTrans.append("\tfiColList.Add(").append(fieldName).append("());\n");
+//                sbFieldColsAdditionTrans.append("\tfiColList.Add(").append(FiString.capitalizeFirstLetter(fieldName)).append("());\n");
             }
 
             index++;
         }
 
-        String tempGenTableCols = "public static FiColList genTableCols() {\n\n" +
+        String tempGenTableCols = "public static FiColList GenTableCols() {\n\n" +
                 "\tFiColList fiColList = new FiColList();\n\n" +
                 "{{fiColsAddition}}\n" +
                 "\treturn fiColList;\n" +
@@ -116,7 +116,7 @@ public class OcmCsharp {
         String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeyBean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
         sbClassBody.append("\n").append(txGenTableColsMethod).append("\n");
 
-        String tempGenTableColsTrans = "public static FiColList genTableColsTrans() {\n\n" +
+        String tempGenTableColsTrans = "public static FiColList GenTableColsTrans() {\n\n" +
                 "\tFiColList fiColList = new FiColList();\n\n" +
                 "{{fiColsAddition}}\n" +
                 "\treturn fiColList;\n" +
@@ -146,6 +146,14 @@ public class OcmCsharp {
         //getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
     }
 
+    private static @NotNull String getTemplateFiColMethod() {
+        return "public static FiCol {{fieldMethodName}}() {\n" +
+                "\tFiCol fiCol = new FiCol(\"{{fieldName}}\", \"{{fieldHeader}}\");\n" +
+                "{{fiColMethodBody}}\n" +
+                "\treturn fiCol;\n" +
+                "}";
+    }
+
     private static StringBuilder genFiColMethodBodyDetailByFiCol(FiCol fiCol) {
 
         StringBuilder sbFiColMethodBody = new StringBuilder();
@@ -153,22 +161,22 @@ public class OcmCsharp {
         //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
 
         if (fiCol.getColType() != null)
-            sbFiColMethodBody.append(String.format("\tfiCol.buiColType(OzColType.%s);\n", fiCol.getColType().toString()));
+            sbFiColMethodBody.append(String.format("\tfiCol.fiColType = FiColType.%s;\n", fiCol.getColType().toString()));
 
         String ofiTxIdType = fiCol.getOfiTxIdType();
         //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
 
         if (!FiString.isEmpty(ofiTxIdType)) {
-            sbFiColMethodBody.append("\tfiCol.setBoKeyIdField(true);\n");
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
+            sbFiColMethodBody.append("\tfiCol.boKeyIdField = true;\n");
+            sbFiColMethodBody.append(String.format("\tfiCol.ofiTxIdType = FiIdGenerationType.%s.toString();\n", ofiTxIdType));
         }
 
         if (FiBool.isTrue(fiCol.getOftBoTransient())) {
-            sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
+            sbFiColMethodBody.append("\tfiCol.oftBoTransient = true;\n");
         }
 
         if (fiCol.getOfcLnLength() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnLength(%s);\n", fiCol.getOfcLnLength().toString()));
+            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnLength = %s;\n", fiCol.getOfcLnLength().toString()));
         }
 
         if (FiBool.isTrue(fiCol.getBoNullable())) {
@@ -176,31 +184,31 @@ public class OcmCsharp {
         }
 
         if (fiCol.getOfcLnPrecision() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnPrecision(%s);\n", fiCol.getOfcLnPrecision().toString()));
+            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnPrecision = %s;\n", fiCol.getOfcLnPrecision().toString()));
         }
 
         if (fiCol.getOfcLnScale() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcLnScale(%s);\n", fiCol.getOfcLnScale().toString()));
+            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnScale = %s;\n", fiCol.getOfcLnScale().toString()));
         }
 
         if (FiBool.isTrue(fiCol.getOfcBoUnique())) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUnique(true);\n");
+            sbFiColMethodBody.append("\tfiCol.ofcBoUnique = true;\n");
         }
 
         if (FiBool.isTrue(fiCol.getOfcBoUniqGro1())) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUniqGro1(true);\n");
+            sbFiColMethodBody.append("\tfiCol.ofcBoUniqGro1 = true;\n");
         }
 
         if (FiBool.isTrue(fiCol.getOfcBoUtfSupport())) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoUtfSupport(true);\n");
+            sbFiColMethodBody.append("\tfiCol.ofcBoUtfSupport = true;\n");
         }
 
         if (!FiString.isEmpty(fiCol.getOfcTxDefValue())) {
-            sbFiColMethodBody.append(String.format("\tfiCol.setOfcTxDefValue(\"%s\");\n", fiCol.getOfcTxDefValue()));
+            sbFiColMethodBody.append(String.format("\tfiCol.ofcTxDefValue = \"%s\";\n", fiCol.getOfcTxDefValue()));
         }
 
         if (FiBool.isTrue(fiCol.getBoFilterLike())) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoFilterLike(true);\n");
+            sbFiColMethodBody.append("\tfiCol.ofcBoFilterLike = true;\n");
         }
 
         // ofcTxCollation	ofcTxTypeName
@@ -218,31 +226,26 @@ public class OcmCsharp {
 
     public static @NotNull String getTemplateFiColsClassWithInterface() {
 
-        String templateMain = "import ozpasyazilim.utils.table.FiCol;\n" +
-                "import ozpasyazilim.utils.table.OzColType;\n" +
-                "import ozpasyazilim.utils.table.FiColList;\n" +
-                "import ozpasyazilim.utils.fidbanno.FiIdGenerationType;\n" +
-                "import ozpasyazilim.utils.fidborm.IFiTableMeta;\n" +
-                "\n" +
-                "public class {{classPref}}{{entityName}} implements IFiTableMeta {\n" +
-                "\n" +
-                "\tpublic String getITxTableName() {\n" +
-                "\t\treturn getTxTableName();\n" +
-                "\t}\n\n" +
-                "\tpublic static String getTxTableName() {\n" +
-                "\t\treturn \"{{entityName}}\";\n" +
-                "\t}\n" +
-                "\n" +
-                "public FiColList genITableCols() {\n" +
-                "\treturn genTableCols();\n" +
-                "}\n" +
-                "\n" +
-                "public FiColList genITableColsTrans() {\n" +
-                "\treturn genTableColsTrans();\n" +
-                "\t}\n" +
-                "\n" +
-                "{{classBody}}\n" +
-                "}";
+        String templateMain =
+                "public class {{classPref}}{{entityName}} : IFiTableMeta {\n" +
+                        "\n" +
+                        "\tpublic string GetITxTableName() {\n" +
+                        "\t\treturn GetTxTableName();\n" +
+                        "\t}\n\n" +
+                        "\tpublic static string GetTxTableName() {\n" +
+                        "\t\treturn \"{{entityName}}\";\n" +
+                        "\t}\n" +
+                        "\n" +
+                        "public FiColList GenITableCols() {\n" +
+                        "\treturn GenTableCols();\n" +
+                        "}\n" +
+                        "\n" +
+                        "public FiColList GenITableColsTrans() {\n" +
+                        "\treturn GenTableColsTrans();\n" +
+                        "\t}\n" +
+                        "\n" +
+                        "{{classBody}}\n" +
+                        "}";
 
         return templateMain;
     }
