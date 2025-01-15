@@ -180,7 +180,7 @@ public class OcmCsharp {
         }
 
         if (FiBool.isTrue(fiCol.getBoNullable())) {
-            sbFiColMethodBody.append("\tfiCol.setOfcBoNullable(true);\n");
+            sbFiColMethodBody.append("\tfiCol.ofcBoNullable = true;\n");
         }
 
         if (fiCol.getOfcLnPrecision() != null) {
