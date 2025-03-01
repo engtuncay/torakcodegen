@@ -96,7 +96,7 @@ public class OcmCsharp {
             String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
             sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
 
-            if (!FiBool.isTrue(fiCol.getOftBoTransient())) {
+            if (!FiBool.isTrue(fiCol.getOfcBoTransient())) {
                 sbFieldColsAddition.append("\tfiColList.Add(").append(fieldName).append("());\n");
 //                sbFieldColsAddition.append("\tfiColList.Add(").append(FiString.capitalizeFirstLetter(fieldName)).append("());\n");
             } else {
@@ -163,15 +163,15 @@ public class OcmCsharp {
         if (fiCol.getColType() != null)
             sbFiColMethodBody.append(String.format("\tfiCol.fiColType = FiColType.%s;\n", fiCol.getColType().toString()));
 
-        String ofiTxIdType = fiCol.getOfiTxIdType();
-        //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
+        String ofcTxIdType = fiCol.getOfcTxIdType();
+        //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxIdType()));
 
-        if (!FiString.isEmpty(ofiTxIdType)) {
+        if (!FiString.isEmpty(ofcTxIdType)) {
             sbFiColMethodBody.append("\tfiCol.boKeyIdField = true;\n");
-            sbFiColMethodBody.append(String.format("\tfiCol.ofiTxIdType = FiIdGenerationType.%s.toString();\n", ofiTxIdType));
+            sbFiColMethodBody.append(String.format("\tfiCol.ofcTxIdType = FiIdGenerationType.%s.toString();\n", ofcTxIdType));
         }
 
-        if (FiBool.isTrue(fiCol.getOftBoTransient())) {
+        if (FiBool.isTrue(fiCol.getOfcBoTransient())) {
             sbFiColMethodBody.append("\tfiCol.oftBoTransient = true;\n");
         }
 

@@ -2,7 +2,6 @@ package oraksoft.codegen.modal;
 
 import oraksoft.codegen.modules.OccHomeCont;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.datatypes.FiKeyString;
@@ -347,7 +346,7 @@ public class OcmFiColJava {
             String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
             sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
 
-            if (!FiBool.isTrue(fiCol.getOftBoTransient())) {
+            if (!FiBool.isTrue(fiCol.getOfcBoTransient())) {
                 sbFieldColsAddition.append("\tfiColList.add(").append(fieldName).append("());\n");
             } else {
                 sbFieldColsAdditionTrans.append("\tfiColList.add(").append(fieldName).append("());\n");
@@ -427,7 +426,7 @@ public class OcmFiColJava {
         if (fiCol.getColType() != null)
             sbFiColMethodBody.append(String.format("\tfiCol.buiColType(OzColType.%s);\n", fiCol.getColType().toString()));
 
-        String ofiTxIdType = fiCol.getOfiTxIdType();
+        String ofiTxIdType = fiCol.getOfcTxIdType();
         //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofiTxIdType()));
 
         if (!FiString.isEmpty(ofiTxIdType)) {
@@ -435,7 +434,7 @@ public class OcmFiColJava {
             sbFiColMethodBody.append(String.format("\tfiCol.setOfiTxIdType(FiIdGenerationType.%s.toString());\n", ofiTxIdType));
         }
 
-        if (FiBool.isTrue(fiCol.getOftBoTransient())) {
+        if (FiBool.isTrue(fiCol.getOfcBoTransient())) {
             sbFiColMethodBody.append("\tfiCol.setOftBoTransient(true);\n");
         }
 
@@ -516,15 +515,15 @@ public class OcmFiColJava {
             fiCol.setBoKeyIdField(true);
 
             if (ofiTxIdType.equals(FiIdGenerationType.identity.toString())) {
-                fiCol.setOfiTxIdType(FiIdGenerationType.identity.toString());
+                fiCol.setOfcTxIdType(FiIdGenerationType.identity.toString());
             }
 
         }
 
-        Boolean oftBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.oftBoTransient()));
+        Boolean ofcBoTransient = FiBool.convertExcelTxBool(fikField.getTosOrEmpty(FiColsMetaTable.ofcBoTransient()));
 
-        if (FiBool.isTrue(oftBoTransient)) {
-            fiCol.setOftBoTransient(true);
+        if (FiBool.isTrue(ofcBoTransient)) {
+            fiCol.setOfcBoTransient(true);
         }
 
         Integer lnLength = FiNumber.convertStringToInteger(fikField.getTosOrEmpty(FiColsMetaTable.ofcLnLength()));
@@ -602,7 +601,7 @@ public class OcmFiColJava {
                 .buiAdd(FiColsMetaTable.ofcTxFieldType().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcTxHeader().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofiTxIdType().buiSynFieldToHeader())
-                .buiAdd(FiColsMetaTable.oftBoTransient().buiSynFieldToHeader())
+                .buiAdd(FiColsMetaTable.ofcBoTransient().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcLnLength().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcBoNullable().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcLnPrecision().buiSynFieldToHeader())
