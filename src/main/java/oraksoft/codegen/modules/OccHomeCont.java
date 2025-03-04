@@ -40,7 +40,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     Stage mainStage;
     File fileSelected;
 
-    private McgSql mcgSql;
+    private OcmSql ocmSql;
     private OcmHome ocmHome;
 
     // Other Components
@@ -297,11 +297,11 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuDbExport(FxMenuButton mbDbExport) {
         FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
-                , (event) -> McgDbExport.actTableExport1(this, true));
+                , (event) -> OcmDbExport.actTableExport1(this, true));
         mbDbExport.addItem(miDbExportForExportTable1);
 
         FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
-                , (event) -> McgDbExport.actTableExport1(this, false));
+                , (event) -> OcmDbExport.actTableExport1(this, false));
         mbDbExport.addItem(miDbExportForExportTable2);
     }
 
@@ -878,7 +878,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     }
 
     private void entityFillerMethodFromDb() {
-        appendTextNewLine(McgSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected1()));
+        appendTextNewLine(OcmSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected1()));
     }
 
     private void actAlterNewFields() {
@@ -1085,11 +1085,11 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         this.fileSelected = fileSelected;
     }
 
-    public McgSql getMcgSqlInit() {
-        if (mcgSql == null) {
-            mcgSql = new McgSql();
+    public OcmSql getMcgSqlInit() {
+        if (ocmSql == null) {
+            ocmSql = new OcmSql();
         }
-        return mcgSql;
+        return ocmSql;
     }
 
     public OcmHome getMcgHomeInit() {
@@ -1112,8 +1112,8 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         return mainStage;
     }
 
-    public McgSql getMcgSql() {
-        return mcgSql;
+    public OcmSql getMcgSql() {
+        return ocmSql;
     }
 
     public OcmHome getMcgHome() {

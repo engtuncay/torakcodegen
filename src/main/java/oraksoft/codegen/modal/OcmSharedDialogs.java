@@ -48,7 +48,7 @@ public class OcmSharedDialogs {
 			fxSimpleTableWindowCont.addNoteLine(txMessage);
 		}
 
-		List<EntSqlTable> entSqlTableList = new McgSql().getSqlTableList(jdbi);
+		List<EntSqlTable> entSqlTableList = new OcmSql().getSqlTableList(jdbi);
 		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
 		fxSimpleTableWindowCont.setTableContent(entSqlTableList);
 		fxSimpleTableWindowCont.openAsModalMain(null);
@@ -83,10 +83,10 @@ public class OcmSharedDialogs {
 		List<EntSqlTable> entSqlTableList;
 
 		if (FiBool.isTrue(boShowCount)) {
-			entSqlTableList = new McgSql().getSqlTableListWithCount(jdbi);
+			entSqlTableList = new OcmSql().getSqlTableListWithCount(jdbi);
 			fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlBoCount());
 		} else {
-			entSqlTableList = new McgSql().getSqlTableList(jdbi);
+			entSqlTableList = new OcmSql().getSqlTableList(jdbi);
 		}
 
 		fxSimpleTableWindowCont.setTableContent(entSqlTableList);

@@ -8,7 +8,7 @@ import ozpasyazilim.utils.gui.fxcomponents.FxTextArea;
 public class OcmHome {
 
 	FxTextArea fxTextArea;
-	McgSql mcgSql;
+	OcmSql ocmSql;
 
 	public OcmHome() {
 	}
@@ -25,12 +25,12 @@ public class OcmHome {
 		return fxTextArea;
 	}
 
-	public McgSql getModalSql() {
-		return mcgSql;
+	public OcmSql getModalSql() {
+		return ocmSql;
 	}
 
-	public void setModalSql(McgSql mcgSql) {
-		this.mcgSql = mcgSql;
+	public void setModalSql(OcmSql ocmSql) {
+		this.ocmSql = ocmSql;
 	}
 
 	public void setFxTextArea(FxTextArea fxTextArea) {

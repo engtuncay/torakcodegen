@@ -4,7 +4,7 @@ import oraksoft.codegen.modules.OccHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 
-public class MlcgShared {
+public class OcmShared {
     public static boolean checkAndSetupActiveServerJdbi(OccHomeCont modHome) {
         Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 

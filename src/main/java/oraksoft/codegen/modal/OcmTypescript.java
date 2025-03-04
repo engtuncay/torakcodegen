@@ -1,9 +1,12 @@
 package oraksoft.codegen.modal;
 
+import oraksoft.codegen.entity.EntityClazz;
+import oraksoft.codegen.modules.OccEntityListCont;
 import oraksoft.codegen.modules.OccHomeCont;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiKeyBean;
 import ozpasyazilim.utils.datatypes.FiKeyString;
+import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 import ozpasyazilim.utils.ficols.FicRfcCoding;
 import ozpasyazilim.utils.fidborm.FiField;
 import ozpasyazilim.utils.fidborm.FiReflectClass;
@@ -85,5 +88,15 @@ public class OcmTypescript {
         fksTs.put(List.class.getSimpleName(), "Array<object>");
 
         return fksTs;
+    }
+
+    public static String actBtnTypescriptEntity() {
+        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+        if (selectedEntity != null) {
+            return FiTypescriptHelper.tsEntity(selectedEntity.getClazz());
+        }
+
+        return "no result";
     }
 }

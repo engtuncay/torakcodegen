@@ -21,7 +21,7 @@ import ozpasyazilim.utils.returntypes.Fdr;
 import java.util.ArrayList;
 import java.util.List;
 
-public class McgDbExport {
+public class OcmDbExport {
 
 	/**
 	 *
@@ -30,7 +30,7 @@ public class McgDbExport {
 	 */
     public static void actTableExport1(OccHomeCont modHome, Boolean boExcludePk) {
 
-        if (!MlcgShared.checkAndSetupActiveServerJdbi(modHome)) return;
+        if (!OcmShared.checkAndSetupActiveServerJdbi(modHome)) return;
 
         ServerConfig serverConfig1 = modHome.getMcgSqlInit().getServerConfig1();
 
@@ -151,7 +151,7 @@ public class McgDbExport {
         return listDataValues;
     }
 
-    private static Class<McgDbExport> getClassi() {
-        return McgDbExport.class;
+    private static Class<OcmDbExport> getClassi() {
+        return OcmDbExport.class;
     }
 }

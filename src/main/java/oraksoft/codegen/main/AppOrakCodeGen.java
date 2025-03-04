@@ -16,7 +16,7 @@ import java.util.Arrays;
  * <p>
  * Occ : Orak Code Generator - Controller (eskiler : Moc)
  * <p>
- * Roc -> Repo Ocg App
+ * Roc-Ocr -> Repo Ocg App
  * <p>
  * {@link OccHomeCont} Home Window Controller
  */

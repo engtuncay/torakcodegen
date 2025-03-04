@@ -27,7 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.*;
 
-public class McgSql {
+public class OcmSql {
 
 	Jdbi jdbi1;
 	Jdbi jdbi2;
@@ -38,14 +38,14 @@ public class McgSql {
 	FiListKeyString listMapDateField;
 	OcmHome ocmHome;
 
-	public McgSql() {
+	public OcmSql() {
 	}
 
-	public McgSql(Jdbi jdbi1) {
+	public OcmSql(Jdbi jdbi1) {
 		this.jdbi1 = jdbi1;
 	}
 
-	public McgSql(Jdbi jdbi1, boolean boEnableDbOperation) {
+	public OcmSql(Jdbi jdbi1, boolean boEnableDbOperation) {
 		this.jdbi1 = jdbi1;
 		this.boEnableDbOperation = boEnableDbOperation;
 	}
@@ -105,7 +105,7 @@ public class McgSql {
 	public static String entityFillerMethodFromDb(Jdbi jdbi, Class selectedClass) {
 
 		Integer idNo = OcmSharedDialogs.actDialogIdSelection();
-		Loghelper.get(McgSql.class).debug("Id:" + idNo);
+		Loghelper.get(OcmSql.class).debug("Id:" + idNo);
 
 		if (idNo != null) {
 
@@ -126,8 +126,8 @@ public class McgSql {
 		return "no result";
 	}
 
-	public static McgSql bui() {
-		return new McgSql();
+	public static OcmSql bui() {
+		return new OcmSql();
 	}
 
 	/**
