@@ -31,7 +31,7 @@ import java.util.*;
  * <p>
  * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
  */
-public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
+public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     OcgHomeWindow ocgHomeWindow;
     Class classSelected1;
@@ -52,7 +52,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     private FxButton btnClassSec2;
     private FxButton btnDosyaSec;
 
-    private FxMenuButton csharpIslemler;
+    private FxMenuButton cmbCsharpIslemler;
     private FxCheckBox chkDosyayaYazdir;
     private FxCheckBox chkVeritabandaOlustur;
 
@@ -96,7 +96,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         cmbExcelIslemler = new FxComboBoxSimple("Excel");
         cmbXmlAraclar = new FxComboBoxSimple("Xml");
 
-        csharpIslemler = new FxMenuButton("Csharp");
+        cmbCsharpIslemler = new FxMenuButton("Csharp");
 
         getMigMenu().add(chkDosyayaYazdir, "");
         getMigMenu().add(chkVeritabandaOlustur, "wrap");
@@ -115,7 +115,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         getMigMenu().add(mnbTypeScript, "");
         getMigMenu().add(cmbExcelIslemler, "wrap");
         getMigMenu().add(cmbXmlAraclar, "");
-        getMigMenu().add(csharpIslemler, "wrap");
+        getMigMenu().add(cmbCsharpIslemler, "wrap");
 
         //migMenu.add(new FxLabel("-----"), "span");
 
@@ -277,7 +277,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     private void setupMenuCsharpIslemler() {
         FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-        getCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+        getCmbCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
         cshEntitySinifOlusturma.setOnAction(event -> new OcmCsharp(this).actCsharpSinifOlusturma(this));
 
@@ -285,7 +285,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
         cshFiColSinif.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
 
-        getCsharpIslemler().getItems().add(cshFiColSinif);
+        getCmbCsharpIslemler().getItems().add(cshFiColSinif);
 
     }
 
@@ -1144,8 +1144,8 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         return btnDosyaSec;
     }
 
-    public FxMenuButton getCsharpIslemler() {
-        return csharpIslemler;
+    public FxMenuButton getCmbCsharpIslemler() {
+        return cmbCsharpIslemler;
     }
 
     public FxCheckBox getChkDosyayaYazdir() {
