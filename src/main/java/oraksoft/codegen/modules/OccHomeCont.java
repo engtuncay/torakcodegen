@@ -745,7 +745,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
             FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
             FiQugen fiqugen = new FiQugen();
 
-            System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
+            //System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
             String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
             if (!FiString.isEmpty(entityCode)) {
