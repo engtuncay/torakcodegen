@@ -173,8 +173,7 @@ public class OcmFiColJava {
         String templateMain = "import ozpasyazilim.utils.table.FiCol;\n" +
                 "import ozpasyazilim.utils.table.OzColType;\n" +
                 "import ozpasyazilim.utils.table.FiColList;\n" +
-                "import ozpasyazilim.utils.fidbanno.FiIdGenerationType;\n" +
-                "import ozpasyazilim.utils.fidborm.IFiTableMeta;\n" +
+                "import ozpasyazilim.utils.fidbanno.FiIdGenerationType;\nimport ozpasyazilim.utils.fidborm.IFiTableMeta;\n" +
                 "\n" +
                 "public class {{classPref}}{{entityName}} implements IFiTableMeta {\n" +
                 "\n" +
@@ -228,7 +227,7 @@ public class OcmFiColJava {
         int index = 0;
         for (FiField field : listFields) {
 
-            String fieldName = field.getOfcTxDbFieldName();
+            String fieldName = field.getOfcTxDbField();
 
             String fieldGen = String.format("\npublic static FiCol %s() {" +
                     "\n\tFiCol fiCol = new FiCol(\"%s\", \"%s\");", fieldName, fieldName, FiString.orEmpty(field.getOfcTxHeader()));
@@ -292,7 +291,7 @@ public class OcmFiColJava {
         int index = 0;
         for (FiField field : listFields) {
 
-            String fieldName = field.getOfcTxDbFieldName();
+            String fieldName = field.getOfcTxDbField();
 
             FiKeyBean fkbParamsFiColMethod = new FiKeyBean();
             fkbParamsFiColMethod.add("fieldName", fieldName);
