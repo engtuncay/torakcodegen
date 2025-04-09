@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ozpasyazilim.utils.core.FiException;
-import ozpasyazilim.utils.gui.components.OzFrame;
 import ozpasyazilim.utils.log.Loghelper;
 
 import javax.swing.*;
@@ -50,7 +49,7 @@ public class AppOrakCodeGen extends Application {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             System.out.println("Exception:" + Arrays.toString(ex.getStackTrace()));
-            Loghelper.get(AppOrakCodeGen.class).debug(FiException.exToLog(ex));
+            Loghelper.get(AppOrakCodeGen.class).debug(FiException.exToErrorLog(ex));
         }
 
     }
