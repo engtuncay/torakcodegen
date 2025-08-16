@@ -147,7 +147,7 @@ public class OcmSql {
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
-				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
+				fdr.setFdrTxMessage("Sql Başarılı Şekilde Çalıştırıldı.");
 			}
 			FxDialogShow.showDbResult(fdr);
 		}
@@ -182,7 +182,7 @@ public class OcmSql {
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
-				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
+				fdr.setFdrTxMessage("Sql Başarılı Şekilde Çalıştırıldı.");
 			}
 			FxDialogShow.showDbResult(fdr);
 		}
@@ -467,7 +467,7 @@ public class OcmSql {
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
 			Fdr fdr = new RepoJdbiString(getJdbi1()).jdUpdateBindMap(sqlCreate, null);
 			if (fdr.isTrueBoResult()) {
-				fdr.setMessage("Sql Başarılı Şekilde Çalıştırıldı.");
+				fdr.setFdrTxMessage("Sql Başarılı Şekilde Çalıştırıldı.");
 			}
 			FxDialogShow.showDbResult(fdr);
 		}

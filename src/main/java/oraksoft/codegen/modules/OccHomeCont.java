@@ -848,7 +848,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
                 getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
                 FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
             } else {
-                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getMessage());
+                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getFdrTxMessage());
             }
 
         } else {
@@ -906,7 +906,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
                 Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
 
                 if (fdr.getBoResultInit()) {
-                    fdr.setMessage("Değişiklikler başarıyla uygulandı.");
+                    fdr.setFdrTxMessage("Değişiklikler başarıyla uygulandı.");
                 }
                 FxDialogShow.showDbResult(fdr);
             }
@@ -1021,20 +1021,20 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         Fdr<Jdbi> fdr = new Fdr<>();
 
         if (serverConfig == null) {
-            fdr.setMessage("Server Ayarları tanımlanmamış.");
+            fdr.setFdrTxMessage("Server Ayarları tanımlanmamış.");
             return fdr;
         }
 
         try {
             Jdbi jdbi = FiJdbiFactory.createJdbi(serverConfig);
             fdr.setValue(jdbi);
-            fdr.setFdrBoExec(true);
+            fdr.setFdrBoResult(true);
             return fdr;
         } catch (Exception ex) {
             //ex.printStackTrace();
             Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
-            fdr.setMessage("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
-            fdr.setFdrBoExec(false);
+            fdr.setFdrTxMessage("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
+            fdr.setFdrBoResult(false);
             return fdr;
         }
 
