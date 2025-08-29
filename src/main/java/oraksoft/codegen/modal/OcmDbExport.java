@@ -6,7 +6,7 @@ import ozpasyazilim.utils.configmisc.ServerConfig;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
-import ozpasyazilim.utils.datatypes.FiKeyBean;
+import ozpasyazilim.utils.datatypes.FiKeybean;
 import ozpasyazilim.utils.datatypes.FkbList;
 import ozpasyazilim.utils.entitysql.EntSqlColumn;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
@@ -67,7 +67,7 @@ public class OcmDbExport {
 
                     StringBuilder sbInsertQuery = new StringBuilder();
 
-                    for (FiKeyBean fkbRow : fdrListData.getValue()) {
+                    for (FiKeybean fkbRow : fdrListData.getValue()) {
                         sbInsertQuery.append(makeInsertQuery(txTableName, sqlColumnList, fkbRow));
                         sbInsertQuery.append("\n");
                     }
@@ -120,7 +120,7 @@ public class OcmDbExport {
 
     }
 
-    private static StringBuilder makeInsertQuery(String txTableName, List<EntSqlColumn> sqlColumnList, FiKeyBean fkbRow) {
+    private static StringBuilder makeInsertQuery(String txTableName, List<EntSqlColumn> sqlColumnList, FiKeybean fkbRow) {
         StringBuilder sbInsertQuery = new StringBuilder();
 
         //INSERT INTO table_name (column1, column2, column3, ...)
@@ -140,7 +140,7 @@ public class OcmDbExport {
         return sbInsertQuery;
     }
 
-    private static List<String> makeListDataValuesForQueryInsert(List<EntSqlColumn> sqlColumnList, FiKeyBean fkbRow) {
+    private static List<String> makeListDataValuesForQueryInsert(List<EntSqlColumn> sqlColumnList, FiKeybean fkbRow) {
         List<String> listDataValues = new ArrayList<>();
         for (int indexCol = 0; indexCol < sqlColumnList.size(); indexCol++) {
             EntSqlColumn entSqlColumn = sqlColumnList.get(indexCol);

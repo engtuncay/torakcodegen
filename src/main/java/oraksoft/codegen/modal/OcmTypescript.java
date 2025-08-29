@@ -4,7 +4,7 @@ import oraksoft.codegen.entity.EntityClazz;
 import oraksoft.codegen.modules.OccEntityListCont;
 import oraksoft.codegen.modules.OccHomeCont;
 import ozpasyazilim.utils.core.FiString;
-import ozpasyazilim.utils.datatypes.FiKeyBean;
+import ozpasyazilim.utils.datatypes.FiKeybean;
 import ozpasyazilim.utils.datatypes.FiKeyString;
 import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 import ozpasyazilim.utils.ficols.FicRfcCoding;
@@ -55,7 +55,7 @@ public class OcmTypescript {
 
         }
 
-        FiKeyBean fkbClass = new FiKeyBean();
+        FiKeybean fkbClass = new FiKeybean();
 
         fkbClass.putKeyTos(FicRfcCoding.rfcTxClassName(), classSelected1.getSimpleName());
         fkbClass.putKeyTos(FicRfcCoding.rfcTxClassBody(), sbFieldDef.toString());
