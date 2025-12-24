@@ -17,7 +17,7 @@ import ozpasyazilim.utils.mvc.AbsFiModBaseCont;
 import ozpasyazilim.utils.mvc.IFiModCont;
 import ozpasyazilim.utils.returntypes.Fdr;
 import ozpasyazilim.utils.table.FiCol;
-import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.table.FicList;
 import ozpasyazilim.utils.fxwindow.FxSimpleContGen;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
@@ -995,7 +995,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
 //			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
 
-            FiColList fiCols = new FiColList();
+            FicList fiCols = new FicList();
             fiCols.add(FiCol.build("İsim", "name"));
             fiCols.add(FiCol.build("Sunucu", "server"));
 

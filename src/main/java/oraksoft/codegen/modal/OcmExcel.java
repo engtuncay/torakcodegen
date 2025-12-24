@@ -10,13 +10,12 @@ import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.table.FiCol;
-import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.table.FicList;
 import ozpasyazilim.utils.windows.FiWinUtils;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 
 public class OcmExcel {
@@ -71,7 +70,7 @@ public class OcmExcel {
 
             //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
 
-            FiColList fiCols = FiColList.bui()
+            FicList fiCols = FicList.bui()
                     .buiAdd("txDateField", "Tarih Alanı")
                     .buiAdd("txTable", "Tablo İsmi");
 

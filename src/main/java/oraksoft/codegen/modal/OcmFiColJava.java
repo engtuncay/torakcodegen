@@ -14,7 +14,7 @@ import ozpasyazilim.utils.fidborm.FiField;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.table.FiCol;
-import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.table.FicList;
 import ozpasyazilim.utils.table.OzColType;
 
 import java.io.File;
@@ -315,7 +315,7 @@ public class OcmFiColJava {
      */
     public void actGenFiColListByExcel() {
 
-        FiColList fiCols = getFiColListFromExcel();
+        FicList fiCols = getFiColListFromExcel();
 
         if (FiCollection.isEmpty(fiCols)) return;
 
@@ -393,7 +393,7 @@ public class OcmFiColJava {
         //getGcgHome().appendTextNewLine(FiConsole.textFiCols(fiCols));
     }
 
-    public static FiColList getFiColListFromExcel() {
+    public static FicList getFiColListFromExcel() {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -407,7 +407,7 @@ public class OcmFiColJava {
 
         //Class entclazz = getGcgHome().getClassSelected();
         //List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
-        FiColList fiCols = new FiColList();
+        FicList fiCols = new FicList();
 
         for (FiKeyString fikField : fikeysExcelFiCols) {
             fiCols.add(genFiColFromExcelFks(fikField));
@@ -586,15 +586,15 @@ public class OcmFiColJava {
 
     public static FiListKeyString genFksFiColDetailsFromExcel(File fileExcel) {
 
-        FiColList fiCols = getFiColsFields();
+        FicList fiCols = getFiColsFields();
 
         FiListKeyString fiKeyStrings = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
 
         return fiKeyStrings;
     }
 
-    public static FiColList getFiColsFields() {
-        FiColList fiCols = FiColList.bui()
+    public static FicList getFiColsFields() {
+        FicList fiCols = FicList.bui()
                 .buiAdd(FiColsMetaTable.ofcTxEntityName().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcTxFieldName().buiSynFieldToHeader())
                 .buiAdd(FiColsMetaTable.ofcTxFieldType().buiSynFieldToHeader())

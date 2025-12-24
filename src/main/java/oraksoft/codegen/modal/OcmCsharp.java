@@ -14,7 +14,7 @@ import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
 import ozpasyazilim.utils.table.FiCol;
-import ozpasyazilim.utils.table.FiColList;
+import ozpasyazilim.utils.table.FicList;
 
 public class OcmCsharp {
 
@@ -68,7 +68,7 @@ public class OcmCsharp {
 
     public void actGenFiColListByExcel() {
 
-        FiColList fiCols = OcmFiColJava.getFiColListFromExcel();
+        FicList fiCols = OcmFiColJava.getFiColListFromExcel();
 
         if (FiCollection.isEmpty(fiCols)) return;
 
