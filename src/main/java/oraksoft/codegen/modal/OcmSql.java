@@ -7,7 +7,7 @@ import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiReflection;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
-import ozpasyazilim.utils.datatypes.FiKeyString;
+import ozpasyazilim.utils.datatypes.FiKeytext;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.repoSql.RepoSqlTable;
 import org.jdbi.v3.core.Jdbi;
@@ -228,10 +228,10 @@ public class OcmSql {
 
 		StringBuilder sbSql = new StringBuilder();
 		sbSql.append("\n -- start sql copy\n\n");
-		for (FiKeyString fiKeyString : getListMapDateField()) {
-			String txTable = fiKeyString.getTos(FiColsEntegre.txTable());
+		for (FiKeytext fiKeytext : getListMapDateField()) {
+			String txTable = fiKeytext.getTos(FiColsEntegre.txTable());
 			if(FiString.isEmpty(txTable))continue;
-			if(!FiString.isEmpty(fiKeyString.getTos(FiColsEntegre.txDateField()))){
+			if(!FiString.isEmpty(fiKeytext.getTos(FiColsEntegre.txDateField()))){
 				sbSql.append(getSqlInsertSelectWithColsWhereDate(txTable));
 			}else {
 				sbSql.append(getSqlInsertSelectWithCols(txTable));
@@ -262,7 +262,7 @@ public class OcmSql {
 	private String getSqlInsertSelectWithColsWhereDate(String selectedTable) {
 
 //		Pair<String, EntityClazz> pairFieldDate = getFieldNameOfDateSepFieldByClass(selectedTable);
-		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.txTable().toString(), selectedTable).or(new FiKeyString()).get(FiColsEntegre.txDateField().toString());
+		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.txTable().toString(), selectedTable).or(new FiKeytext()).get(FiColsEntegre.txDateField().toString());
 		//String txFieldDate = "";  // pairFieldDate.getKey();
 		if(FiString.isEmpty(txFieldDate)){ //|| pairFieldDate.getKey()==null
 			FxDialogShow.showPopWarn(selectedTable + " tablosu için ayırıcı tarih alanı bulunamadı.");
