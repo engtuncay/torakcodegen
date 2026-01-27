@@ -906,7 +906,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
                 Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
 
                 if (fdr.getBoResultInit()) {
-                    fdr.setFdrTxMessage("Değişiklikler başarıyla uygulandı.");
+                    fdr.setFdrTxMessageWitAddLog("Değişiklikler başarıyla uygulandı.");
                 }
                 FxDialogShow.showDbResult(fdr);
             }
@@ -1021,7 +1021,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         Fdr<Jdbi> fdr = new Fdr<>();
 
         if (serverConfig == null) {
-            fdr.setFdrTxMessage("Server Ayarları tanımlanmamış.");
+            fdr.setFdrTxMessageWitAddLog("Server Ayarları tanımlanmamış.");
             return fdr;
         }
 
@@ -1033,7 +1033,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         } catch (Exception ex) {
             //ex.printStackTrace();
             Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
-            fdr.setFdrTxMessage("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
+            fdr.setFdrTxMessageWitAddLog("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
             fdr.setFdrBoResult(false);
             return fdr;
         }
