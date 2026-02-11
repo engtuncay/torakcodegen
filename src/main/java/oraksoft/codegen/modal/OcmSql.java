@@ -301,7 +301,7 @@ public class OcmSql {
 				Loghelper.get(getClass()).debug("entity class map de bulundu:"+ entityClazz.getSimpleName());
 				List<FiField> listFieldsDateSeperatorField = FiReflectClass.getListFieldsDateSeperatorField(entityClazz.getClazz());
 				if(listFieldsDateSeperatorField.size()>0){
-					String dbFieldName = listFieldsDateSeperatorField.get(0).getOfcTxDbField();
+					String dbFieldName = listFieldsDateSeperatorField.get(0).getFcTxDbField();
 					Pair<String, EntityClazz> pairReturn = new Pair<>(dbFieldName,entityClazz);
 					return pairReturn;
 				}

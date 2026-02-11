@@ -87,16 +87,16 @@ public class OcmCsharp {
             StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailByFiCol(fiCol);
 
             FiKeybean fkbParamsFiColMethod = new FiKeybean();
-            String fieldName = fiCol.getOfcTxFieldName();
+            String fieldName = fiCol.getFcTxFieldName();
             //fkbParamsFiColMethod.add("fieldMethodName", FiString.capitalizeFirstLetter(fieldName));
             fkbParamsFiColMethod.add("fieldMethodName", fieldName);
             fkbParamsFiColMethod.add("fieldName", fieldName);
-            fkbParamsFiColMethod.add("fieldHeader", fiCol.getOfcTxHeader());
+            fkbParamsFiColMethod.add("fieldHeader", fiCol.getFcTxHeader());
             fkbParamsFiColMethod.add("fiColMethodBody", sbFiColMethodBody.toString());
             String txFiColMethod = FiString.substitutor(templateFiColMethod, fkbParamsFiColMethod);
             sbFiColMethodsBody.append(txFiColMethod).append("\n\n");
 
-            if (!FiBool.isTrue(fiCol.getOfcBoTransient())) {
+            if (!FiBool.isTrue(fiCol.getFcBoTransient())) {
                 sbFieldColsAddition.append("\tfiColList.Add(").append(fieldName).append("());\n");
 //                sbFieldColsAddition.append("\tfiColList.Add(").append(FiString.capitalizeFirstLetter(fieldName)).append("());\n");
             } else {
@@ -131,7 +131,7 @@ public class OcmCsharp {
 
         String classPref = "FiCols";
         //FIXME entity name çekilecek
-        String txEntityName = fiCols.get(0).getOfcTxEntityName(); //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.ofcTxEntityName());
+        String txEntityName = fiCols.get(0).getFcTxEntityName(); //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.fcTxEntityName());
 
         FiKeybean fkbParamsMain = new FiKeybean();
         fkbParamsMain.add("classPref", classPref);
@@ -158,57 +158,57 @@ public class OcmCsharp {
 
         StringBuilder sbFiColMethodBody = new StringBuilder();
 
-        //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxFieldType()));
+        //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fiCol.getTosOrEmpty(FiColsMetaTable.fcTxFieldType()));
 
         if (fiCol.getColType() != null)
             sbFiColMethodBody.append(String.format("\tfiCol.fiColType = FiColType.%s;\n", fiCol.getColType().toString()));
 
-        String ofcTxIdType = fiCol.getOfcTxIdType();
-        //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.ofcTxIdType()));
+        String fcTxIdType = fiCol.getFcTxIdType();
+        //FiCodeGen.convertExcelIdentityTypeToFiColAttribute(fiCol.getTosOrEmpty(FiColsMetaTable.fcTxIdType()));
 
-        if (!FiString.isEmpty(ofcTxIdType)) {
+        if (!FiString.isEmpty(fcTxIdType)) {
             sbFiColMethodBody.append("\tfiCol.boKeyIdField = true;\n");
-            sbFiColMethodBody.append(String.format("\tfiCol.ofcTxIdType = FiIdGenerationType.%s.toString();\n", ofcTxIdType));
+            sbFiColMethodBody.append(String.format("\tfiCol.fcTxIdType = FiIdGenerationType.%s.toString();\n", fcTxIdType));
         }
 
-        if (FiBool.isTrue(fiCol.getOfcBoTransient())) {
+        if (FiBool.isTrue(fiCol.getFcBoTransient())) {
             sbFiColMethodBody.append("\tfiCol.oftBoTransient = true;\n");
         }
 
-        if (fiCol.getOfcLnLength() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnLength = %s;\n", fiCol.getOfcLnLength().toString()));
+        if (fiCol.getFcLnLength() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.fcLnLength = %s;\n", fiCol.getFcLnLength().toString()));
         }
 
         if (FiBool.isTrue(fiCol.getBoNullable())) {
-            sbFiColMethodBody.append("\tfiCol.ofcBoNullable = true;\n");
+            sbFiColMethodBody.append("\tfiCol.fcBoNullable = true;\n");
         }
 
-        if (fiCol.getOfcLnPrecision() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnPrecision = %s;\n", fiCol.getOfcLnPrecision().toString()));
+        if (fiCol.getFcLnPrecision() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.fcLnPrecision = %s;\n", fiCol.getFcLnPrecision().toString()));
         }
 
-        if (fiCol.getOfcLnScale() != null) {
-            sbFiColMethodBody.append(String.format("\tfiCol.ofcLnScale = %s;\n", fiCol.getOfcLnScale().toString()));
+        if (fiCol.getFcLnScale() != null) {
+            sbFiColMethodBody.append(String.format("\tfiCol.fcLnScale = %s;\n", fiCol.getFcLnScale().toString()));
         }
 
-        if (FiBool.isTrue(fiCol.getOfcBoUnique())) {
-            sbFiColMethodBody.append("\tfiCol.ofcBoUnique = true;\n");
+        if (FiBool.isTrue(fiCol.getFcBoUnique())) {
+            sbFiColMethodBody.append("\tfiCol.fcBoUnique = true;\n");
         }
 
-        if (FiBool.isTrue(fiCol.getOfcBoUniqGro1())) {
-            sbFiColMethodBody.append("\tfiCol.ofcBoUniqGro1 = true;\n");
+        if (FiBool.isTrue(fiCol.getFcBoUniqGro1())) {
+            sbFiColMethodBody.append("\tfiCol.fcBoUniqGro1 = true;\n");
         }
 
-        if (FiBool.isTrue(fiCol.getOfcBoUtfSupport())) {
-            sbFiColMethodBody.append("\tfiCol.ofcBoUtfSupport = true;\n");
+        if (FiBool.isTrue(fiCol.getFcBoUtfSupport())) {
+            sbFiColMethodBody.append("\tfiCol.fcBoUtfSupport = true;\n");
         }
 
-        if (!FiString.isEmpty(fiCol.getOfcTxDefValue())) {
-            sbFiColMethodBody.append(String.format("\tfiCol.ofcTxDefValue = \"%s\";\n", fiCol.getOfcTxDefValue()));
+        if (!FiString.isEmpty(fiCol.getFcTxDefValue())) {
+            sbFiColMethodBody.append(String.format("\tfiCol.fcTxDefValue = \"%s\";\n", fiCol.getFcTxDefValue()));
         }
 
         if (FiBool.isTrue(fiCol.getBoFilterLike())) {
-            sbFiColMethodBody.append("\tfiCol.ofcBoFilterLike = true;\n");
+            sbFiColMethodBody.append("\tfiCol.fcBoFilterLike = true;\n");
         }
 
         // ofcTxCollation	ofcTxTypeName

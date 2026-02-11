@@ -50,7 +50,7 @@ public class OcmTypescript {
                 txType = fiField.getClassNameSimple();
             }
 
-            sbFieldDef.append("\t").append(fiField.getOfcTxFieldName())
+            sbFieldDef.append("\t").append(fiField.getFcTxFieldName())
                     .append("?:").append(txType).append(";\n");
 
         }
