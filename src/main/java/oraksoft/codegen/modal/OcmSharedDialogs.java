@@ -34,7 +34,7 @@ public class OcmSharedDialogs {
 	public static OccEntityListCont showDialogSelectEntityClass() {
 		OccEntityListCont occEntityListCont = new OccEntityListCont();
 		occEntityListCont.initCont();
-		FxWindow.nodeWindow(null, occEntityListCont, null, null, null);
+		FxWindow.creNodeWindow(null, occEntityListCont, null, null, null);
 		return occEntityListCont;
 	}
 

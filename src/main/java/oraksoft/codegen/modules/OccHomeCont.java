@@ -848,7 +848,7 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
                 getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
                 FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
             } else {
-                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getFdrTxMessage());
+                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getFdTxMessage());
             }
 
         } else {
