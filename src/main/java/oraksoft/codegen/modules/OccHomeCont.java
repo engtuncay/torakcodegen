@@ -1028,13 +1028,13 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         try {
             Jdbi jdbi = FiJdbiFactory.createJdbi(serverConfig);
             fdr.setValue(jdbi);
-            fdr.setFdrBoResult(true);
+            fdr.setFdBoResult(true);
             return fdr;
         } catch (Exception ex) {
             //ex.printStackTrace();
             Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
             fdr.setFdrTxMessageWitAddLog("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
-            fdr.setFdrBoResult(false);
+            fdr.setFdBoResult(false);
             return fdr;
         }
 
