@@ -2,7 +2,7 @@ package oraksoft.codegen.modules;
 
 import javafx.stage.Stage;
 import oraksoft.codegen.modal.*;
-import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
+import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.ServerConfig;
 import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;

@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.OccHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import org.jetbrains.annotations.NotNull;
-import ozpasyazilim.mikro.util.codegen.FiCodeGeneratorTest;
+import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
