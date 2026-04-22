@@ -778,13 +778,13 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
         }
       }
 
-      getTxaMainOutput().appendTextLnAsyn(
+      getTxaMainOutput().appendTextNlAsyn(
           FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
 
       getTxaMainOutput().appendNewLine();
       getTxaMainOutput().appendNewLine();
 
-      getTxaMainOutput().appendTextLnAsyn(
+      getTxaMainOutput().appendTextNlAsyn(
           FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
     }
@@ -799,13 +799,13 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     if (selectedEntity != null) {
 
-      getTxaMainOutput().appendTextLnAsyn(
+      getTxaMainOutput().appendTextNlAsyn(
           FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
 
       getTxaMainOutput().appendNewLine();
       getTxaMainOutput().appendNewLine();
 
-      getTxaMainOutput().appendTextLnAsyn(
+      getTxaMainOutput().appendTextNlAsyn(
           FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
     }
@@ -1045,11 +1045,11 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
   }
 
   public void appendTextNewLine(String txValue) {
-    getTxaMainOutput().appendTextLnAsyn(txValue);
+    getTxaMainOutput().appendTextNlAsyn(txValue);
   }
 
   public void actionResult(String txResult) {
-    getTxaMainOutput().appendTextLnAsyn(txResult);
+    getTxaMainOutput().appendTextNlAsyn(txResult);
   }
 
   @Override

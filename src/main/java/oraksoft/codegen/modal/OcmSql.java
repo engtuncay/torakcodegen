@@ -241,7 +241,7 @@ public class OcmSql {
 		sbSql.append("\n -- end sql copy");
 
 		getMcgHome().getFxTextArea().appendNewLine();
-		getMcgHome().getFxTextArea().appendTextLnAsyn(sbSql.toString());
+		getMcgHome().getFxTextArea().appendTextNlAsyn(sbSql.toString());
 	}
 
 	private String getSqlInsertSelectWithDate(String selectedTable) {

@@ -18,7 +18,7 @@ public class OcmHome {
 	}
 
 	public void appendTextNewLine(String txValue) {
-		getFxTextArea().appendTextLnAsyn(txValue);
+		getFxTextArea().appendTextNlAsyn(txValue);
 	}
 
 	public FxTextArea getFxTextArea() {
