@@ -13,7 +13,7 @@ import ozpasyazilim.utils.repoSql.RepoSqlTable;
 import org.jdbi.v3.core.Jdbi;
 import org.reflections.Reflections;
 import ozpasyazilim.mikro.dbrepo.repoMikro2.RepoJdbiGeneric;
-import ozpasyazilim.utils.configmisc.ServerConfig;
+import ozpasyazilim.utils.configmisc.FiConnConfig;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.FiMapList;
@@ -33,8 +33,8 @@ public class OcmSql {
 	Jdbi jdbi2;
 	Boolean boEnableDbOperation;
 	String txSqlTransferDate;
-	private ServerConfig serverConfig1;
-	private ServerConfig serverConfig2;
+	private FiConnConfig fiConnConfig1;
+	private FiConnConfig fiConnConfig2;
 	FiListKeyString listMapDateField;
 	OcmHome ocmHome;
 
@@ -417,20 +417,20 @@ public class OcmSql {
 		this.txSqlTransferDate = txSqlTransferDate;
 	}
 
-	public ServerConfig getServerConfig1() {
-		return serverConfig1;
+	public FiConnConfig getServerConfig1() {
+		return fiConnConfig1;
 	}
 
-	public void setServerConfig1(ServerConfig serverConfig1) {
-		this.serverConfig1 = serverConfig1;
+	public void setServerConfig1(FiConnConfig fiConnConfig1) {
+		this.fiConnConfig1 = fiConnConfig1;
 	}
 
-	public ServerConfig getServerConfig2() {
-		return serverConfig2;
+	public FiConnConfig getServerConfig2() {
+		return fiConnConfig2;
 	}
 
-	public void setServerConfig2(ServerConfig serverConfig2) {
-		this.serverConfig2 = serverConfig2;
+	public void setServerConfig2(FiConnConfig fiConnConfig2) {
+		this.fiConnConfig2 = fiConnConfig2;
 	}
 
 	public Jdbi getJdbi2() {

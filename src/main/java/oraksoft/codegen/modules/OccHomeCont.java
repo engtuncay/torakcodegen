@@ -3,7 +3,7 @@ package oraksoft.codegen.modules;
 import javafx.stage.Stage;
 import oraksoft.codegen.modal.*;
 import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
-import ozpasyazilim.utils.configmisc.ServerConfig;
+import ozpasyazilim.utils.configmisc.FiConnConfig;
 import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
@@ -31,468 +31,468 @@ import java.util.*;
  * <p>
  * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
  */
-public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
+public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
-    OcgHomeWindow ocgHomeWindow;
-    Class classSelected1;
-    Class classSelected2;
+  OcgHomeWindow ocgHomeWindow;
+  Class classSelected1;
+  Class classSelected2;
 
-    Stage mainStage;
-    File fileSelected;
+  Stage mainStage;
+  File fileSelected;
 
-    private OcmSql ocmSql;
-    private OcmHome ocmHome;
+  private OcmSql ocmSql;
+  private OcmHome ocmHome;
 
-    // Other Components
+  // Other Components
 
-    private FxTextArea txaMainOutput;
-    private FxButton btnServer1;
-    private FxButton btnServer2;
-    private FxButton btnClassSec;
-    private FxButton btnClassSec2;
-    private FxButton btnDosyaSec;
+  private FxTextArea txaMainOutput;
+  private FxButton btnServer1;
+  private FxButton btnServer2;
+  private FxButton btnClassSec;
+  private FxButton btnClassSec2;
+  private FxButton btnDosyaSec;
 
-    private FxMenuButton cmbCsharpIslemler;
-    private FxCheckBox chkDosyayaYazdir;
-    private FxCheckBox chkVeritabandaOlustur;
+  private FxMenuButton cmbCsharpIslemler;
+  private FxCheckBox chkDosyayaYazdir;
+  private FxCheckBox chkVeritabandaOlustur;
 
-    private FxComboBoxSimple cmbFiColHelpers;
-    private FxComboBoxSimple cmbFiColHelpers2;
+  private FxComboBoxSimple cmbFiColHelpers;
+  private FxComboBoxSimple cmbFiColHelpers2;
 
-    private FxComboBoxSimple cmbDbRead;
-    private FxComboBoxSimple cmbQueryGenerator;
-    private FxMenuButton mnbTypeScript;
-    private FxComboBoxSimple cmbExcelIslemler;
-    private FxComboBoxSimple cmbXmlAraclar;
-    private String txDosyaYolu;
+  private FxComboBoxSimple cmbDbRead;
+  private FxComboBoxSimple cmbQueryGenerator;
+  private FxMenuButton mnbTypeScript;
+  private FxComboBoxSimple cmbExcelIslemler;
+  private FxComboBoxSimple cmbXmlAraclar;
+  private String txDosyaYolu;
 
-    @Override
-    public void initCont() {
+  @Override
+  public void initCont() {
 
-        ocgHomeWindow = new OcgHomeWindow();
-        ocgHomeWindow.initGui();
+    ocgHomeWindow = new OcgHomeWindow();
+    ocgHomeWindow.initGui();
 
-        // Other components
-        chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
-        chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
-        btnServer1 = new FxButton("Server Seç");
+    // Other components
+    chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
+    chkVeritabandaOlustur = new FxCheckBox("Veritabanda Oluştur.(Create için)");
+    btnServer1 = new FxButton("Server Seç");
 
-        btnClassSec = new FxButton("Class Seç");
-        btnServer2 = new FxButton("Server(2)");
-        btnClassSec2 = new FxButton("Class(2) Seç");
-        btnDosyaSec = new FxButton("Dosya Seç");
+    btnClassSec = new FxButton("Class Seç");
+    btnServer2 = new FxButton("Server(2)");
+    btnClassSec2 = new FxButton("Class(2) Seç");
+    btnDosyaSec = new FxButton("Dosya Seç");
 
-        // Combo Menuler
+    // Combo Menuler
 
-        cmbFiColHelpers = new FxComboBoxSimple("FiCol");
-        cmbFiColHelpers.setMaxWidth(150d);
+    cmbFiColHelpers = new FxComboBoxSimple("FiCol");
+    cmbFiColHelpers.setMaxWidth(150d);
 
-        cmbFiColHelpers2 = new FxComboBoxSimple("FiCol(2)");
-        cmbFiColHelpers2.setMaxWidth(150d);
+    cmbFiColHelpers2 = new FxComboBoxSimple("FiCol(2)");
+    cmbFiColHelpers2.setMaxWidth(150d);
 
-        cmbDbRead = new FxComboBoxSimple("Db Table Read");
-        cmbQueryGenerator = new FxComboBoxSimple("Query");
-        mnbTypeScript = new FxMenuButton("Typescript"); // FxComboBoxSimple("TypeScript");
-        cmbExcelIslemler = new FxComboBoxSimple("Excel");
-        cmbXmlAraclar = new FxComboBoxSimple("Xml");
+    cmbDbRead = new FxComboBoxSimple("Db Table Read");
+    cmbQueryGenerator = new FxComboBoxSimple("Query");
+    mnbTypeScript = new FxMenuButton("Typescript"); // FxComboBoxSimple("TypeScript");
+    cmbExcelIslemler = new FxComboBoxSimple("Excel");
+    cmbXmlAraclar = new FxComboBoxSimple("Xml");
 
-        cmbCsharpIslemler = new FxMenuButton("Csharp");
+    cmbCsharpIslemler = new FxMenuButton("Csharp");
 
-        getMigMenu().add(chkDosyayaYazdir, "");
-        getMigMenu().add(chkVeritabandaOlustur, "wrap");
-        getMigMenu().add(btnServer1, "");
-        getMigMenu().add(btnClassSec, "");
-        getMigMenu().add(btnDosyaSec, "");
+    getMigMenu().add(chkDosyayaYazdir, "");
+    getMigMenu().add(chkVeritabandaOlustur, "wrap");
+    getMigMenu().add(btnServer1, "");
+    getMigMenu().add(btnClassSec, "");
+    getMigMenu().add(btnDosyaSec, "");
 
-        //migMenu.add(new FxLabel("-----"), "span");
-        getMigMenu().add(btnServer2, "");
-        getMigMenu().add(btnClassSec2, "wrap");
-        //migMenu.add(new FxLabel("-----"), "span");
-        getMigMenu().add(cmbFiColHelpers, "");
-        getMigMenu().add(cmbFiColHelpers2, "");
-        getMigMenu().add(cmbDbRead, "");
-        getMigMenu().add(cmbQueryGenerator, "");
-        getMigMenu().add(mnbTypeScript, "");
-        getMigMenu().add(cmbExcelIslemler, "wrap");
-        getMigMenu().add(cmbXmlAraclar, "");
-        getMigMenu().add(cmbCsharpIslemler, "wrap");
+    //migMenu.add(new FxLabel("-----"), "span");
+    getMigMenu().add(btnServer2, "");
+    getMigMenu().add(btnClassSec2, "wrap");
+    //migMenu.add(new FxLabel("-----"), "span");
+    getMigMenu().add(cmbFiColHelpers, "");
+    getMigMenu().add(cmbFiColHelpers2, "");
+    getMigMenu().add(cmbDbRead, "");
+    getMigMenu().add(cmbQueryGenerator, "");
+    getMigMenu().add(mnbTypeScript, "");
+    getMigMenu().add(cmbExcelIslemler, "wrap");
+    getMigMenu().add(cmbXmlAraclar, "");
+    getMigMenu().add(cmbCsharpIslemler, "wrap");
 
-        //migMenu.add(new FxLabel("-----"), "span");
+    //migMenu.add(new FxLabel("-----"), "span");
 
-        txaMainOutput = new FxTextArea();
-        getMigContent().add(getTxaMainOutput(), "span,grow,push");
+    txaMainOutput = new FxTextArea();
+    getMigContent().add(getTxaMainOutput(), "span,grow,push");
 
-        getBtnClassSec().setOnAction(event -> actBtnSelectClass1());
-        getBtnServer1().setOnAction(event -> actBtnSelectServer1());
+    getBtnClassSec().setOnAction(event -> actBtnSelectClass1());
+    getBtnServer1().setOnAction(event -> actBtnSelectServer1());
 
-        getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
-        getBtnServer2().setOnAction(event -> actBtnSelectServer2());
+    getBtnClassSec2().setOnAction(event -> actBtnClassSec2());
+    getBtnServer2().setOnAction(event -> actBtnSelectServer2());
 
-        getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
+    getBtnDosyaSec().setOnAction(event -> actBtnDosyaSec());
 
-        // modal ayarlar
-        getMcgHomeInit().setFxTextArea(getTxaMainOutput());
-        getMcgHomeInit().setModalSql(getMcgSqlInit());
-        getMcgSqlInit().setMcgHome(getMcgHomeInit());
+    // modal ayarlar
+    getMcgHomeInit().setFxTextArea(getTxaMainOutput());
+    getMcgHomeInit().setModalSql(getMcgSqlInit());
+    getMcgSqlInit().setMcgHome(getMcgHomeInit());
 
-        getChkVeritabandaOlustur().setOnChangeAction(aBoolean -> {
-            getMcgSqlInit().setBoEnableDbOperation(aBoolean);
-            //System.out.println("isEnabDbOper:"+ aBoolean);
-        });
+    getChkVeritabandaOlustur().setOnChangeAction(aBoolean -> {
+      getMcgSqlInit().setBoEnableDbOperation(aBoolean);
+      //System.out.println("isEnabDbOper:"+ aBoolean);
+    });
 
-        setupCombos();
+    setupCombos();
 
-        setupMenuTypescript();
+    setupMenuTypescript();
 
+  }
+
+  private void setupMenuTypescript() {
+
+    FxMenuItem meiJavaClassToTs = new FxMenuItem("Java Class To Ts Class");
+    meiJavaClassToTs.setOnAction(event -> OcmTypescript.classToTsClass(this));
+
+    getMnbTypeScript().addItem(meiJavaClassToTs);
+
+
+  }
+
+  private FxMigPane getMigContent() {
+    return getModView().getMigContent();
+  }
+
+  private FxMigPane getMigMenu() {
+    return getModView().getMigMenu();
+  }
+
+  private void actBtnDosyaSec() {
+
+    File fileSelected = FiFile.selectFileDialogSwing("Dosya Seçiniz", null);
+    setFileSelected(fileSelected);
+
+    if (fileSelected != null) {
+      getBtnDosyaSec().setText("Dosya:" + fileSelected.getName());
     }
 
-    private void setupMenuTypescript() {
+  }
 
-        FxMenuItem meiJavaClassToTs = new FxMenuItem("Java Class To Ts Class");
-        meiJavaClassToTs.setOnAction(event -> OcmTypescript.classToTsClass(this));
+  public void setupCombos() {
 
-        getMnbTypeScript().addItem(meiJavaClassToTs);
+    //codeGenMainView.getBtnCreateQuery().setOnAction(event -> actQueryCreate());
 
+    // ***** Db To Code Combos
+    FxMenuButton mbDbToCode = new FxMenuButton("Db To Code");
+    setupDbToCode(mbDbToCode);
 
-    }
+    // **** FiCol Generator Helpers
+    setupMenuFiColHelpers2();
+    setupMenuFiColHelper1();
 
-    private FxMigPane getMigContent() {
-        return getModView().getMigContent();
-    }
+    // **** Db Read Combos
+    setupDbReadCombos();
 
-    private FxMigPane getMigMenu() {
-        return getModView().getMigMenu();
-    }
+    // **** Excel Islemler Combos
+    setupMenuExcelIslemler();
 
-    private void actBtnDosyaSec() {
+    // enumComboItem.ExcelToEntity
 
-        File fileSelected = FiFile.selectFileDialogSwing("Dosya Seçiniz", null);
-        setFileSelected(fileSelected);
+    // ****** Query Helpers Combos
+    setupMenuQueryGenerator();
 
-        if (fileSelected != null) {
-            getBtnDosyaSec().setText("Dosya:" + fileSelected.getName());
-        }
+    // Xml Combo
+    setupMenuXml();
 
-    }
+    setupMenuCsharpIslemler();
 
-    public void setupCombos() {
+    // Combobox Listener Ayarları
 
-        //codeGenMainView.getBtnCreateQuery().setOnAction(event -> actQueryCreate());
+    getCmbDbRead().activateSetNullAfterAction();
+    getCmbFiColHelpers().activateSetNullAfterAction();
+    getCmbFiColHelpers2().activateSetNullAfterAction();
+    getCmbExcelIslemler().activateSetNullAfterAction();
+    getCmbQueryGenerator().activateSetNullAfterAction();
+    getCmbXmlAraclar().activateSetNullAfterAction();
 
-        // ***** Db To Code Combos
-        FxMenuButton mbDbToCode = new FxMenuButton("Db To Code");
-        setupDbToCode(mbDbToCode);
+    // Sql İşlemler
+    FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
+    setupMenuSqlTransfer(mbSqlTransfer);
 
-        // **** FiCol Generator Helpers
-        setupMenuFiColHelpers2();
-        setupMenuFiColHelper1();
+    // Db Export
+    FxMenuButton mbDbExport = new FxMenuButton("Db Export");
+    setupMenuDbExport(mbDbExport);
 
-        // **** Db Read Combos
-        setupDbReadCombos();
+    // Menu Layout
+    getOcgHomeWindow().getMigMenu().addSpan(mbDbToCode);
+    getOcgHomeWindow().getMigMenu().addSpan(mbSqlTransfer);
+    getOcgHomeWindow().getMigMenu().addSpan(mbDbExport);
 
-        // **** Excel Islemler Combos
-        setupMenuExcelIslemler();
+  }
 
-        // enumComboItem.ExcelToEntity
+  private void setupMenuSqlTransfer(FxMenuButton mbSqlTransfer) {
+    FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
+    miTransferTarih.setOnAction(event -> {
+      FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Tarih Giriniz (yyyymmdd)");
+      //fxSimpleDialog.openAsDialogSync();
+      if (fxSimpleDialog.isClosedWithOk()) {
+        getMcgSqlInit().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
+        appendTextNewLine("Tarih Alanı Değeri Atandı:" + fxSimpleDialog.getTxValue());
+      }
+    });
+    mbSqlTransfer.addItem(miTransferTarih);
 
-        // ****** Query Helpers Combos
-        setupMenuQueryGenerator();
+    FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
+    miTransferTarihExcel.setOnAction(event -> {
+      //Loghelper.get(getClass()).info("excel tarih start");
+      FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+      if (fiListKeyString != null) {
+        fiListKeyString.clearRowsKeyIfEmpty("txDateField");
+        appendTextNewLine("Tarih Alanları Okundu.");
+      }
+      getMcgSqlInit().setListMapDateField(fiListKeyString);
+      FiConsole.debugListMap(fiListKeyString, OcmExcel.class, true);
+    });
+    mbSqlTransfer.addItem(miTransferTarihExcel);
 
-        // Xml Combo
-        setupMenuXml();
+    FxMenuItem miTabloKopyalama = new FxMenuItem("Tablo Kopyalama (Kaynak:Db1->Hedef:Db2)");
+    miTabloKopyalama.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(false)));
+    mbSqlTransfer.addItem(miTabloKopyalama);
 
-        setupMenuCsharpIslemler();
+    FxMenuItem miTabloKopyalamaTarihli = new FxMenuItem("Tablo Kopyalama Tarihli (Kaynak:Db1->Hedef:Db2)");
+    miTabloKopyalamaTarihli.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(true)));
+    mbSqlTransfer.addItem(miTabloKopyalamaTarihli);
 
-        // Combobox Listener Ayarları
+    FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
+    miTransferSqlExcelOto.setOnAction(event -> {
+      //Loghelper.get(getClass()).info("excel tarih start");
+      FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+      if (fiListKeyString != null) {
+        //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
+        appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
+      }
+      // FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
+      getMcgSqlInit().setListMapDateField(fiListKeyString);
+      getMcgSqlInit().sqlTableCopySrv1ToSrv2Auto();
+    });
+    mbSqlTransfer.addItem(miTransferSqlExcelOto);
+  }
 
-        getCmbDbRead().activateSetNullAfterAction();
-        getCmbFiColHelpers().activateSetNullAfterAction();
-        getCmbFiColHelpers2().activateSetNullAfterAction();
-        getCmbExcelIslemler().activateSetNullAfterAction();
-        getCmbQueryGenerator().activateSetNullAfterAction();
-        getCmbXmlAraclar().activateSetNullAfterAction();
+  private void setupMenuCsharpIslemler() {
+    FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
+    getCmbCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
 
-        // Sql İşlemler
-        FxMenuButton mbSqlTransfer = new FxMenuButton("Sql Transfer");
-        setupMenuSqlTransfer(mbSqlTransfer);
+    cshEntitySinifOlusturma.setOnAction(event -> new OcmCsharp(this).actCsharpSinifOlusturma(this));
 
-        // Db Export
-        FxMenuButton mbDbExport = new FxMenuButton("Db Export");
-        setupMenuDbExport(mbDbExport);
+    FxMenuItem cshFiColSinif = new FxMenuItem("Excelden FiCol Sınıf oluştur (Detaylı)");
 
-        // Menu Layout
-        getOcgHomeWindow().getMigMenu().addSpan(mbDbToCode);
-        getOcgHomeWindow().getMigMenu().addSpan(mbSqlTransfer);
-        getOcgHomeWindow().getMigMenu().addSpan(mbDbExport);
+    cshFiColSinif.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
 
-    }
+    getCmbCsharpIslemler().getItems().add(cshFiColSinif);
 
-    private void setupMenuSqlTransfer(FxMenuButton mbSqlTransfer) {
-        FxMenuItem miTransferTarih = new FxMenuItem("Sql Kopyalama:Tarih Belirle");
-        miTransferTarih.setOnAction(event -> {
-            FxSimpleDialog fxSimpleDialog = FxSimpleDialog.buiTextFieldDialog("Tarih Giriniz (yyyymmdd)");
-            //fxSimpleDialog.openAsDialogSync();
-            if (fxSimpleDialog.isClosedWithOk()) {
-                getMcgSqlInit().setTxSqlTransferDate(fxSimpleDialog.getTxValue());
-                appendTextNewLine("Tarih Alanı Değeri Atandı:" + fxSimpleDialog.getTxValue());
-            }
-        });
-        mbSqlTransfer.addItem(miTransferTarih);
+  }
 
-        FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
-        miTransferTarihExcel.setOnAction(event -> {
-            //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-            if (fiListKeyString != null) {
-                fiListKeyString.clearRowsKeyIfEmpty("txDateField");
-                appendTextNewLine("Tarih Alanları Okundu.");
-            }
-            getMcgSqlInit().setListMapDateField(fiListKeyString);
-            FiConsole.debugListMap(fiListKeyString, OcmExcel.class, true);
-        });
-        mbSqlTransfer.addItem(miTransferTarihExcel);
+  private void setupMenuXml() {
+    getCmbXmlAraclar().addComboItem(
+        ComboItemText.buildWitAction("Xml to Field List"
+            , this::actXmlToFiFieldList));
+  }
 
-        FxMenuItem miTabloKopyalama = new FxMenuItem("Tablo Kopyalama (Kaynak:Db1->Hedef:Db2)");
-        miTabloKopyalama.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(false)));
-        mbSqlTransfer.addItem(miTabloKopyalama);
+  private void setupMenuDbExport(FxMenuButton mbDbExport) {
+    FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
+        , (event) -> OcmDbExport.actTableExport1(this, true));
+    mbDbExport.addItem(miDbExportForExportTable1);
 
-        FxMenuItem miTabloKopyalamaTarihli = new FxMenuItem("Tablo Kopyalama Tarihli (Kaynak:Db1->Hedef:Db2)");
-        miTabloKopyalamaTarihli.setOnAction(event -> actionResult(getMcgSqlInit().sqlTableCopySrv1ToSrv2(true)));
-        mbSqlTransfer.addItem(miTabloKopyalamaTarihli);
+    FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
+        , (event) -> OcmDbExport.actTableExport1(this, false));
+    mbDbExport.addItem(miDbExportForExportTable2);
+  }
 
-        FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
-        miTransferSqlExcelOto.setOnAction(event -> {
-            //Loghelper.get(getClass()).info("excel tarih start");
-            FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-            if (fiListKeyString != null) {
-                //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
-                appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
-            }
-            // FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
-            getMcgSqlInit().setListMapDateField(fiListKeyString);
-            getMcgSqlInit().sqlTableCopySrv1ToSrv2Auto();
-        });
-        mbSqlTransfer.addItem(miTransferSqlExcelOto);
-    }
+  private void setupMenuQueryGenerator() {
 
-    private void setupMenuCsharpIslemler() {
-        FxMenuItem cshEntitySinifOlusturma = new FxMenuItem("Tablodan sınıf oluştur");
-        getCmbCsharpIslemler().getItems().add(cshEntitySinifOlusturma);
+    getCmbQueryGenerator().addComboItem(
+        ComboItemText.buildWitAction("Create Query", () ->
+            actionResult(getMcgSqlInit().createQuery(getClassSelected1()))));
 
-        cshEntitySinifOlusturma.setOnAction(event -> new OcmCsharp(this).actCsharpSinifOlusturma(this));
+    getCmbQueryGenerator().addComboItem(
+        ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
+            actionResult(getMcgSqlInit().createQueryByFiCol())));
 
-        FxMenuItem cshFiColSinif = new FxMenuItem("Excelden FiCol Sınıf oluştur (Detaylı)");
+    getCmbQueryGenerator().addComboItem(
+        ComboItemText.buildWitAction("Alter Table Field(Add)"
+            , this::actAlterNewFields));
 
-        cshFiColSinif.setOnAction(event -> OcmCsharp.bui(this).actGenFiColListByExcel());
+    getCmbQueryGenerator().addComboItem(
+        ComboItemText.buildWitAction("Clone Table Data"
+            , this::actCloneTableData));
 
-        getCmbCsharpIslemler().getItems().add(cshFiColSinif);
+    getCmbQueryGenerator().addComboItem(
+        ComboItemText.buildWitAction("Unique1 Fields", () ->
+            actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected1()))));
+  }
 
-    }
+  private void setupMenuExcelIslemler() {
+    getCmbExcelIslemler().addComboItem(
+        ComboItemText.buildWitAction("Excel'den Entity Oluştur"
+            , () -> actionResult(OcmExcel.actExcelToEntity())));
 
-    private void setupMenuXml() {
-        getCmbXmlAraclar().addComboItem(
-                ComboItemText.buildWitAction("Xml to Field List"
-                        , this::actXmlToFiFieldList));
-    }
+    getCmbExcelIslemler().addComboItem(
+        ComboItemText.buildWitAction("Entity To Excel"
+            , () -> OcmExcel.actEntityToExcel(getClassSelected1(), this)));
+  }
 
-    private void setupMenuDbExport(FxMenuButton mbDbExport) {
-        FxMenuItem miDbExportForExportTable1 = new FxMenuItem("Export Table With Insert (Wout Pks) (1)"
-                , (event) -> OcmDbExport.actTableExport1(this, true));
-        mbDbExport.addItem(miDbExportForExportTable1);
+  private void setupDbToCode(FxMenuButton mbDbToCode) {
+    FxMenuItem tabloToEntity = new FxMenuItem("Tablodan Entity Oluştur");
+    tabloToEntity.setOnAction(event -> actTableToEntity());
+    mbDbToCode.addItem(tabloToEntity);
 
-        FxMenuItem miDbExportForExportTable2 = new FxMenuItem("Export Table With Insert (With Pks) (2)"
-                , (event) -> OcmDbExport.actTableExport1(this, false));
-        mbDbExport.addItem(miDbExportForExportTable2);
-    }
+    FxMenuItem vtEntityDoldur = new FxMenuItem("Veritabanından Entity Alanlarını Doldurma Metodu");
+    vtEntityDoldur.setOnAction(event -> actEntityFillerMethodFromDb());
+    mbDbToCode.addItem(vtEntityDoldur);
 
-    private void setupMenuQueryGenerator() {
+    FxMenuItem vtAlter = new FxMenuItem("Veritabanına eklenecek alanların Alter Sorguları");
+    vtAlter.setOnAction(event -> actAlterNewFields());
+    mbDbToCode.addItem(vtAlter);
+  }
 
-        getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Create Query", () ->
-                        actionResult(getMcgSqlInit().createQuery(getClassSelected1()))));
-
-        getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
-                        actionResult(getMcgSqlInit().createQueryByFiCol())));
-
-        getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Alter Table Field(Add)"
-                        , this::actAlterNewFields));
-
-        getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Clone Table Data"
-                        , this::actCloneTableData));
-
-        getCmbQueryGenerator().addComboItem(
-                ComboItemText.buildWitAction("Unique1 Fields", () ->
-                        actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected1()))));
-    }
-
-    private void setupMenuExcelIslemler() {
-        getCmbExcelIslemler().addComboItem(
-                ComboItemText.buildWitAction("Excel'den Entity Oluştur"
-                        , () -> actionResult(OcmExcel.actExcelToEntity())));
-
-        getCmbExcelIslemler().addComboItem(
-                ComboItemText.buildWitAction("Entity To Excel"
-                        , () -> OcmExcel.actEntityToExcel(getClassSelected1(),this)));
-    }
-
-    private void setupDbToCode(FxMenuButton mbDbToCode) {
-        FxMenuItem tabloToEntity = new FxMenuItem("Tablodan Entity Oluştur");
-        tabloToEntity.setOnAction(event -> actTableToEntity());
-        mbDbToCode.addItem(tabloToEntity);
-
-        FxMenuItem vtEntityDoldur = new FxMenuItem("Veritabanından Entity Alanlarını Doldurma Metodu");
-        vtEntityDoldur.setOnAction(event -> actEntityFillerMethodFromDb());
-        mbDbToCode.addItem(vtEntityDoldur);
-
-        FxMenuItem vtAlter = new FxMenuItem("Veritabanına eklenecek alanların Alter Sorguları");
-        vtAlter.setOnAction(event -> actAlterNewFields());
-        mbDbToCode.addItem(vtAlter);
-    }
-
-    private void setupDbReadCombos() {
-        getCmbDbRead().addComboItem(
-                ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
+  private void setupDbReadCombos() {
+    getCmbDbRead().addComboItem(
+        ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
-        getCmbDbRead().addComboItem(
-                ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
-        //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
-    }
+    getCmbDbRead().addComboItem(
+        ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
+    //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
+  }
 
-    private void setupMenuFiColHelper1() {
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
-                        , () -> OcmFiColJava.codeFiColsMethodsByClass1(this)));
+  private void setupMenuFiColHelper1() {
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
+            , () -> OcmFiColJava.codeFiColsMethodsByClass1(this)));
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
-                        , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
+            , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
-                        , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
+            , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur"
-                        , () -> OcmFiColJava.actExcelToFiTableColViaMethods(this)));
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur"
+            , () -> OcmFiColJava.actExcelToFiTableColViaMethods(this)));
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
-                        , () -> OcmFiColJava.actGenFiColListByExcel(this)));
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
+            , () -> OcmFiColJava.actGenFiColListByExcel(this)));
 
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
 // , "Excelden FiTableCol List oluştur.(Auto Field Name)");
 
 
-        // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
+    // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur."
-                        , this::actSqlQueryToFiTableCol));
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur."
+            , this::actSqlQueryToFiTableCol));
 
-        //actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
+    //actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
-                        , this::actSqlQueryToFiTableColGenerate));
-        // actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
+            , this::actSqlQueryToFiTableColGenerate));
+    // actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
-        //actAlanListesi();//AlanListesi
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
+    //actAlanListesi();//AlanListesi
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Alan Listesi By Id With Value"
-                        , this::actAlanListesiByIdWithValue));
-        //actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Alan Listesi By Id With Value"
+            , this::actAlanListesiByIdWithValue));
+    //actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
-        getCmbFiColHelpers().addComboItem(
-                ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
-                        , this::actAlanListesiByCandIdWithValue));
-        //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
+    getCmbFiColHelpers().addComboItem(
+        ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
+            , this::actAlanListesiByCandIdWithValue));
+    //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
+  }
+
+  private void setupMenuFiColHelpers2() {
+
+    getCmbFiColHelpers2().addComboItem(
+        ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
+            , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
+
+    getCmbFiColHelpers2().addComboItem(
+        ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
+            , () -> OcmFiColJava.bui(this).actFiColsClassByClass()));
+
+    getCmbFiColHelpers2().addComboItem(
+        ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
+            , () -> OcmFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
+  }
+
+
+  /**
+   * Xml To Field List
+   */
+  private void actXmlToFiFieldList() {
+    //Loghelper.get(getClass()).debug("Xml To Field List");
+    String code = OcmXml.actXmlToFiFieldList(getFileSelected());
+    appendTextNewLine(code);
+  }
+
+
+  private void actCloneTableData() {
+
+
+  }
+
+  // **** İşlemler
+
+  private void actDbKayitSablonByCandIds() {
+    Object form = actDialogCandIdEntityForm();
+
+    //Loghelper.getInstance(getClass()).debug("Id:" + idNo);
+
+    if (form != null) {
+
+      Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListByCandIds(form);
+
+      if (fdr.getValue().size() > 0) {
+
+        //Loghelper.getInstance(getClass()).debug("Size:"+fiDbResult.getResValue().size());
+
+        FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
+
+      } else {
+        System.out.println("Db den Veri Okunamadı");
+      }
+
+    } else {
+      FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
     }
+  }
 
-    private void setupMenuFiColHelpers2() {
+  private void actDbKayitSablonById() {
+    Integer idNo = actDialogIdSelection();
 
-        getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
-                        , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
+    Loghelper.get(getClass()).debug("Id:" + idNo);
 
-        getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
-                        , () -> OcmFiColJava.bui(this).actFiColsClassByClass()));
+    if (idNo != null) {
 
-        getCmbFiColHelpers2().addComboItem(
-                ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
-                        , () -> OcmFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
+      Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListById(idNo);
+
+      if (fdr.getValue().size() > 0) {
+
+        FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
+
+      } else {
+        System.out.println("Db den Veri Okunamadı");
+      }
+
+    } else {
+      FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
     }
-
-
-    /**
-     * Xml To Field List
-     */
-    private void actXmlToFiFieldList() {
-        //Loghelper.get(getClass()).debug("Xml To Field List");
-        String code = OcmXml.actXmlToFiFieldList(getFileSelected());
-        appendTextNewLine(code);
-    }
-
-
-    private void actCloneTableData() {
-
-
-    }
-
-    // **** İşlemler
-
-    private void actDbKayitSablonByCandIds() {
-        Object form = actDialogCandIdEntityForm();
-
-        //Loghelper.getInstance(getClass()).debug("Id:" + idNo);
-
-        if (form != null) {
-
-            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListByCandIds(form);
-
-            if (fdr.getValue().size() > 0) {
-
-                //Loghelper.getInstance(getClass()).debug("Size:"+fiDbResult.getResValue().size());
-
-                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
-
-            } else {
-                System.out.println("Db den Veri Okunamadı");
-            }
-
-        } else {
-            FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
-        }
-    }
-
-    private void actDbKayitSablonById() {
-        Integer idNo = actDialogIdSelection();
-
-        Loghelper.get(getClass()).debug("Id:" + idNo);
-
-        if (idNo != null) {
-
-            Fdr<List> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectListById(idNo);
-
-            if (fdr.getValue().size() > 0) {
-
-                FiExcel.saveSablonExcelByClass(this, fdr.getValue(), getClassSelected1(), "ozpasentegre");
-
-            } else {
-                System.out.println("Db den Veri Okunamadı");
-            }
-
-        } else {
-            FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
-        }
-    }
+  }
 
 //	private void actCmbDbReadByCandId(ComboItem newValue) {
 //
@@ -508,685 +508,685 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 //		codeGenMainView.getCmbDbRead().clearSelectionFi();
 //	}
 
-    public Boolean checkServer() {
+  public Boolean checkServer() {
 
-        if (getMcgSqlInit().getJdbi1() == null) {
-            actBtnSelectServer1();
-        }
-
-        return getMcgSqlInit().getJdbi1() != null;
-
+    if (getMcgSqlInit().getJdbi1() == null) {
+      actBtnSelectServer1();
     }
 
-    public Boolean checkClassChoose() {
+    return getMcgSqlInit().getJdbi1() != null;
 
-        if (getClassSelected1() == null) {
-            actBtnSelectClass1();
-        }
+  }
 
-        if (getClassSelected1() != null) {
-            return true;
-        } else {
-            FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
-        }
+  public Boolean checkClassChoose() {
 
-        return false;
+    if (getClassSelected1() == null) {
+      actBtnSelectClass1();
+    }
+
+    if (getClassSelected1() != null) {
+      return true;
+    } else {
+      FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
+    }
+
+    return false;
+  }
+
+
+  private void actSqlQueryToFiTableColGenerate() {
+
+    FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
+    fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
+    fxSimpleDialog.openAsDialogSync();
+
+    if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
+      String sqlQuery = fxSimpleDialog.getTxValue();
+
+      List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+
+      String result = FiCodeGen.codeFiTableColsGeneraterMethods(queryFields, "", queryFields);
+      appendTextNewLine(result);
+
+    } else {
+      FxDialogShow.showPopWarn("Sorgu girilmedi.");
+    }
+
+  }
+
+
+  private void actSqlQueryToFiTableCol() {
+
+    FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
+    fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
+    fxSimpleDialog.openAsDialogSync();
+
+    if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
+      String sqlQuery = fxSimpleDialog.getTxValue();
+
+      List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+
+      String result = FiCodeGen.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
+      appendTextNewLine(result);
+
+    } else {
+      FxDialogShow.showPopWarn("Sorgu girilmedi.");
     }
 
 
-    private void actSqlQueryToFiTableColGenerate() {
+  }
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
-        fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
-        fxSimpleDialog.openAsDialogSync();
 
-        if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
-            String sqlQuery = fxSimpleDialog.getTxValue();
+  private void actAlanListesi() {
 
-            List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+    if (getClassSelected1() == null) {
+      actBtnSelectClass1();
+    }
 
-            String result = FiCodeGen.codeFiTableColsGeneraterMethods(queryFields, "", queryFields);
+    if (getClassSelected1() != null) {
+      appendTextNewLine(FiCodeGen.codeClassFieldList(getClassSelected1()));
+    } else {
+      FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
+    }
+
+  }
+
+  private void actAlanListesiByIdWithValue() {
+
+    Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
+
+    if (activeServerJdbi != null) {
+      FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
+      //System.out.println("Connected");
+    } else {
+      FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
+      return;
+    }
+
+    if (getClassSelected1() == null) {
+      actBtnSelectClass1();
+    }
+
+    if (getClassSelected1() != null) {
+
+      FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
+      fxSimpleDialog.openAsDialogSync();
+
+      if (fxSimpleDialog.isClosedWithOk()) {
+
+        Integer idNo = (Integer) fxSimpleDialog.getObjectValue();
+
+        Loghelper.get(getClass()).debug("Id:" + idNo);
+
+        if (idNo != null) {
+
+          Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptById(idNo);
+
+          if (fdr.getValue().isPresent()) {
+            //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
+            String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
             appendTextNewLine(result);
+          } else {
+            System.out.println("Db den Veri Okunamadı");
+          }
 
         } else {
-            FxDialogShow.showPopWarn("Sorgu girilmedi.");
+          FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
         }
 
+      }
+    } else {
+      FxDialogShow.showPopError("Lütfen bir sınıf seçin");
     }
 
+    //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+    //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+    //if (selectedEntity != null) {
+    //}
 
-    private void actSqlQueryToFiTableCol() {
+  }
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextAreaString);
-        fxSimpleDialog.setMessageHeader("Lütfen sorgu cümleciğini giriniz:");
-        fxSimpleDialog.openAsDialogSync();
+  private void actAlanListesiByCandIdWithValue() {
 
-        if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
-            String sqlQuery = fxSimpleDialog.getTxValue();
+    Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
 
-            List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+    if (activeServerJdbi != null) {
+      FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
+      //System.out.println("Connected");
+    } else {
+      FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
+      return;
+    }
 
-            String result = FiCodeGen.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
+    if (getClassSelected1() == null) {
+      actBtnSelectClass1();
+    }
+
+    if (getClassSelected1() != null) {
+
+      FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Id Değerini Giriniz");
+      fxSimpleDialog.openAsDialogSync();
+
+      if (fxSimpleDialog.isClosedWithOk()) {
+
+        String candIdValue = fxSimpleDialog.getTxValue();
+
+        Loghelper.get(getClass()).debug("Id:" + candIdValue);
+
+        if (candIdValue != null) {
+
+          Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptByStringCandId1(candIdValue);
+
+          if (fdr.getValue().isPresent()) {
+            //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
+            String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
             appendTextNewLine(result);
+          } else {
+            System.out.println("Db den Veri Okunamadı");
+          }
 
         } else {
-            FxDialogShow.showPopWarn("Sorgu girilmedi.");
+          FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
         }
 
+      }
+    } else {
+      FxDialogShow.showPopError("Lütfen bir sınıf seçin");
+    }
+
+    //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+    //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+    //if (selectedEntity != null) {
+    //}
+
+  }
+
+  private void actBtnSelectClass1() {
+    OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+    EntityClazz selectedEntity = occEntityListCont.getEntitySelected();
+
+    if (selectedEntity != null) {
+      setClassSelected1(selectedEntity.getClazz());
+      getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+    } else {
+      FxDialogShow.showPopWarn("Sınıf Seçilmedi !!!");
+    }
+
+  }
+
+  private void actBtnClassSec2() {
+    OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+    EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+
+    if (selectedEntity != null) {
+      setClassSelected2(selectedEntity.getClazz());
+      getBtnClassSec2().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
+    }
+
+  }
+
+  private void actTableToEntity() {
+
+    Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
+
+    if (activeServerJdbi != null) {
+      FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
+      //System.out.println("Connected");
+    } else {
+      FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
+      return;
+    }
+
+    FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Tablo Adını Giriniz:");
+    fxSimpleDialog.openAsDialogSync();
+
+    if (fxSimpleDialog.isClosedWithOk()) {
+
+      FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
+      FiQugen fiqugen = new FiQugen();
+
+      //System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
+      String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+
+      if (!FiString.isEmpty(entityCode)) {
+        getTxaMainOutput().appendText(entityCode);
+      } else {
+        getTxaMainOutput().appendText("N/A");
+      }
+
+    }
+
+  }
+
+
+  private void actBtnFiTableColListWithEnumFields() {
+
+    OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+
+    EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+
+    if (selectedEntity != null) {
+
+      FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Enum Sınıfının Adını Giriniz :");
+      fxSimpleDialog.openAsDialogSync();
+
+      String fieldEnumClass = "EntegreField";
+
+      if (fxSimpleDialog.isClosedWithOk()) {
+        if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
+          fieldEnumClass = fxSimpleDialog.getTxValue();
+        }
+      }
+
+      getTxaMainOutput().appendTextLnAsyn(
+          FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
+
+      getTxaMainOutput().appendNewLine();
+      getTxaMainOutput().appendNewLine();
+
+      getTxaMainOutput().appendTextLnAsyn(
+          FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
+
+    }
+
+  }
+
+  private void actBtnFiTableColListWithFieldHeader() {
+
+    OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+
+    EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+
+    if (selectedEntity != null) {
+
+      getTxaMainOutput().appendTextLnAsyn(
+          FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
+
+      getTxaMainOutput().appendNewLine();
+      getTxaMainOutput().appendNewLine();
+
+      getTxaMainOutput().appendTextLnAsyn(
+          FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
 
     }
 
 
-    private void actAlanListesi() {
+  }
 
-        if (getClassSelected1() == null) {
-            actBtnSelectClass1();
-        }
+  private void actBtnSelectServer1() {
 
-        if (getClassSelected1() != null) {
-            appendTextNewLine(FiCodeGen.codeClassFieldList(getClassSelected1()));
-        } else {
-            FxDialogShow.showPopError("Lütfen bir Sınıf Seçiniz.");
-        }
+    FiConnConfig fiConnConfig1 = actServerSelect();
 
+    if (fiConnConfig1 != null) {
+
+      Fdr<Jdbi> jdbiFdr = createJdbi(fiConnConfig1);
+
+      if (jdbiFdr.isTrueBoResult()) {
+        getMcgSqlInit().setServerConfig1(fiConnConfig1);
+        getMcgSqlInit().setJdbi1(jdbiFdr.getValue());
+
+        String txMessage = String.format("Server: %s Db: %s", fiConnConfig1.getServer(), fiConnConfig1.getServerDb());
+        getBtnServer1().setText(txMessage);
+        FxDialogShow.showPopInfo("Server Bağlantı Başarılı ***");
+      } else {
+        FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
+      }
+    } else {
+      //FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
+    }
+  }
+
+  private void actBtnSelectServer2() {
+    FiConnConfig fiConnConfig2 = actServerSelect();
+
+    if (fiConnConfig2 != null) {
+
+      Fdr<Jdbi> fdrConnection = createJdbi(fiConnConfig2);
+      if (fdrConnection.getValue() != null) {
+        getMcgSqlInit().setServerConfig2(fiConnConfig2);
+        getMcgSqlInit().setJdbi2(fdrConnection.getValue());
+        getBtnServer2().setText("Server2:" + fiConnConfig2.getServer() + " / " + fiConnConfig2.getServerDb());
+        FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
+      } else {
+        FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getFdTxMessage());
+      }
+
+    } else {
+      //FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
+    }
+  }
+
+  /**
+   * Örnek bir kayıda göre not null kontrollü , alanları set eden kodları ortaya çıkarır.
+   */
+  private void actEntityFillerMethodFromDb() {
+
+    if (checkServer() && checkClassChoose()) {
+
+      entityFillerMethodFromDb();
+
+
+    } else {
+      FxDialogShow.showPopError("Lütfen bir sınıf seçin");
     }
 
-    private void actAlanListesiByIdWithValue() {
+    //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
+    //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
+    //if (selectedEntity != null) {
+    //}
 
-        Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
+  }
 
-        if (activeServerJdbi != null) {
-            FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
-            //System.out.println("Connected");
-        } else {
-            FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
-            return;
+  private void entityFillerMethodFromDb() {
+    appendTextNewLine(OcmSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected1()));
+  }
+
+  private void actAlterNewFields() {
+
+    if (checkServer() && checkClassChoose()) {
+
+      Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected1(), getAndSetupActiveServerJdbi());
+
+      FxDialogShow.showDbResult(fdr);
+
+      String sqltum = "";
+      if (fdr.getBoResultInit()) {
+        if (!FiCollection.isEmpty(fdr.getValue())) {
+          appendTextNewLine("");
+          for (String s : fdr.getValue()) {
+            appendTextNewLine(s);
+            sqltum += s + "\n";
+          }
+          appendTextNewLine("");
         }
+      }
 
-        if (getClassSelected1() == null) {
-            actBtnSelectClass1();
+      if (isEnableDbOperation() && getAndSetupActiveServerJdbi() != null && !FiString.isEmpty(sqltum)) {
+
+        Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
+
+        if (fdr.getBoResultInit()) {
+          fdr.setFdrTxMessageWitAddLog("Değişiklikler başarıyla uygulandı.");
         }
-
-        if (getClassSelected1() != null) {
-
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
-            fxSimpleDialog.openAsDialogSync();
-
-            if (fxSimpleDialog.isClosedWithOk()) {
-
-                Integer idNo = (Integer) fxSimpleDialog.getObjectValue();
-
-                Loghelper.get(getClass()).debug("Id:" + idNo);
-
-                if (idNo != null) {
-
-                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptById(idNo);
-
-                    if (fdr.getValue().isPresent()) {
-                        //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
-                        appendTextNewLine(result);
-                    } else {
-                        System.out.println("Db den Veri Okunamadı");
-                    }
-
-                } else {
-                    FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
-                }
-
-            }
-        } else {
-            FxDialogShow.showPopError("Lütfen bir sınıf seçin");
-        }
-
-        //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
-        //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
-        //if (selectedEntity != null) {
-        //}
-
+        FxDialogShow.showDbResult(fdr);
+      }
+    } else {
+      FxDialogShow.showPopError("Server veya Sınıfı seçiminizi kontrol ediniz.");
     }
 
-    private void actAlanListesiByCandIdWithValue() {
+  }
 
-        Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
+  public Integer actDialogIdSelection() {
+    FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
+    fxSimpleDialog.openAsDialogSync();
 
-        if (activeServerJdbi != null) {
-            FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
-            //System.out.println("Connected");
-        } else {
-            FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
-            return;
-        }
-
-        if (getClassSelected1() == null) {
-            actBtnSelectClass1();
-        }
-
-        if (getClassSelected1() != null) {
-
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Id Değerini Giriniz");
-            fxSimpleDialog.openAsDialogSync();
-
-            if (fxSimpleDialog.isClosedWithOk()) {
-
-                String candIdValue = fxSimpleDialog.getTxValue();
-
-                Loghelper.get(getClass()).debug("Id:" + candIdValue);
-
-                if (candIdValue != null) {
-
-                    Fdr<Optional<Object>> fdr = new RepoJdbiCustom(getAndSetupActiveServerJdbi(), getClassSelected1()).jdSelectEntityOptByStringCandId1(candIdValue);
-
-                    if (fdr.getValue().isPresent()) {
-                        //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-                        String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
-                        appendTextNewLine(result);
-                    } else {
-                        System.out.println("Db den Veri Okunamadı");
-                    }
-
-                } else {
-                    FxDialogShow.showPopWarn("Lütfen Geçerli Bir Id No Giriniz !!!");
-                }
-
-            }
-        } else {
-            FxDialogShow.showPopError("Lütfen bir sınıf seçin");
-        }
-
-        //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
-        //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
-        //if (selectedEntity != null) {
-        //}
-
+    if (fxSimpleDialog.isClosedWithOk()) {
+      Integer idNo = (Integer) fxSimpleDialog.getObjectValue();
+      return idNo;
     }
 
-    private void actBtnSelectClass1() {
-        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
-        EntityClazz selectedEntity = occEntityListCont.getEntitySelected();
+    return null;
+  }
 
-        if (selectedEntity != null) {
-            setClassSelected1(selectedEntity.getClazz());
-            getBtnClassSec().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
-        } else {
-            FxDialogShow.showPopWarn("Sınıf Seçilmedi !!!");
-        }
+  private Object actDialogCandIdEntityForm() {
 
+    FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.FormAutoByCandIdFields);
+    fxSimpleDialog.setEntityClass(getClassSelected1());
+    fxSimpleDialog.openAsDialogSync();
+
+    if (fxSimpleDialog.isClosedWithOk()) {
+      Object formValue = fxSimpleDialog.getFormValue();
+      return formValue;
     }
 
-    private void actBtnClassSec2() {
-        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
-        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+    return null;
+  }
 
-        if (selectedEntity != null) {
-            setClassSelected2(selectedEntity.getClazz());
-            getBtnClassSec2().setText("Seçilen Sınıf:" + selectedEntity.getClazz().getSimpleName());
-        }
-
+  public Jdbi getAndSetupActiveServerJdbi() {
+    if (getMcgSqlInit().getJdbi1() == null) {
+      actBtnSelectServer1();
     }
+    return getMcgSqlInit().getJdbi1();
+  }
 
-    private void actTableToEntity() {
+  private FiConnConfig actServerSelect() {
 
-        Jdbi activeServerJdbi = getAndSetupActiveServerJdbi();
+    Properties properties = FiPropertyFile.readProperties(getPropPath());
+    FiConnConfig selectedServer = null;
 
-        if (activeServerJdbi != null) {
-            FxDialogShow.showPopInfo("Veritabanı Bağlantı Başarılı...");
-            //System.out.println("Connected");
-        } else {
-            FxDialogShow.showPopError("Veritabanına Bağlanılamadı !!!");
-            return;
-        }
+    List<FiConnConfig> listServer = new ArrayList<>();
 
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Tablo Adını Giriniz:");
-        fxSimpleDialog.openAsDialogSync();
+    for (int index = 0; index < 20; index++) {
 
-        if (fxSimpleDialog.isClosedWithOk()) {
+      String txName = properties.getProperty("server-" + index + "-name", "");
+      String txDbName = properties.getProperty("server-" + index + "-db", "");
+      String txDefNo = properties.getProperty("server-" + index + "-def-no", "");
 
-            FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-            FiQugen fiqugen = new FiQugen();
+      // Server-user-pass bilgiler
+      String server = properties.getProperty("server-def-" + txDefNo, "");
+      String user = properties.getProperty("server-def-" + txDefNo + "-user", "");
+      String pass = properties.getProperty("server-def-" + txDefNo + "-key", "");
 
-            //System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-            String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+      if (FiString.isEmpty(txDefNo) | FiString.isEmpty(server)) {
+        continue;
+      }
 
-            if (!FiString.isEmpty(entityCode)) {
-                getTxaMainOutput().appendText(entityCode);
-            } else {
-                getTxaMainOutput().appendText("N/A");
-            }
+      FiConnConfig fiConnConfig = new FiConnConfig();
+      fiConnConfig.setServer(server);
+      fiConnConfig.setServerDb(txDbName);
+      fiConnConfig.setServerUser(user);
+      fiConnConfig.setServerKey(pass);
+      fiConnConfig.setName(txName);
 
-        }
+      listServer.add(fiConnConfig);
 
     }
 
 
-    private void actBtnFiTableColListWithEnumFields() {
+    if (listServer.isEmpty()) {
+      FxDialogShow.showPopWarn("Server Ayarları Girilmemiş");
 
-        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
+    } else {
 
-        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
+      FxSimpleContGen<FiConnConfig> fxSimpleContGen = new FxSimpleContGen<>(true);
+      FxTableView2Ng tblServerList = new FxTableView2Ng();
 
-        if (selectedEntity != null) {
-
-            FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextField, "Enum Sınıfının Adını Giriniz :");
-            fxSimpleDialog.openAsDialogSync();
-
-            String fieldEnumClass = "EntegreField";
-
-            if (fxSimpleDialog.isClosedWithOk()) {
-                if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
-                    fieldEnumClass = fxSimpleDialog.getTxValue();
-                }
-            }
-
-            getTxaMainOutput().appendTextLnAsyn(
-                    FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
-
-            getTxaMainOutput().appendNewLine();
-            getTxaMainOutput().appendNewLine();
-
-            getTxaMainOutput().appendTextLnAsyn(
-                    FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
-
-        }
-
-    }
-
-    private void actBtnFiTableColListWithFieldHeader() {
-
-        OccEntityListCont occEntityListCont = OcmSharedDialogs.showDialogSelectEntityClass();
-
-        EntityClazz selectedEntity = occEntityListCont.getSelectedEntity();
-
-        if (selectedEntity != null) {
-
-            getTxaMainOutput().appendTextLnAsyn(
-                    FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
-
-            getTxaMainOutput().appendNewLine();
-            getTxaMainOutput().appendNewLine();
-
-            getTxaMainOutput().appendTextLnAsyn(
-                    FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
-
-        }
-
-
-    }
-
-    private void actBtnSelectServer1() {
-
-        ServerConfig serverConfig1 = actServerSelect();
-
-        if (serverConfig1 != null) {
-
-            Fdr<Jdbi> jdbiFdr = createJdbi(serverConfig1);
-
-            if (jdbiFdr.isTrueBoResult()) {
-                getMcgSqlInit().setServerConfig1(serverConfig1);
-                getMcgSqlInit().setJdbi1(jdbiFdr.getValue());
-
-                String txMessage = String.format("Server: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
-                getBtnServer1().setText(txMessage);
-                FxDialogShow.showPopInfo("Server Bağlantı Başarılı ***");
-            } else {
-                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!");
-            }
-        } else {
-            //FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
-        }
-    }
-
-    private void actBtnSelectServer2() {
-        ServerConfig serverConfig2 = actServerSelect();
-
-        if (serverConfig2 != null) {
-
-            Fdr<Jdbi> fdrConnection = createJdbi(serverConfig2);
-            if (fdrConnection.getValue() != null) {
-                getMcgSqlInit().setServerConfig2(serverConfig2);
-                getMcgSqlInit().setJdbi2(fdrConnection.getValue());
-                getBtnServer2().setText("Server2:" + serverConfig2.getServer() + " / " + serverConfig2.getServerDb());
-                FxDialogShow.showPopInfo("Server Bağlantı Başarılı **");
-            } else {
-                FxDialogShow.showPopError("Server Bağlantı Başarısız !!!\n" + fdrConnection.getFdTxMessage());
-            }
-
-        } else {
-            //FxDialogShow.showPopWarn("Lütfen Server Seçiniz...");
-        }
-    }
-
-    /**
-     * Örnek bir kayıda göre not null kontrollü , alanları set eden kodları ortaya çıkarır.
-     */
-    private void actEntityFillerMethodFromDb() {
-
-        if (checkServer() && checkClassChoose()) {
-
-            entityFillerMethodFromDb();
-
-
-        } else {
-            FxDialogShow.showPopError("Lütfen bir sınıf seçin");
-        }
-
-        //ModEntityListCont modEntityListCont = showDialogSelectEntityClass();
-        //EntityClazz selectedEntity = modEntityListCont.getSelectedEntity();
-        //if (selectedEntity != null) {
-        //}
-
-    }
-
-    private void entityFillerMethodFromDb() {
-        appendTextNewLine(OcmSql.entityFillerMethodFromDb(getAndSetupActiveServerJdbi(), getClassSelected1()));
-    }
-
-    private void actAlterNewFields() {
-
-        if (checkServer() && checkClassChoose()) {
-
-            Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected1(), getAndSetupActiveServerJdbi());
-
-            FxDialogShow.showDbResult(fdr);
-
-            String sqltum = "";
-            if (fdr.getBoResultInit()) {
-                if (!FiCollection.isEmpty(fdr.getValue())) {
-                    appendTextNewLine("");
-                    for (String s : fdr.getValue()) {
-                        appendTextNewLine(s);
-                        sqltum += s + "\n";
-                    }
-                    appendTextNewLine("");
-                }
-            }
-
-            if (isEnableDbOperation() && getAndSetupActiveServerJdbi() != null && !FiString.isEmpty(sqltum)) {
-
-                Fdr fdrAlter = new RepoJdbiString(getAndSetupActiveServerJdbi()).jdUpdateBindMapViaAtTire(sqltum, null);
-
-                if (fdr.getBoResultInit()) {
-                    fdr.setFdrTxMessageWitAddLog("Değişiklikler başarıyla uygulandı.");
-                }
-                FxDialogShow.showDbResult(fdr);
-            }
-        } else {
-            FxDialogShow.showPopError("Server veya Sınıfı seçiminizi kontrol ediniz.");
-        }
-
-    }
-
-    public Integer actDialogIdSelection() {
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.TextFieldInteger, "Id Değerini Giriniz");
-        fxSimpleDialog.openAsDialogSync();
-
-        if (fxSimpleDialog.isClosedWithOk()) {
-            Integer idNo = (Integer) fxSimpleDialog.getObjectValue();
-            return idNo;
-        }
-
-        return null;
-    }
-
-    private Object actDialogCandIdEntityForm() {
-
-        FxSimpleDialog fxSimpleDialog = new FxSimpleDialog(FiDialogMetaType.FormAutoByCandIdFields);
-        fxSimpleDialog.setEntityClass(getClassSelected1());
-        fxSimpleDialog.openAsDialogSync();
-
-        if (fxSimpleDialog.isClosedWithOk()) {
-            Object formValue = fxSimpleDialog.getFormValue();
-            return formValue;
-        }
-
-        return null;
-    }
-
-    public Jdbi getAndSetupActiveServerJdbi() {
-        if (getMcgSqlInit().getJdbi1() == null) {
-            actBtnSelectServer1();
-        }
-        return getMcgSqlInit().getJdbi1();
-    }
-
-    private ServerConfig actServerSelect() {
-
-        Properties properties = FiPropertyFile.readProperties(getPropPath());
-        ServerConfig selectedServer = null;
-
-        List<ServerConfig> listServer = new ArrayList<>();
-
-        for (int index = 0; index < 20; index++) {
-
-            String txName = properties.getProperty("server-" + index + "-name", "");
-            String txDbName = properties.getProperty("server-" + index + "-db", "");
-            String txDefNo = properties.getProperty("server-" + index + "-def-no", "");
-
-            // Server-user-pass bilgiler
-            String server = properties.getProperty("server-def-" + txDefNo, "");
-            String user = properties.getProperty("server-def-" + txDefNo + "-user", "");
-            String pass = properties.getProperty("server-def-" + txDefNo + "-key", "");
-
-            if (FiString.isEmpty(txDefNo) | FiString.isEmpty(server)) {
-                continue;
-            }
-
-            ServerConfig serverConfig = new ServerConfig();
-            serverConfig.setServer(server);
-            serverConfig.setServerDb(txDbName);
-            serverConfig.setServerUser(user);
-            serverConfig.setServerKey(pass);
-            serverConfig.setName(txName);
-
-            listServer.add(serverConfig);
-
-        }
-
-
-        if (listServer.isEmpty()) {
-            FxDialogShow.showPopWarn("Server Ayarları Girilmemiş");
-
-        } else {
-
-            FxSimpleContGen<ServerConfig> fxSimpleContGen = new FxSimpleContGen<>(true);
-            FxTableView2Ng tblServerList = new FxTableView2Ng();
-
-            fxSimpleContGen.getModView().addGrowPushSpan(tblServerList);
+      fxSimpleContGen.getModView().addGrowPushSpan(tblServerList);
 
 //			List<FiCol> listCols = ListFiTableColBuilder.build().addFields("name", "server").getList();
 
-            FicList fiCols = new FicList();
-            fiCols.add(FiCol.build("İsim", "name"));
-            fiCols.add(FiCol.build("Sunucu", "server"));
+      FicList fiCols = new FicList();
+      fiCols.add(FiCol.build("İsim", "name"));
+      fiCols.add(FiCol.build("Sunucu", "server"));
 
-            tblServerList.setEnableLocalFilterEditor(true);
-            tblServerList.addAllFiColsAuto(fiCols);
-            tblServerList.setItemsAsFilteredList(listServer);
-            tblServerList.activateExtensionFxTableSelectAndClose(fxSimpleContGen);
-            fxSimpleContGen.openAsDialogSync(null, null);
+      tblServerList.setEnableLocalFilterEditor(true);
+      tblServerList.addAllFiColsAuto(fiCols);
+      tblServerList.setItemsAsFilteredList(listServer);
+      tblServerList.activateExtensionFxTableSelectAndClose(fxSimpleContGen);
+      fxSimpleContGen.openAsDialogSync(null, null);
 
-            selectedServer = fxSimpleContGen.getEntitySelected();
+      selectedServer = fxSimpleContGen.getEntitySelected();
 
-            if (selectedServer != null) {
-                FxDialogShow.showPopInfo(selectedServer.getServer() + " server seçildi.");
-            }
-            //FiConsole.debug(selectedServer);
-        }
-
-        return selectedServer;
+      if (selectedServer != null) {
+        FxDialogShow.showPopInfo(selectedServer.getServer() + " server seçildi.");
+      }
+      //FiConsole.debug(selectedServer);
     }
 
-    private Fdr<Jdbi> createJdbi(ServerConfig serverConfig) {
+    return selectedServer;
+  }
 
-        Fdr<Jdbi> fdr = new Fdr<>();
+  private Fdr<Jdbi> createJdbi(FiConnConfig fiConnConfig) {
 
-        if (serverConfig == null) {
-            fdr.setFdrTxMessageWitAddLog("Server Ayarları tanımlanmamış.");
-            return fdr;
-        }
+    Fdr<Jdbi> fdr = new Fdr<>();
 
-        try {
-            Jdbi jdbi = FiJdbiFactory.createJdbi(serverConfig);
-            fdr.setValue(jdbi);
-            fdr.setFdBoResult(true);
-            return fdr;
-        } catch (Exception ex) {
-            //ex.printStackTrace();
-            Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
-            fdr.setFdrTxMessageWitAddLog("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
-            fdr.setFdBoResult(false);
-            return fdr;
-        }
-
+    if (fiConnConfig == null) {
+      fdr.setFdrTxMessageWitAddLog("Server Ayarları tanımlanmamış.");
+      return fdr;
     }
 
-    private boolean isEnableDbOperation() {
-        return getChkVeritabandaOlustur().isSelected();
+    try {
+      Jdbi jdbi = FiJdbiFactory.createJdbi(fiConnConfig);
+      fdr.setValue(jdbi);
+      fdr.setFdBoResult(true);
+      return fdr;
+    } catch (Exception ex) {
+      //ex.printStackTrace();
+      Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
+      fdr.setFdrTxMessageWitAddLog("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
+      fdr.setFdBoResult(false);
+      return fdr;
     }
 
-    public void appendTextNewLine(String txValue) {
-        getTxaMainOutput().appendTextLnAsyn(txValue);
-    }
+  }
 
-    public void actionResult(String txResult) {
-        getTxaMainOutput().appendTextLnAsyn(txResult);
-    }
+  private boolean isEnableDbOperation() {
+    return getChkVeritabandaOlustur().isSelected();
+  }
 
-    @Override
-    public OcgHomeWindow getModView() {
-        return getOcgHomeWindow();
-    }
+  public void appendTextNewLine(String txValue) {
+    getTxaMainOutput().appendTextLnAsyn(txValue);
+  }
 
-    public String getPropPath() {
-        return "appcodegen.properties";
-    }
+  public void actionResult(String txResult) {
+    getTxaMainOutput().appendTextLnAsyn(txResult);
+  }
 
-    public Class getClassSelected1() {
-        return classSelected1;
-    }
+  @Override
+  public OcgHomeWindow getModView() {
+    return getOcgHomeWindow();
+  }
 
-    public void setClassSelected1(Class classSelected1) {
-        this.classSelected1 = classSelected1;
-    }
+  public String getPropPath() {
+    return "appcodegen.properties";
+  }
 
-    public Class getClassSelected2() {
-        return classSelected2;
-    }
+  public Class getClassSelected1() {
+    return classSelected1;
+  }
 
-    public void setClassSelected2(Class classSelected2) {
-        this.classSelected2 = classSelected2;
-    }
+  public void setClassSelected1(Class classSelected1) {
+    this.classSelected1 = classSelected1;
+  }
 
-    public File getFileSelected() {
-        return fileSelected;
-    }
+  public Class getClassSelected2() {
+    return classSelected2;
+  }
 
-    public void setFileSelected(File fileSelected) {
-        this.fileSelected = fileSelected;
-    }
+  public void setClassSelected2(Class classSelected2) {
+    this.classSelected2 = classSelected2;
+  }
 
-    public OcmSql getMcgSqlInit() {
-        if (ocmSql == null) {
-            ocmSql = new OcmSql();
-        }
-        return ocmSql;
-    }
+  public File getFileSelected() {
+    return fileSelected;
+  }
 
-    public OcmHome getMcgHomeInit() {
-        if (ocmHome == null) {
-            ocmHome = new OcmHome();
-        }
-        return ocmHome;
-    }
+  public void setFileSelected(File fileSelected) {
+    this.fileSelected = fileSelected;
+  }
 
-    public void setMainStage(Stage mainStage) {
-        this.mainStage = mainStage;
-        setFxStage(mainStage);
+  public OcmSql getMcgSqlInit() {
+    if (ocmSql == null) {
+      ocmSql = new OcmSql();
     }
+    return ocmSql;
+  }
 
-    public OcgHomeWindow getOcgHomeWindow() {
-        return ocgHomeWindow;
+  public OcmHome getMcgHomeInit() {
+    if (ocmHome == null) {
+      ocmHome = new OcmHome();
     }
+    return ocmHome;
+  }
 
-    public Stage getMainStage() {
-        return mainStage;
-    }
+  public void setMainStage(Stage mainStage) {
+    this.mainStage = mainStage;
+    setFxStage(mainStage);
+  }
 
-    public OcmSql getMcgSql() {
-        return ocmSql;
-    }
+  public OcgHomeWindow getOcgHomeWindow() {
+    return ocgHomeWindow;
+  }
 
-    public OcmHome getMcgHome() {
-        return ocmHome;
-    }
+  public Stage getMainStage() {
+    return mainStage;
+  }
 
-    public FxTextArea getTxaMainOutput() {
-        return txaMainOutput;
-    }
+  public OcmSql getMcgSql() {
+    return ocmSql;
+  }
 
-    public FxButton getBtnServer1() {
-        return btnServer1;
-    }
+  public OcmHome getMcgHome() {
+    return ocmHome;
+  }
 
-    public FxButton getBtnServer2() {
-        return btnServer2;
-    }
+  public FxTextArea getTxaMainOutput() {
+    return txaMainOutput;
+  }
 
-    public FxButton getBtnClassSec() {
-        return btnClassSec;
-    }
+  public FxButton getBtnServer1() {
+    return btnServer1;
+  }
 
-    public FxButton getBtnClassSec2() {
-        return btnClassSec2;
-    }
+  public FxButton getBtnServer2() {
+    return btnServer2;
+  }
 
-    public FxButton getBtnDosyaSec() {
-        return btnDosyaSec;
-    }
+  public FxButton getBtnClassSec() {
+    return btnClassSec;
+  }
 
-    public FxMenuButton getCmbCsharpIslemler() {
-        return cmbCsharpIslemler;
-    }
+  public FxButton getBtnClassSec2() {
+    return btnClassSec2;
+  }
 
-    public FxCheckBox getChkDosyayaYazdir() {
-        return chkDosyayaYazdir;
-    }
+  public FxButton getBtnDosyaSec() {
+    return btnDosyaSec;
+  }
 
-    public FxCheckBox getChkVeritabandaOlustur() {
-        return chkVeritabandaOlustur;
-    }
+  public FxMenuButton getCmbCsharpIslemler() {
+    return cmbCsharpIslemler;
+  }
 
-    public FxComboBoxSimple getCmbFiColHelpers() {
-        return cmbFiColHelpers;
-    }
+  public FxCheckBox getChkDosyayaYazdir() {
+    return chkDosyayaYazdir;
+  }
 
-    public FxComboBoxSimple getCmbFiColHelpers2() {
-        return cmbFiColHelpers2;
-    }
+  public FxCheckBox getChkVeritabandaOlustur() {
+    return chkVeritabandaOlustur;
+  }
 
-    public FxComboBoxSimple getCmbDbRead() {
-        return cmbDbRead;
-    }
+  public FxComboBoxSimple getCmbFiColHelpers() {
+    return cmbFiColHelpers;
+  }
 
-    public FxComboBoxSimple getCmbQueryGenerator() {
-        return cmbQueryGenerator;
-    }
+  public FxComboBoxSimple getCmbFiColHelpers2() {
+    return cmbFiColHelpers2;
+  }
 
-    public FxMenuButton getMnbTypeScript() {
-        return mnbTypeScript;
-    }
+  public FxComboBoxSimple getCmbDbRead() {
+    return cmbDbRead;
+  }
 
-    public FxComboBoxSimple getCmbExcelIslemler() {
-        return cmbExcelIslemler;
-    }
+  public FxComboBoxSimple getCmbQueryGenerator() {
+    return cmbQueryGenerator;
+  }
 
-    public FxComboBoxSimple getCmbXmlAraclar() {
-        return cmbXmlAraclar;
-    }
+  public FxMenuButton getMnbTypeScript() {
+    return mnbTypeScript;
+  }
 
-    public String getTxDosyaYolu() {
-        return txDosyaYolu;
-    }
+  public FxComboBoxSimple getCmbExcelIslemler() {
+    return cmbExcelIslemler;
+  }
+
+  public FxComboBoxSimple getCmbXmlAraclar() {
+    return cmbXmlAraclar;
+  }
+
+  public String getTxDosyaYolu() {
+    return txDosyaYolu;
+  }
 }
 
 
@@ -1241,9 +1241,9 @@ public class     OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 //
 //		if (newValue == null || newValue.getValue() == null) return;
 //
-////		if (newValue.getValue().equals(enumComboItem.ExcelToFiTableColWithFieldName.toString())) {
-////			actExcelToFiTableColWithFieldName();
-////		}
+/// /		if (newValue.getValue().equals(enumComboItem.ExcelToFiTableColWithFieldName.toString())) {
+/// /			actExcelToFiTableColWithFieldName();
+/// /		}
 //
 //
 //		if (newValue.getValue().equals(enumComboItem.ExcelToFiTableColViaMethods.toString())) {

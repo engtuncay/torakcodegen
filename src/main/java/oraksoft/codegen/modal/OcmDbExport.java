@@ -2,7 +2,7 @@ package oraksoft.codegen.modal;
 
 import oraksoft.codegen.modules.OccHomeCont;
 import org.jdbi.v3.core.Jdbi;
-import ozpasyazilim.utils.configmisc.ServerConfig;
+import ozpasyazilim.utils.configmisc.FiConnConfig;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
@@ -32,9 +32,9 @@ public class OcmDbExport {
 
         if (!OcmShared.checkAndSetupActiveServerJdbi(modHome)) return;
 
-        ServerConfig serverConfig1 = modHome.getMcgSqlInit().getServerConfig1();
+        FiConnConfig fiConnConfig1 = modHome.getMcgSqlInit().getServerConfig1();
 
-        String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", serverConfig1.getServer(), serverConfig1.getServerDb());
+        String txMessage = String.format("Lütfen Export edilecek Tabloyu seçiniz.\nServer: %s Db: %s", fiConnConfig1.getServer(), fiConnConfig1.getServerDb());
         Jdbi jdbi1 = modHome.getMcgSqlInit().getJdbi1();
         List<EntSqlTable> entSqlTables = OcmSharedDialogs.showDialogSelectTable(jdbi1, txMessage, true, false);
 
