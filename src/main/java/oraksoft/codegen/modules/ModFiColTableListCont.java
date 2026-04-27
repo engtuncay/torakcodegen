@@ -3,21 +3,16 @@ package oraksoft.codegen.modules;
 import oraksoft.codegen.entity.EntityClazz;
 import org.reflections.Reflections;
 import ozpasyazilim.utils.fidbanno.FiColTable;
-import ozpasyazilim.utils.fidbanno.FiTable;
-import ozpasyazilim.utils.fxwindow.FiArbAbsTableWindowCont;
-import ozpasyazilim.utils.fxwindow.FxGenWindowContWindow;
-import ozpasyazilim.utils.mvc.IFiModCont;
+import ozpasyazilim.utils.fxwindow.FiAbsTableWindowCont;
 import ozpasyazilim.utils.mvc.IFxTableSelectionCont;
 import ozpasyazilim.utils.table.FiCol;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModFiColTableListCont extends FiArbAbsTableWindowCont<EntityClazz> implements  IFxTableSelectionCont<EntityClazz>
+public class ModFiColTableListCont extends FiAbsTableWindowCont<EntityClazz> implements  IFxTableSelectionCont<EntityClazz>
 {
 
     public List<EntityClazz> listClassDefault;
