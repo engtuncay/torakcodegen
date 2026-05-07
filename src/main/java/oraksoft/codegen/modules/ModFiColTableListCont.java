@@ -42,7 +42,7 @@ public class ModFiColTableListCont extends FiAbsTableWindowCont<EntityClazz> imp
     }
 
     @Override
-    protected void pullTableDataThreadBody() {
+    protected void pullTableDataThread() {
 
     }
 
