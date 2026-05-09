@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.OccHomeCont;
 import org.jetbrains.annotations.NotNull;
 import ozpasyazilim.utils.core.*;
-import ozpasyazilim.utils.datatypes.FiKeybean;
+import ozpasyazilim.utils.datatypes.Fkb;
 import ozpasyazilim.utils.datatypes.FiKeytext;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
@@ -97,7 +97,7 @@ public class OcmFiColJava {
 
         String templateMain = getTemplateFiColsClass();
 
-        FiKeybean fkbMain = new FiKeybean();
+        Fkb fkbMain = new Fkb();
         fkbMain.add("className",  className); // "FiCols" +
 
         String templateFiColMethod = "\tpublic static FiCol {{fieldName}}() {\n" +
@@ -117,7 +117,7 @@ public class OcmFiColJava {
 
             if(FiString.isEmpty(fieldName))continue;
 
-            FiKeybean fkbFiColMethod = new FiKeybean();
+            Fkb fkbFiColMethod = new Fkb();
             fkbFiColMethod.add("fieldName", fieldName);
             fkbFiColMethod.add("fieldType", ""); //field.getClassNameSimple()
             fkbFiColMethod.add("fieldTypeComment", "//"); //field.getClassNameSimple()
@@ -139,7 +139,7 @@ public class OcmFiColJava {
                 "\n" +
                 "    }";
 
-        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeybean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
+        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, Fkb.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
         sbClassBody.append("\n").append(txGenTableColsMethod);
 
         sbClassBody.append("\n\n");
@@ -278,7 +278,7 @@ public class OcmFiColJava {
 
         String templateMain = getTemplateFiColsClass();
 
-        FiKeybean fkbParamsMain = new FiKeybean();
+        Fkb fkbParamsMain = new Fkb();
         fkbParamsMain.add("className", "FiCols" + entclazz.getSimpleName());
 
         String templateFiColMethod = "\tpublic static FiCol {{fieldName}}() {\n" +
@@ -293,7 +293,7 @@ public class OcmFiColJava {
 
             String fieldName = field.getFcTxDbField();
 
-            FiKeybean fkbParamsFiColMethod = new FiKeybean();
+            Fkb fkbParamsFiColMethod = new Fkb();
             fkbParamsFiColMethod.add("fieldName", fieldName);
             fkbParamsFiColMethod.add("fieldType", field.getClassNameSimple());
             fkbParamsFiColMethod.add("fieldHeader", FiString.orEmpty(field.getFcTxHeader()));
@@ -337,7 +337,7 @@ public class OcmFiColJava {
 
             StringBuilder sbFiColMethodBody = genFiColMethodBodyDetailByFiCol(fiCol);
 
-            FiKeybean fkbParamsFiColMethod = new FiKeybean();
+            Fkb fkbParamsFiColMethod = new Fkb();
             String fieldName = fiCol.getFcTxFieldName();
             fkbParamsFiColMethod.add("fieldName", fieldName);
             fkbParamsFiColMethod.add("fieldHeader", fiCol.getFcTxHeader());
@@ -360,7 +360,7 @@ public class OcmFiColJava {
                 "\treturn fiColList;\n" +
                 "}";
 
-        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, FiKeybean.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
+        String txGenTableColsMethod = FiTemplate.replaceParams(tempGenTableCols, Fkb.bui().putKeyTos("fiColsAddition", sbFieldColsAddition.toString()));
         sbClassBody.append("\n").append(txGenTableColsMethod).append("\n");
 
         String tempGenTableColsTrans = "public static FiColList genTableColsTrans() {\n\n" +
@@ -370,7 +370,7 @@ public class OcmFiColJava {
                 "}";
 
         String txGenTableColsMethodTrans = FiTemplate.replaceParams(tempGenTableColsTrans
-                , FiKeybean.bui().putKeyTos("fiColsAddition", sbFieldColsAdditionTrans.toString()));
+                , Fkb.bui().putKeyTos("fiColsAddition", sbFieldColsAdditionTrans.toString()));
         sbClassBody.append("\n").append(txGenTableColsMethodTrans).append("\n");
 
 
@@ -380,7 +380,7 @@ public class OcmFiColJava {
         //FIXME entity name çekilecek
         String txEntityName = fiCols.get(0).getFcTxEntityName(); //fikeysExcelFiCols.get(0).getTosOrEmpty(FiColsMetaTable.fcTxEntityName());
 
-        FiKeybean fkbParamsMain = new FiKeybean();
+        Fkb fkbParamsMain = new Fkb();
         fkbParamsMain.add("classPref", classPref);
         fkbParamsMain.add("entityName", txEntityName);
         fkbParamsMain.add("classBody", sbClassBody.toString());
