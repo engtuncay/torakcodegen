@@ -5,7 +5,7 @@ import oraksoft.codegen.modules.OccEntityListCont;
 import oraksoft.codegen.modules.OccHomeCont;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.Fkb;
-import ozpasyazilim.utils.datatypes.FiKeytext;
+import ozpasyazilim.utils.datatypes.Fks;
 import ozpasyazilim.utils.ficodegen.FiTypescriptHelper;
 import ozpasyazilim.utils.ficols.FicRfcCoding;
 import ozpasyazilim.utils.fidborm.FiField;
@@ -34,7 +34,7 @@ public class OcmTypescript {
                 "{{%s}}" +
                 "\n\n}", FicRfcCoding.rfcTxClassName(), FicRfcCoding.rfcTxClassBody());
 
-        FiKeytext fksTsTypes = getFksTsTypes();
+        Fks fksTsTypes = getFksTsTypes();
         StringBuilder sbFieldDef = new StringBuilder();
 
         List<FiField> fiFieldList = FiReflectClass.getListFieldsWoutStatic(classSelected1, true);
@@ -76,9 +76,9 @@ public class OcmTypescript {
 
     }
 
-    private static FiKeytext getFksTsTypes() {
+    private static Fks getFksTsTypes() {
 
-        FiKeytext fksTs = new FiKeytext();
+        Fks fksTs = new Fks();
 
         fksTs.put(Integer.class.getSimpleName(), "number");
         fksTs.put(Double.class.getSimpleName(), "number");

@@ -4,7 +4,7 @@ import oraksoft.codegen.modules.OccHomeCont;
 import org.jetbrains.annotations.NotNull;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.Fkb;
-import ozpasyazilim.utils.datatypes.FiKeytext;
+import ozpasyazilim.utils.datatypes.Fks;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidbanno.FiIdGenerationType;
@@ -409,7 +409,7 @@ public class OcmFiColJava {
         //List<FiField> listFields = FiFieldUtil.getListFieldsWoutStatic(entclazz, true);
         FicList fiCols = new FicList();
 
-        for (FiKeytext fikField : fikeysExcelFiCols) {
+        for (Fks fikField : fikeysExcelFiCols) {
             fiCols.add(genFiColFromExcelFks(fikField));
         }
 
@@ -478,7 +478,7 @@ public class OcmFiColJava {
         return sbFiColMethodBody;
     }
 
-    private static FiCol genFiColFromExcelFks(FiKeytext fikField) {
+    private static FiCol genFiColFromExcelFks(Fks fikField) {
 
         //String fieldType = FiCodeGen.convertExcelTypeToOzColType(fikField.getTosOrEmpty(FiColsMetaTable.fcTxFieldType()));
 
