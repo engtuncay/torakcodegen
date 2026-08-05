@@ -93,7 +93,7 @@ public class OcmSharedDialogs {
 		fxSimpleTableWindowCont.openAsModalMain(null);
 
 		if (fxSimpleTableWindowCont.checkClosedWithDone()) {
-			return fxSimpleTableWindowCont.getFxTableView().getItemsFiCheckedAsNewListInAllElements();
+			return fxSimpleTableWindowCont.getFxTableView().getItemsCheckedInAllElementsFi();
 		}
 
 		return null;
