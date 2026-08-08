@@ -61,7 +61,7 @@ public class OcmDbExport {
 
                 RepoFkbJdbi repoFkbJdbi = new RepoFkbJdbi(jdbi1);
                 Fdr<FkbList> fdrListData = repoFkbJdbi.selAll(txTableName);
-//              Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
+                //Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
 
                 if (fdrListData.isTrueBoResult()) {
 
