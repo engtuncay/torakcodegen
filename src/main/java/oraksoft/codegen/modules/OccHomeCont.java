@@ -999,7 +999,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
       fiCols.add(FiCol.build("İsim", "name"));
       fiCols.add(FiCol.build("Sunucu", "server"));
 
-      tblServerList.setEnableLocalFilterEditor(true);
+      tblServerList.setBoEnableLocalFilterEditor(true);
       tblServerList.addAllFiColsAuto(fiCols);
       tblServerList.setItemsAsFilteredList(listServer);
       tblServerList.activateExtensionFxTableSelectAndClose(fxSimpleContGen);

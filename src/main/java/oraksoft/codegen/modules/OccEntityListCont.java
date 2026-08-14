@@ -30,7 +30,7 @@ public class OccEntityListCont extends FxGenWindowContWindow<String, EntityClazz
 
 		List<FiCol> listCols = getTableCols();
 
-		getFxTableView().setEnableLocalFilterEditor(true);
+		getFxTableView().setBoEnableLocalFilterEditor(true);
 		getFxTableView().addAllFiColsAuto(listCols);
 		getFxTableView().setItemsAsFilteredList(listClassDefault);
 		// entitySelected metodları implemente edilmeli

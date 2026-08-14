@@ -42,7 +42,7 @@ public class OcmSharedDialogs {
 
 		FxSimpleTableWindowCont<EntSqlTable> fxSimpleTableWindowCont = new FxSimpleTableWindowCont();
 		fxSimpleTableWindowCont.initCont();
-		fxSimpleTableWindowCont.getFxTableView().setEnableLocalFilterEditor(true);
+		fxSimpleTableWindowCont.getFxTableView().setBoEnableLocalFilterEditor(true);
 		fxSimpleTableWindowCont.activateSelectButton();
 		if (!FiString.isEmpty(txMessage)) {
 			fxSimpleTableWindowCont.addNoteLine(txMessage);
@@ -64,7 +64,7 @@ public class OcmSharedDialogs {
 
 		FxSimpleTableWindowCont<EntSqlTable> fxSimpleTableWindowCont = new FxSimpleTableWindowCont();
 		fxSimpleTableWindowCont.initCont();
-		fxSimpleTableWindowCont.getFxTableView().setEnableLocalFilterEditor(true);
+		fxSimpleTableWindowCont.getFxTableView().setBoEnableLocalFilterEditor(true);
 
 		// çoklu seçim olacak mı
 		if(FiBool.isTrue(boMulti)){

@@ -28,7 +28,7 @@ public class ModFiColTableListCont extends FiAbsTableWindowCont<EntityClazz> imp
 
         List<FiCol> listCols = getTableCols();
 
-        getFxTableView().setEnableLocalFilterEditor(true);
+        getFxTableView().setBoEnableLocalFilterEditor(true);
         getFxTableView().addAllFiColsAuto(listCols);
         getFxTableView().setItemsAsFilteredList(listClassDefault);
         // entitySelected metodları implemente edilmeli
