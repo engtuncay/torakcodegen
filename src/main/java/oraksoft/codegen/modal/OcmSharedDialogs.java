@@ -9,7 +9,7 @@ import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fxwindow.FxSimpleTableWindowCont;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
-import ozpasyazilim.utils.gui.fxcomponents.FxWindow;
+import ozpasyazilim.utils.gui.fxcomponents.FiFxWindow;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class OcmSharedDialogs {
 	public static OccEntityListCont showDialogSelectEntityClass() {
 		OccEntityListCont occEntityListCont = new OccEntityListCont();
 		occEntityListCont.initCont();
-		FxWindow.creNodeWindow(null, occEntityListCont, null, null, null);
+		FiFxWindow.creNodeWindow(null, occEntityListCont, null, null, null);
 		return occEntityListCont;
 	}
 
