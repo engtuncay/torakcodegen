@@ -2,7 +2,7 @@ package oraksoft.codegen.modules;
 
 import javafx.stage.Stage;
 import oraksoft.codegen.modal.*;
-import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
+//import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.configmisc.FiConnConfig;
 import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
@@ -624,7 +624,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
           if (fdr.getValue().isPresent()) {
             //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-            String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
+            String result = ""; //FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
             appendTextNewLine(result);
           } else {
             System.out.println("Db den Veri Okunamadı");
@@ -679,7 +679,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
           if (fdr.getValue().isPresent()) {
             //FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-            String result = FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
+            String result = ""; //FiCodeGeneratorTest.codeEntityFieldsWithValue(getClassSelected1(), fdr.getValue());
             appendTextNewLine(result);
           } else {
             System.out.println("Db den Veri Okunamadı");
@@ -742,7 +742,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     if (fxSimpleDialog.isClosedWithOk()) {
 
-      FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
+      //FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
       FiQugen fiqugen = new FiQugen();
 
       //System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
