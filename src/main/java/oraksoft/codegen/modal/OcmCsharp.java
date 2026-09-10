@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import oraksoft.codegen.modules.OccHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import org.jetbrains.annotations.NotNull;
-import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
+//import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
@@ -49,7 +49,7 @@ public class OcmCsharp {
 
         if (fxSimpleDialog.isClosedWithOk()) {
 
-            FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
+            //FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
             FiQugen fiqugen = new FiQugen();
 
             System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
