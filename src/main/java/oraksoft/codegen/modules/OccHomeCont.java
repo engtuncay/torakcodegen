@@ -989,7 +989,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     } else {
 
       FxSimpleContGen<FiConnConfig> fxSimpleContGen = new FxSimpleContGen<>(true);
-      FxTableView2Ng tblServerList = new FxTableView2Ng();
+      FxTableViewV2Ng tblServerList = new FxTableViewV2Ng();
 
       fxSimpleContGen.getModView().addGrowPushSpan(tblServerList);
 
