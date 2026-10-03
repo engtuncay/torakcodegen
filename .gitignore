@@ -92,3 +92,4 @@ local.properties
 appcodegen.properties
 ozpasentegrelog-error.log
 ozpasentegrelog-debug.log
+*.log
