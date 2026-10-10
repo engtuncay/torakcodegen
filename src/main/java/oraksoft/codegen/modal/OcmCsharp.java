@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import org.jetbrains.annotations.NotNull;
 //import ozpasyazilim.mikro.emCodeGen.FiCodeGeneratorTest;
@@ -18,21 +18,21 @@ import ozpasyazilim.utils.table.FicList;
 
 public class OcmCsharp {
 
-    OccHomeCont occHomeCont;
+    OduHomeCont oduHomeCont;
 
-    public OcmCsharp(OccHomeCont occHomeCont) {
-        this.occHomeCont = occHomeCont;
+    public OcmCsharp(OduHomeCont oduHomeCont) {
+        this.oduHomeCont = oduHomeCont;
     }
 
     public OcmCsharp() {
     }
 
-    public static OcmCsharp bui(OccHomeCont occHomeCont) {
-        OcmCsharp ocmCsharp = new OcmCsharp(occHomeCont);
+    public static OcmCsharp bui(OduHomeCont oduHomeCont) {
+        OcmCsharp ocmCsharp = new OcmCsharp(oduHomeCont);
         return ocmCsharp;
     }
 
-    public void actCsharpSinifOlusturma(OccHomeCont modHome) {
+    public void actCsharpSinifOlusturma(OduHomeCont modHome) {
 
         Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 
@@ -216,12 +216,12 @@ public class OcmCsharp {
         return sbFiColMethodBody;
     }
 
-    public OccHomeCont getOccHomeCont() {
-        return occHomeCont;
+    public OduHomeCont getOccHomeCont() {
+        return oduHomeCont;
     }
 
-    public void setOccHomeCont(OccHomeCont occHomeCont) {
-        this.occHomeCont = occHomeCont;
+    public void setOccHomeCont(OduHomeCont oduHomeCont) {
+        this.oduHomeCont = oduHomeCont;
     }
 
     public static @NotNull String getTemplateFiColsClassWithInterface() {

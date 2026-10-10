@@ -2,7 +2,7 @@ package oraksoft.codegen.modal;
 
 import oraksoft.codegen.entity.EntityClazz;
 import oraksoft.codegen.modules.OccEntityListCont;
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.Fkb;
 import ozpasyazilim.utils.datatypes.Fks;
@@ -20,9 +20,9 @@ public class OcmTypescript {
 //        classToTsClass(null);
 //    }
 
-    public static void classToTsClass(OccHomeCont occHomeCont) {
+    public static void classToTsClass(OduHomeCont oduHomeCont) {
 
-        Class classSelected1 = occHomeCont.getClassSelected1();
+        Class classSelected1 = oduHomeCont.getClassSelected1();
 
         if (classSelected1 == null) {
             FxDialogShow.showPopWarn("Lütfen bir class seçiniz");
@@ -62,7 +62,7 @@ public class OcmTypescript {
 
         String txTsClass = FiString.substitutor(txTempClass, fkbClass);
 
-        occHomeCont.appendTextNewLine(txTsClass);
+        oduHomeCont.appendTextNewLine(txTsClass);
 
         //class Person {
         //  name: string;

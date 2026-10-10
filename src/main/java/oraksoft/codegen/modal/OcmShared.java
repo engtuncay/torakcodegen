@@ -1,11 +1,11 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 
 public class OcmShared {
-    public static boolean checkAndSetupActiveServerJdbi(OccHomeCont modHome) {
+    public static boolean checkAndSetupActiveServerJdbi(OduHomeCont modHome) {
         Jdbi activeServerJdbi = modHome.getAndSetupActiveServerJdbi();
 
         if (activeServerJdbi != null) {
@@ -19,7 +19,7 @@ public class OcmShared {
 
     }
 
-    public static boolean checkActiveServerJdbi2(OccHomeCont modHome) {
+    public static boolean checkActiveServerJdbi2(OduHomeCont modHome) {
         Jdbi activeServerJdbi = modHome.getMcgSqlInit().getJdbi1();
 
         if (activeServerJdbi == null) {

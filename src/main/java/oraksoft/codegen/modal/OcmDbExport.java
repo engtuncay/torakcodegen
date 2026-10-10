@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.configmisc.FiConnConfig;
 import ozpasyazilim.utils.core.FiBool;
@@ -28,7 +28,7 @@ public class OcmDbExport {
 	 * @param modHome
 	 * @param boExcludePk Primary Key Alanlarını Dahil Etmez
 	 */
-    public static void actTableExport1(OccHomeCont modHome, Boolean boExcludePk) {
+    public static void actTableExport1(OduHomeCont modHome, Boolean boExcludePk) {
 
         if (!OcmShared.checkAndSetupActiveServerJdbi(modHome)) return;
 

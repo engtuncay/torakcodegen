@@ -1,6 +1,6 @@
 package oraksoft.codegen.modal;
 
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FiListKeyString;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
@@ -80,7 +80,7 @@ public class OcmExcel {
         return null;
     }
 
-    public static void actEntityToExcel(Class classSelected1, OccHomeCont occHomeCont) {
+    public static void actEntityToExcel(Class classSelected1, OduHomeCont oduHomeCont) {
 
         if (classSelected1 == null) {
             FxDialogShow.showPopWarn("Lütfen sınıfı seçiniz.");

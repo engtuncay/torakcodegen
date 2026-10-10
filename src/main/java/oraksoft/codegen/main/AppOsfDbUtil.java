@@ -1,6 +1,6 @@
 package oraksoft.codegen.main;
 
-import oraksoft.codegen.modules.OccHomeCont;
+import oraksoft.codegen.modules.OduHomeCont;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,15 +11,11 @@ import javax.swing.*;
 import java.util.Arrays;
 
 /**
- * Ocg -> Orak Code Generator - Gui  (eski Goc ) -> Gui Orak Code Generator App
+ * OsfDbUtil -> Orak Soft Database Util - Gui App
  * <p>
- * Occ : Orak Code Generator - Controller (eskiler : Moc)
- * <p>
- * Roc-Ocr -> Repo Ocg App
- * <p>
- * {@link OccHomeCont} Home Window Controller
+ * {@link OduHomeCont} Home Window Controller
  */
-public class AppOrakCodeGen extends Application {
+public class AppOsfDbUtil extends Application {
 
     public static void main(String[] args) {
         Loghelper.installLogger(true);
@@ -29,13 +25,13 @@ public class AppOrakCodeGen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        OccHomeCont occHomeCont = new OccHomeCont();
-        occHomeCont.initCont();
-        occHomeCont.setFxStage(primaryStage);
+        OduHomeCont oduHomeCont = new OduHomeCont();
+        oduHomeCont.initCont();
+        oduHomeCont.setFxStage(primaryStage);
 
         setupLookAndFeel();
 
-        Scene scene = new Scene(occHomeCont.getModView().getRootPane());
+        Scene scene = new Scene(oduHomeCont.getModView().getRootPane());
 
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
@@ -49,7 +45,7 @@ public class AppOrakCodeGen extends Application {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             System.out.println("Exception:" + Arrays.toString(ex.getStackTrace()));
-            Loghelper.get(AppOrakCodeGen.class).debug(FiException.exToErrorLog(ex));
+            Loghelper.get(AppOsfDbUtil.class).debug(FiException.exToErrorLog(ex));
         }
 
     }

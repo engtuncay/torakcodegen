@@ -27,13 +27,13 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Occ : Orak Code generator - Controller
+ * Odc : Osf-Db-Util Controllers
  * <p>
- * Ocm - Orak Code Generator Modals (Old Mcg,Moc)
+ * Odb - Osf-Db-Util Business Classes (eski Ocm)
  */
-public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
+public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
-  OcgHomeWindow ocgHomeWindow;
+  OduHomeWindow oduHomeWindow;
   Class classSelected1;
   Class classSelected2;
 
@@ -69,8 +69,8 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
   @Override
   public void initCont() {
 
-    ocgHomeWindow = new OcgHomeWindow();
-    ocgHomeWindow.initGui();
+    oduHomeWindow = new OduHomeWindow();
+    oduHomeWindow.initGui();
 
     // Other components
     chkDosyayaYazdir = new FxCheckBox("Dosyaya Yazdır");
@@ -107,17 +107,17 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     //migMenu.add(new FxLabel("-----"), "span");
     getMigMenu().add(btnServer2, "");
     getMigMenu().add(btnClassSec2, "wrap");
-    //migMenu.add(new FxLabel("-----"), "span");
-    getMigMenu().add(cmbFiColHelpers, "");
-    getMigMenu().add(cmbFiColHelpers2, "");
+
     getMigMenu().add(cmbDbRead, "");
     getMigMenu().add(cmbQueryGenerator, "");
+    getMigMenu().wrapFi();
     getMigMenu().add(mnbTypeScript, "");
-    getMigMenu().add(cmbExcelIslemler, "wrap");
     getMigMenu().add(cmbXmlAraclar, "");
-    getMigMenu().add(cmbCsharpIslemler, "wrap");
 
-    //migMenu.add(new FxLabel("-----"), "span");
+    //getMigMenu().add(cmbFiColHelpers, "");
+    //getMigMenu().add(cmbFiColHelpers2, "");
+    //getMigMenu().add(cmbExcelIslemler, "wrap");
+    //getMigMenu().add(cmbCsharpIslemler, "wrap");
 
     txaMainOutput = new FxTextArea();
     getMigContent().add(getTxaMainOutput(), "span,grow,push");
@@ -141,7 +141,6 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     });
 
     setupCombos();
-
     setupMenuTypescript();
 
   }
@@ -184,8 +183,8 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     setupDbToCode(mbDbToCode);
 
     // **** FiCol Generator Helpers
-    setupMenuFiColHelpers2();
-    setupMenuFiColHelper1();
+    // setupMenuFiColHelpers2();
+    // setupMenuFiColHelper1();
 
     // **** Db Read Combos
     setupDbReadCombos();
@@ -291,7 +290,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
   private void setupMenuXml() {
     getCmbXmlAraclar().addComboItem(
-        ComboItemText.buildWitAction("Xml to Field List"
+        ComboItemText.buiWitAction("Xml to Field List"
             , this::actXmlToFiFieldList));
   }
 
@@ -308,33 +307,33 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
   private void setupMenuQueryGenerator() {
 
     getCmbQueryGenerator().addComboItem(
-        ComboItemText.buildWitAction("Create Query", () ->
+        ComboItemText.buiWitAction("Create Query", () ->
             actionResult(getMcgSqlInit().createQuery(getClassSelected1()))));
 
     getCmbQueryGenerator().addComboItem(
-        ComboItemText.buildWitAction("Create Query (By Ficol)", () ->
+        ComboItemText.buiWitAction("Create Query (By Ficol)", () ->
             actionResult(getMcgSqlInit().createQueryByFiCol())));
 
     getCmbQueryGenerator().addComboItem(
-        ComboItemText.buildWitAction("Alter Table Field(Add)"
+        ComboItemText.buiWitAction("Alter Table Field(Add)"
             , this::actAlterNewFields));
 
     getCmbQueryGenerator().addComboItem(
-        ComboItemText.buildWitAction("Clone Table Data"
+        ComboItemText.buiWitAction("Clone Table Data"
             , this::actCloneTableData));
 
     getCmbQueryGenerator().addComboItem(
-        ComboItemText.buildWitAction("Unique1 Fields", () ->
+        ComboItemText.buiWitAction("Unique1 Fields", () ->
             actionResult(getMcgSqlInit().queryUnique1Fields(getClassSelected1()))));
   }
 
   private void setupMenuExcelIslemler() {
     getCmbExcelIslemler().addComboItem(
-        ComboItemText.buildWitAction("Excel'den Entity Oluştur"
+        ComboItemText.buiWitAction("Excel'den Entity Oluştur"
             , () -> actionResult(OcmExcel.actExcelToEntity())));
 
     getCmbExcelIslemler().addComboItem(
-        ComboItemText.buildWitAction("Entity To Excel"
+        ComboItemText.buiWitAction("Entity To Excel"
             , () -> OcmExcel.actEntityToExcel(getClassSelected1(), this)));
   }
 
@@ -354,33 +353,33 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
   private void setupDbReadCombos() {
     getCmbDbRead().addComboItem(
-        ComboItemText.buildWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
+        ComboItemText.buiWitAction("Kayıt Şablon By Id", this::actDbKayitSablonById));
 //		actDbKayitSablonById(); //DbKayitSablonById
 
     getCmbDbRead().addComboItem(
-        ComboItemText.buildWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
+        ComboItemText.buiWitAction("Kayıt Şablon By Cand Ids", this::actDbKayitSablonByCandIds));
     //actDbKayitSablonByCandIds();//DbKayitSablonByCandIds
   }
 
   private void setupMenuFiColHelper1() {
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Sınıftan FiCol Generate Method oluştur."
+        ComboItemText.buiWitAction("Sınıftan FiCol Generate Method oluştur."
             , () -> OcmFiColJava.codeFiColsMethodsByClass1(this)));
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
+        ComboItemText.buiWitAction("Excelden FiCol List oluştur.(Excel Header As Header Name)"
             , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsHeaderName())));
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
+        ComboItemText.buiWitAction("Excelden FiCol List oluştur.(Excel Header As FieldName And Header)"
             , () -> appendTextNewLine(OcmTableColGenerate.actExcelToFiColWithHeaderAsFieldNameAndHeaderName())));
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur"
+        ComboItemText.buiWitAction("Excelden FiColList Metodu oluştur"
             , () -> OcmFiColJava.actExcelToFiTableColViaMethods(this)));
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
+        ComboItemText.buiWitAction("Excelden FiColList Metodu oluştur (FiColsMikro üzerinden)"
             , () -> OcmFiColJava.actGenFiColListByExcel(this)));
 
 // codeGenMainView.getCmbTableColGenerate().addComboItemFi(enumComboItem.ExcelToFiTableColWithFieldName.toString()
@@ -390,27 +389,27 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     // actClassToFiTableColGenerate(); //ClassToFiTableColGenerator
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Sql Sorgusundan FiCol List oluştur."
+        ComboItemText.buiWitAction("Sql Sorgusundan FiCol List oluştur."
             , this::actSqlQueryToFiTableCol));
 
     //actSqlQueryToFiTableCol(); //SqlQueryToFiTableCol
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
+        ComboItemText.buiWitAction("Sql Sorgusundan FiTableCol Generate Method oluştur."
             , this::actSqlQueryToFiTableColGenerate));
     // actSqlQueryToFiTableColGenerate();//SqlQueryToFiTableColGenerator
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Alan Listesi", this::actAlanListesi));
+        ComboItemText.buiWitAction("Alan Listesi", this::actAlanListesi));
     //actAlanListesi();//AlanListesi
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Alan Listesi By Id With Value"
+        ComboItemText.buiWitAction("Alan Listesi By Id With Value"
             , this::actAlanListesiByIdWithValue));
     //actAlanListesiByIdWithValue();//AlanListesiByIdWithValue
 
     getCmbFiColHelpers().addComboItem(
-        ComboItemText.buildWitAction("Alan Listesi By Cand Id With Value"
+        ComboItemText.buiWitAction("Alan Listesi By Cand Id With Value"
             , this::actAlanListesiByCandIdWithValue));
     //actAlanListesiByCandIdWithValue();//AlanListByCandIdWithValue
   }
@@ -418,15 +417,15 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
   private void setupMenuFiColHelpers2() {
 
     getCmbFiColHelpers2().addComboItem(
-        ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
+        ComboItemText.buiWitAction("FiCol Alanları Sınıfı Oluşturma (Excel) (Detaylı Alanlar)"
             , () -> OcmFiColJava.bui(this).actGenFiColListByExcel()));
 
     getCmbFiColHelpers2().addComboItem(
-        ComboItemText.buildWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
+        ComboItemText.buiWitAction("FiCol Alanları Sınıfı Oluşturma (Seçilen Sınıftan)"
             , () -> OcmFiColJava.bui(this).actFiColsClassByClass()));
 
     getCmbFiColHelpers2().addComboItem(
-        ComboItemText.buildWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
+        ComboItemText.buiWitAction("FiCol Alanları Sınıf Oluşturma (Excelden) Row1:Header Row2:FieldName"
             , () -> OcmFiColJava.actFiColsClassJavaByExcelRowHeader(this)));
   }
 
@@ -1053,7 +1052,7 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
   }
 
   @Override
-  public OcgHomeWindow getModView() {
+  public OduHomeWindow getModView() {
     return getOcgHomeWindow();
   }
 
@@ -1104,8 +1103,8 @@ public class OccHomeCont extends AbsFiModBaseCont implements IFiModCont {
     setFxStage(mainStage);
   }
 
-  public OcgHomeWindow getOcgHomeWindow() {
-    return ocgHomeWindow;
+  public OduHomeWindow getOcgHomeWindow() {
+    return oduHomeWindow;
   }
 
   public Stage getMainStage() {
