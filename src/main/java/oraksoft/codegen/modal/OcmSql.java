@@ -12,7 +12,6 @@ import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.repoSql.RepoSqlTable;
 import org.jdbi.v3.core.Jdbi;
 import org.reflections.Reflections;
-import ozpasyazilim.mikro.dbrepo.repoMikro2.RepoJdbiGeneric;
 import ozpasyazilim.utils.configmisc.FiConnConfig;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
@@ -58,7 +57,7 @@ public class OcmSql {
 			return textVtBaglantisiYapilmamis();
 		}
 
-		RepoJdbiGeneric<EntSqlTable> repoJdbiCustom = new RepoJdbiGeneric<>(jdbi, EntSqlTable.class);
+		RepoGenJdbi<EntSqlTable> repoJdbiCustom = new RepoGenJdbi<>(jdbi, EntSqlTable.class);
 
 		Fdr<List<EntSqlTable>> listFdr = repoJdbiCustom.jdSelectAll();
 		StringBuilder sb = new StringBuilder();

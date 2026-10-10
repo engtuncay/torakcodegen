@@ -5,12 +5,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.orakyazilim</groupId>
-    <artifactId>codegen</artifactId>
+    <groupId>com.oraksoft</groupId>
+    <artifactId>OsfDbUtil</artifactId>
     <version>0.1</version>
 
     <build>
-        <finalName>orak-codegen</finalName>
+        <finalName>osf-db-util</finalName>
 
         <plugins>
 
@@ -58,6 +58,7 @@
             <version>0.1</version>
         </dependency>
 
+        <!-- çıkartılacak        -->
         <dependency>
             <groupId>ozpasyazilim</groupId>
             <artifactId>ozpasmikro</artifactId>
