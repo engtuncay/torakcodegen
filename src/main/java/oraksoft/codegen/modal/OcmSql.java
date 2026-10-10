@@ -6,7 +6,7 @@ import oraksoft.codegen.modules.ModFiColTableListCont;
 import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiReflection;
-import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.datatypes.FksList;
 import ozpasyazilim.utils.datatypes.Fks;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.repoSql.RepoSqlTable;
@@ -35,7 +35,7 @@ public class OcmSql {
 	String txSqlTransferDate;
 	private FiConnConfig fiConnConfig1;
 	private FiConnConfig fiConnConfig2;
-	FiListKeyString listMapDateField;
+	FksList listMapDateField;
 	OcmHome ocmHome;
 
 	public OcmSql() {
@@ -441,11 +441,11 @@ public class OcmSql {
 		this.jdbi2 = jdbi2;
 	}
 
-	public FiListKeyString getListMapDateField() {
+	public FksList getListMapDateField() {
 		return listMapDateField;
 	}
 
-	public void setListMapDateField(FiListKeyString listMapDateField) {
+	public void setListMapDateField(FksList listMapDateField) {
 		this.listMapDateField = listMapDateField;
 	}
 

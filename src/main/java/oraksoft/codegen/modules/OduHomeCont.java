@@ -7,7 +7,7 @@ import ozpasyazilim.utils.configmisc.FiConnConfig;
 import oraksoft.codegen.entity.EntityClazz;
 import org.jdbi.v3.core.Jdbi;
 import ozpasyazilim.utils.core.*;
-import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.datatypes.FksList;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidborm.*;
 import ozpasyazilim.utils.gui.components.ComboItemText;
@@ -241,13 +241,13 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     FxMenuItem miTransferTarihExcel = new FxMenuItem("Sql Kopyalama:Tarih Alanlarını Excelden Oku");
     miTransferTarihExcel.setOnAction(event -> {
       //Loghelper.get(getClass()).info("excel tarih start");
-      FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-      if (fiListKeyString != null) {
-        fiListKeyString.clearRowsKeyIfEmpty("txDateField");
+      FksList fksList = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+      if (fksList != null) {
+        fksList.clearRowsKeyIfEmpty("txDateField");
         appendTextNewLine("Tarih Alanları Okundu.");
       }
-      getMcgSqlInit().setListMapDateField(fiListKeyString);
-      FiConsole.debugListMap(fiListKeyString, OcmExcel.class, true);
+      getMcgSqlInit().setListMapDateField(fksList);
+      FiConsole.debugListMap(fksList, OcmExcel.class, true);
     });
     mbSqlTransfer.addItem(miTransferTarihExcel);
 
@@ -262,13 +262,13 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     FxMenuItem miTransferSqlExcelOto = new FxMenuItem("Sql Kopyalama Excelden Otomatik");
     miTransferSqlExcelOto.setOnAction(event -> {
       //Loghelper.get(getClass()).info("excel tarih start");
-      FiListKeyString fiListKeyString = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
-      if (fiListKeyString != null) {
+      FksList fksList = OcmExcel.actExceldenTarihAlanlariniOkuForSqlTransfer();
+      if (fksList != null) {
         //fiListMapStr.clearRowsKeyIfEmpty("txDateField");
         appendTextNewLine("Excel Tablosu Okundu.(Sql Kopyalama Oto için)");
       }
       // FiConsole.debugListMap(fiListMapStr,ModalExcel.class,true);
-      getMcgSqlInit().setListMapDateField(fiListKeyString);
+      getMcgSqlInit().setListMapDateField(fksList);
       getMcgSqlInit().sqlTableCopySrv1ToSrv2Auto();
     });
     mbSqlTransfer.addItem(miTransferSqlExcelOto);

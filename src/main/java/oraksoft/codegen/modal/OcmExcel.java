@@ -2,7 +2,7 @@ package oraksoft.codegen.modal;
 
 import oraksoft.codegen.modules.OduHomeCont;
 import ozpasyazilim.utils.core.*;
-import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.datatypes.FksList;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidborm.FiQugen;
 import ozpasyazilim.utils.fidborm.FiReflectClass;
@@ -62,7 +62,7 @@ public class OcmExcel {
         return "";
     }
 
-    public static FiListKeyString actExceldenTarihAlanlariniOkuForSqlTransfer() {
+    public static FksList actExceldenTarihAlanlariniOkuForSqlTransfer() {
 
         File fileExcel = FiFileGui.actFileChooserForExcelXlsxFromDesktop();
 
@@ -74,8 +74,8 @@ public class OcmExcel {
                     .buiAdd("txDateField", "Tarih Alanı")
                     .buiAdd("txTable", "Tablo İsmi");
 
-            FiListKeyString fiListKeyString = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
-            return fiListKeyString;
+            FksList fksList = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
+            return fksList;
         }
         return null;
     }

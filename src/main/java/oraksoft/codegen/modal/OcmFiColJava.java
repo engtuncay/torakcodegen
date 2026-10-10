@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.Fkb;
 import ozpasyazilim.utils.datatypes.Fks;
-import ozpasyazilim.utils.datatypes.FiListKeyString;
+import ozpasyazilim.utils.datatypes.FksList;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
 import ozpasyazilim.utils.fidbanno.FiIdGenerationType;
 import ozpasyazilim.utils.fidborm.FiColsMetaTable;
@@ -401,7 +401,7 @@ public class OcmFiColJava {
 
         //Loghelper.get(McgExcel.class).debug("Excel Dosyası Seçildi");
 
-        FiListKeyString fikeysExcelFiCols = genFksFiColDetailsFromExcel(fileExcel);
+        FksList fikeysExcelFiCols = genFksFiColDetailsFromExcel(fileExcel);
 
         //FiConsole.logFiListKeyString(fikeysExcelFiCols);
 
@@ -584,11 +584,11 @@ public class OcmFiColJava {
         return fiCol;
     }
 
-    public static FiListKeyString genFksFiColDetailsFromExcel(File fileExcel) {
+    public static FksList genFksFiColDetailsFromExcel(File fileExcel) {
 
         FicList fiCols = getFiColsFields();
 
-        FiListKeyString fiKeyStrings = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
+        FksList fiKeyStrings = new FiExcel().readExcelFileAsMap(fileExcel, fiCols);
 
         return fiKeyStrings;
     }
