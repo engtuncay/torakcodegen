@@ -4,7 +4,7 @@ import oraksoft.codegen.modules.OduHomeCont;
 import ozpasyazilim.utils.core.*;
 import ozpasyazilim.utils.datatypes.FksList;
 import ozpasyazilim.utils.ficodegen.FiCodeGen;
-import ozpasyazilim.utils.fidborm.FiQugen;
+import ozpasyazilim.utils.fidborm.FiQugenCls;
 import ozpasyazilim.utils.fidborm.FiReflectClass;
 import ozpasyazilim.utils.gui.fxcomponents.FiFileGui;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
@@ -57,7 +57,7 @@ public class OcmExcel {
         if (fileExcel != null) {
             List<String> listHeader = new FiExcel().readExcelRowIndex(fileExcel, 0);
             //FiConsole.debugListObjectsToString(listHeader,getClass());
-            return FiQugen.codeFiTableColsFromHeader(listHeader, "Excel");
+            return FiQugenCls.codeFiTableColsFromHeader(listHeader, "Excel");
         }
         return "";
     }

@@ -9,7 +9,7 @@ import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.core.FiTemplate;
 import ozpasyazilim.utils.datatypes.Fkb;
-import ozpasyazilim.utils.fidborm.FiQugen;
+import ozpasyazilim.utils.fidborm.FiQugenCls;
 import ozpasyazilim.utils.gui.fxcomponents.FxDialogShow;
 import ozpasyazilim.utils.fxwindow.FxSimpleDialog;
 import ozpasyazilim.utils.fxwindow.FiDialogMetaType;
@@ -50,10 +50,10 @@ public class OcmCsharp {
         if (fxSimpleDialog.isClosedWithOk()) {
 
             //FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-            FiQugen fiqugen = new FiQugen();
+            FiQugenCls fiqugen = new FiQugenCls();
 
             System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-            String entityCode = FiQugen.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
+            String entityCode = FiQugenCls.codeEntityClassCsharp(fxSimpleDialog.getTxValue(), modHome.getAndSetupActiveServerJdbi());
 
             if (!FiString.isEmpty(entityCode)) {
                 modHome.getTxaMainOutput().appendText(entityCode);

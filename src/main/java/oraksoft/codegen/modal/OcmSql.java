@@ -112,7 +112,7 @@ public class OcmSql {
 
 			if (fdr.getValue().isPresent()) {
 				//FiConsole.printFieldsNotNull(fiDbResult.getResValue().get());
-				String result = FiQugen.codeEntityFieldsInitMethod(jdbi, selectedClass, fdr.getValue());
+				String result = FiQugenCls.codeEntityFieldsInitMethod(jdbi, selectedClass, fdr.getValue());
 				return result;
 			} else {
 				System.out.println("Db den Veri Okunamadı");
@@ -140,7 +140,7 @@ public class OcmSql {
 
 		if (!checkSelClass(selectedClass)) return "";
 
-		String sqlCreate = FiQugen.createQuery20(selectedClass);
+		String sqlCreate = FiQugenCls.createQuery20(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
@@ -175,7 +175,7 @@ public class OcmSql {
 
 		IFiTableMeta iFiTableMeta = (IFiTableMeta) FiReflection.generateObject(selectedEntity.getClazz());
 
-        String sqlCreate = FiQugen.createQueryByIFiTableMeta(iFiTableMeta); //new FiColsEnmMutabakat()
+        String sqlCreate = FiQugenCls.createQueryByIFiTableMeta(iFiTableMeta); //new FiColsEnmMutabakat()
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {
@@ -253,7 +253,7 @@ public class OcmSql {
 			return "";
 		}
 
-		String sql = FiQugen.insertSelectQueryWithDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate,getTxSqlTransferDate());
+		String sql = FiQugenCls.insertSelectQueryWithDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate,getTxSqlTransferDate());
 
 		return sql;
 	}
@@ -270,7 +270,7 @@ public class OcmSql {
 
 		if(FiString.isEmpty(getTxSqlTransferDate())) setTxSqlTransferDate("@txTransferDate");
 
-		String sql = FiQugen.insertSelectQueryWithColsAndDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate, getTxSqlTransferDate(),getJdbi1());
+		String sql = FiQugenCls.insertSelectQueryWithColsAndDate(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(),txFieldDate, getTxSqlTransferDate(),getJdbi1());
 		//pairFieldDate.getValue().getClazz()
 
 		return sql;
@@ -278,7 +278,7 @@ public class OcmSql {
 
 	private String getSqlInsertSelectWithCols(String selectedTable) {
 		//EntityClazz entityClazz = getEntityClassByTableName(selectedTable);
-		String sql = FiQugen.insertSelectQueryWithCols(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(), getJdbi1());
+		String sql = FiQugenCls.insertSelectQueryWithCols(selectedTable, getServerConfig1().getServerDb(), getServerConfig2().getServerDb(), getJdbi1());
 		return sql;
 	}
 
@@ -349,8 +349,8 @@ public class OcmSql {
 		FiMapList<String, EntityClazz> fiMapList = new FiMapList<>();
 
 		allClasses.forEach(aClass -> {
-			String tableName = FiQugen.getTableName(aClass);
-			Boolean boInsertSelectClass = FiQugen.checkAnnoClassOfInsertSelect(aClass);
+			String tableName = FiQugenCls.getTableName(aClass);
+			Boolean boInsertSelectClass = FiQugenCls.checkAnnoClassOfInsertSelect(aClass);
 			EntityClazz entityClazz = new EntityClazz(aClass.getSimpleName(), aClass.getName(), aClass);
 			entityClazz.setTableName(tableName);
 			entityClazz.setBoInsertSelectClass(boInsertSelectClass);
@@ -460,7 +460,7 @@ public class OcmSql {
 
 		if (!checkSelClass(selectedClass)) return "";
 
-		String sqlCreate = FiQugen.uniqueQuery(selectedClass);
+		String sqlCreate = FiQugenCls.uniqueQuery(selectedClass);
 		//getCodeGenMainView().getFxTextArea().appendTextLnAsyn(sqlCreate);
 
 		if (FiBool.isTrue(getBoEnableDbOperation()) && checkJdbiIsNull(getJdbi1())) {

@@ -542,7 +542,7 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
       String sqlQuery = fxSimpleDialog.getTxValue();
 
-      List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+      List<String> queryFields = FiQugenCls.getQueryFieldsAsString(sqlQuery);
 
       String result = FiCodeGen.codeFiTableColsGeneraterMethods(queryFields, "", queryFields);
       appendTextNewLine(result);
@@ -563,7 +563,7 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     if (!FiString.isEmpty(fxSimpleDialog.getTxValue())) {
       String sqlQuery = fxSimpleDialog.getTxValue();
 
-      List<String> queryFields = FiQugen.getQueryFieldsAsString(sqlQuery);
+      List<String> queryFields = FiQugenCls.getQueryFieldsAsString(sqlQuery);
 
       String result = FiCodeGen.codeFiColListFromHeadersAndFields(queryFields, "", queryFields);
       appendTextNewLine(result);
@@ -742,10 +742,10 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     if (fxSimpleDialog.isClosedWithOk()) {
 
       //FiCodeGeneratorTest fiCodeGeneratorTest = new FiCodeGeneratorTest();
-      FiQugen fiqugen = new FiQugen();
+      FiQugenCls fiqugen = new FiQugenCls();
 
       //System.out.println("TxValueDialog:" + fxSimpleDialog.getTxValue());
-      String entityCode = FiQugen.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
+      String entityCode = FiQugenCls.tableToEntityClass(fxSimpleDialog.getTxValue(), getAndSetupActiveServerJdbi());
 
       if (!FiString.isEmpty(entityCode)) {
         getTxaMainOutput().appendText(entityCode);
@@ -778,13 +778,13 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
       }
 
       getTxaMainOutput().appendTextNlAsyn(
-          FiQugen.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
+          FiQugenCls.codeTableColsV2(selectedEntity.getClazz(), false, fieldEnumClass));
 
       getTxaMainOutput().appendNewLine();
       getTxaMainOutput().appendNewLine();
 
       getTxaMainOutput().appendTextNlAsyn(
-          FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
+          FiQugenCls.codeColsEnum(selectedEntity.getClazz(), false));
 
     }
 
@@ -799,13 +799,13 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
     if (selectedEntity != null) {
 
       getTxaMainOutput().appendTextNlAsyn(
-          FiQugen.codeTableColsSimple(selectedEntity.getClazz(), false));
+          FiQugenCls.codeTableColsSimple(selectedEntity.getClazz(), false));
 
       getTxaMainOutput().appendNewLine();
       getTxaMainOutput().appendNewLine();
 
       getTxaMainOutput().appendTextNlAsyn(
-          FiQugen.codeColsEnum(selectedEntity.getClazz(), false));
+          FiQugenCls.codeColsEnum(selectedEntity.getClazz(), false));
 
     }
 
@@ -884,7 +884,7 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
 
     if (checkServer() && checkClassChoose()) {
 
-      Fdr<List<String>> fdr = FiQugen.getAlterAddFieldQueries(getClassSelected1(), getAndSetupActiveServerJdbi());
+      Fdr<List<String>> fdr = FiQugenCls.getAlterAddFieldQueries(getClassSelected1(), getAndSetupActiveServerJdbi());
 
       FxDialogShow.showDbResult(fdr);
 
