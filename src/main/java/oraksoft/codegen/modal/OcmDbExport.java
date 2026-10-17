@@ -60,14 +60,14 @@ public class OcmDbExport {
                 }
 
                 RepoFkbJdbi repoFkbJdbi = new RepoFkbJdbi(jdbi1);
-                Fdr<FkbList> fdrListData = repoFkbJdbi.selAll(txTableName);
+                Fdr fdrListData = repoFkbJdbi.selAll(txTableName);
                 //Loghelper.get(getClassi()).debug(FiConsole.textListFiKeyBean(fdrListData.getValue()));
 
                 if (fdrListData.isTrueBoResult()) {
 
                     StringBuilder sbInsertQuery = new StringBuilder();
 
-                    for (Fkb fkbRow : fdrListData.getValue()) {
+                    for (Fkb fkbRow : fdrListData.getFdFkbListValNtn()) {
                         sbInsertQuery.append(makeInsertQuery(txTableName, sqlColumnList, fkbRow));
                         sbInsertQuery.append("\n");
                     }
