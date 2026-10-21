@@ -1,4 +1,4 @@
-package oraksoft.codegen.meta;
+package oraksoft.codegen.metas;
 
 import ozpasyazilim.utils.table.FiCol;
 import ozpasyazilim.utils.table.OzColType;
