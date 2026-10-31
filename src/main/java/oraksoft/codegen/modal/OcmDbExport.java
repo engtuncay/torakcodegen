@@ -7,7 +7,6 @@ import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.datatypes.Fkb;
-import ozpasyazilim.utils.datatypes.FkbList;
 import ozpasyazilim.utils.entitysql.EntSqlColumn;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
 import ozpasyazilim.utils.entitysql.TutMetaEntSqlColTxKeyTypes;
@@ -67,7 +66,7 @@ public class OcmDbExport {
 
                     StringBuilder sbInsertQuery = new StringBuilder();
 
-                    for (Fkb fkbRow : fdrListData.getFdFkbListValNtn()) {
+                    for (Fkb fkbRow : fdrListData.getFdFkbListValInit()) {
                         sbInsertQuery.append(makeInsertQuery(txTableName, sqlColumnList, fkbRow));
                         sbInsertQuery.append("\n");
                     }
