@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import javafx.util.Pair;
 import oraksoft.codegen.entity.EntityClazz;
 import oraksoft.codegen.modules.ModFiColTableListCont;
-import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
+import ozpasyazilim.mikro.metadata.metaMikro.FicEntegre;
 import ozpasyazilim.utils.core.FiCollection;
 import ozpasyazilim.utils.core.FiReflection;
 import ozpasyazilim.utils.datatypes.FksList;
@@ -228,9 +228,9 @@ public class OcmSql {
 		StringBuilder sbSql = new StringBuilder();
 		sbSql.append("\n -- start sql copy\n\n");
 		for (Fks fks : getListMapDateField()) {
-			String txTable = fks.getTos(FiColsEntegre.txTable());
+			String txTable = fks.getTos(FicEntegre.txTable());
 			if(FiString.isEmpty(txTable))continue;
-			if(!FiString.isEmpty(fks.getTos(FiColsEntegre.txDateField()))){
+			if(!FiString.isEmpty(fks.getTos(FicEntegre.txDateField()))){
 				sbSql.append(getSqlInsertSelectWithColsWhereDate(txTable));
 			}else {
 				sbSql.append(getSqlInsertSelectWithCols(txTable));
@@ -261,7 +261,7 @@ public class OcmSql {
 	private String getSqlInsertSelectWithColsWhereDate(String selectedTable) {
 
 //		Pair<String, EntityClazz> pairFieldDate = getFieldNameOfDateSepFieldByClass(selectedTable);
-		String txFieldDate = getListMapDateField().getRow(FiColsEntegre.txTable().toString(), selectedTable).or(new Fks()).get(FiColsEntegre.txDateField().toString());
+		String txFieldDate = getListMapDateField().getRow(FicEntegre.txTable().toString(), selectedTable).or(new Fks()).get(FicEntegre.txDateField().toString());
 		//String txFieldDate = "";  // pairFieldDate.getKey();
 		if(FiString.isEmpty(txFieldDate)){ //|| pairFieldDate.getKey()==null
 			FxDialogShow.showPopWarn(selectedTable + " tablosu için ayırıcı tarih alanı bulunamadı.");

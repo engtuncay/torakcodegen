@@ -3,7 +3,7 @@ package oraksoft.codegen.modal;
 import ozpasyazilim.utils.entitysql.EntSqlTable;
 import oraksoft.codegen.modules.OccEntityListCont;
 import org.jdbi.v3.core.Jdbi;
-import ozpasyazilim.mikro.metadata.metaMikro.FiColsEntegre;
+import ozpasyazilim.mikro.metadata.metaMikro.FicEntegre;
 import ozpasyazilim.utils.core.FiBool;
 import ozpasyazilim.utils.core.FiString;
 import ozpasyazilim.utils.fxwindow.FxSimpleTableWindowCont;
@@ -49,7 +49,7 @@ public class OcmSharedDialogs {
 		}
 
 		List<EntSqlTable> entSqlTableList = new OcmSql().getSqlTableList(jdbi);
-		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
+		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FicEntegre.sqlTableName());
 		fxSimpleTableWindowCont.setTableContent(entSqlTableList);
 		fxSimpleTableWindowCont.openAsModalMain(null);
 
@@ -78,13 +78,13 @@ public class OcmSharedDialogs {
 		}
 
 		fxSimpleTableWindowCont.getFxTableView().addFiColSelection();
-		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlTableName());
+		fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FicEntegre.sqlTableName());
 
 		List<EntSqlTable> entSqlTableList;
 
 		if (FiBool.isTrue(boShowCount)) {
 			entSqlTableList = new OcmSql().getSqlTableListWithCount(jdbi);
-			fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FiColsEntegre.sqlBoCount());
+			fxSimpleTableWindowCont.getFxTableView().addFiColsAuto(FicEntegre.sqlBoCount());
 		} else {
 			entSqlTableList = new OcmSql().getSqlTableList(jdbi);
 		}
