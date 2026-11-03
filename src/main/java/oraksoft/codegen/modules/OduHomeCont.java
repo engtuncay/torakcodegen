@@ -1031,7 +1031,7 @@ public class OduHomeCont extends AbsFiModBaseCont implements IFiModCont {
       return fdr;
     } catch (Exception ex) {
       //ex.printStackTrace();
-      Loghelper.get(getClass()).debug(FiException.exceptionIfToString(ex));
+      Loghelper.get(getClass()).debug(FiException.exceptionToStringNtn(ex));
       fdr.setFdrTxMessageWitAddInfoLog("Bağlantı kurulurken hata oluştu. Bağlantı bilgilerini kontrol ediniz.");
       fdr.setFdBoResult(false);
       return fdr;
